@@ -5,6 +5,8 @@ import {useRouter} from 'expo-router'
 import styles from './nearbyjobs.style'
 import { COLORS, SIZES} from '../../../constants';
 import createClient, { urlFor } from "../../../sanity";
+import Icon from 'react-native-vector-icons/MaterialIcons';
+
 
 const Nearbyjobs = ({navigation}) => {
   const router = useRouter();

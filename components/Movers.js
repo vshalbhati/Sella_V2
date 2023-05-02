@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
       borderTopWidth: 1,
       borderColor: '#ddd',
       elevation: 5,
-      position:"fixed",
+      position:"absolute",
       bottom:0,
       left:0,
       right:0
@@ -37,13 +37,6 @@ const styles = StyleSheet.create({
       width: "33%",
       borderTopRightRadius: 10,
       borderTopLeftRadius: 10,
-            shadowColor: '#000',
-      shadowOffset: {
-        width: 0,
-        height: 1,
-      },
-      shadowOpacity: 0.2,
-      shadowRadius: 2.22,
       elevation: 3,
     },
     iconButton: {

@@ -2,7 +2,6 @@ import { View, Text, ScrollView, FlatList, StyleSheet, Image } from 'react-nativ
 import { useState, useEffect } from 'react';
 import createClient, { urlFor } from '../sanity';
 import { COLORS, FONT, SIZES } from '../constants';
-import { useParams } from 'react-router-dom';
 import { useRoute } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { TouchableOpacity } from 'react-native';

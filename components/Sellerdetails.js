@@ -2,7 +2,6 @@ import { View, Text, ScrollView, FlatList, StyleSheet, Image } from 'react-nativ
 import { useState, useEffect } from 'react';
 import createClient, { urlFor } from '../sanity';
 import { COLORS, FONT, SIZES } from '../constants';
-import { useParams } from 'react-router-dom';
 import { useRoute } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { TouchableOpacity } from 'react-native';
@@ -18,7 +17,7 @@ const styles = StyleSheet.create({
     backgroundColor:"rgba(255,255,255,0.6)",
     padding:5, 
     borderRadius:50, 
-    position:"fixed",
+    position:"absolute",
     zIndex:2,
     marginTop:8,
     marginLeft:8,
@@ -49,7 +48,7 @@ const styles = StyleSheet.create({
     marginLeft:20,
     marginBottom:10,
     backgroundColor:"orange",
-    position:"fixed",
+    position:"absolute",
     bottom:0,
     borderRadius:10,
     display:"block",
@@ -63,6 +62,10 @@ const styles = StyleSheet.create({
 
 const Sellerdetails = ({navigation}) => {
   const route = useRoute();
+  const { URLSearchParams } = require('url-search-params');
+const params = new URLSearchParams();
+params.set('param', 'value');
+
   const { id, imgurl, name, short_description ,supplies} = route.params;
   const [supply, setSupply] = useState([]);
 

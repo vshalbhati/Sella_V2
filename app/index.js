@@ -26,7 +26,7 @@ export default function App() {
     <Stack.Screen name="signin" component={Signin} />
     <Stack.Screen name="account" component={Account}/>
     <Stack.Screen name="signup" component={Signup}/>
-    <Stack.Screen name="cart" component={Cart}/>
+    <Stack.Screen name="cart" component={Cart} options={{presentation:"transparentModal", headerShown:false}}/>
     <Stack.Screen name="thekedar" component={Thekedar}/>
     <Stack.Screen name="movers" component={Movers}/>
     <Stack.Screen name="prepare" component={Preparecheckout} options={{headerShown:false}}/>

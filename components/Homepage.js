@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderColor: '#ddd',
     elevation: 5,
-    position:"fixed",
+    position:"absolute",
     bottom:0,
     left:0,
     right:0,
@@ -41,13 +41,6 @@ const styles = StyleSheet.create({
     width: "33%",
     borderTopRightRadius: 10,
     borderTopLeftRadius: 10,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 1,
-      height: 1,
-    },
-    shadowOpacity: 0.4,
-    shadowRadius: 2.22,
     elevation: 3,
   },
   iconButton: {
@@ -147,18 +140,18 @@ const Home = ({navigation}) =>{
     },
   ];
 
-  useEffect(()=>{
-    createClient.fetch(
-    `*[_type == "seller"]{
-      ...,
+  // useEffect(()=>{
+  //   createClient.fetch(
+  //   `*[_type == "seller"]{
+  //     ...,
 
-        Supplies[]->{
-          ...,
-        }
-    }`).then((data)=>{
-      setFeaturedcategories(data);
-    });
-  },[]);
+  //       Supplies[]->{
+  //         ...,
+  //       }
+  //   }`).then((data)=>{
+  //     setFeaturedcategories(data);
+  //   });
+  // },[]);
 
 
   return (
@@ -197,14 +190,13 @@ const Home = ({navigation}) =>{
             navigation={navigation}
           />
 
-      <View style={styles.header}>
+      {/* <View style={styles.header}>
         <Text style={styles.headerTitle}>Popular Sellers</Text>
         <TouchableOpacity>
           <Text style={styles.headerBtn} >Show all</Text>
         </TouchableOpacity>
-      </View>
-
-        <View style={styles.cardsContainer}>
+      </View> */}
+        {/* <View style={styles.cardsContainer}>
           <FlatList 
         data={featuredCategories}
         renderItem={({ item }) => (
@@ -229,7 +221,7 @@ const Home = ({navigation}) =>{
         contentContainerStyle={styles.list}
         showsHorizontalScrollIndicator={false}
       />
-      </View>
+      </View> */}
         </View>
       </ScrollView>
 
