@@ -4,8 +4,9 @@ import {useRouter} from 'expo-router'
 
 import styles from './nearbyjobs.style'
 import { COLORS, SIZES} from '../../../constants';
-import createClient, { urlFor } from "../../../sanity";
+import createClient, { urlFor } from '../../../sanity';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { Dimensions } from 'react-native';
 
 
 const Nearbyjobs = ({navigation}) => {
@@ -13,12 +14,16 @@ const Nearbyjobs = ({navigation}) => {
   const isLoading=false;
   const error = false;
 
+const windowWidth = Dimensions.get('window').width;
+const paddingHorizontal = 0;
+const itemWidth = (windowWidth - paddingHorizontal * 2) / 2;
+
   const [sellers, setSellers] = useState([])
 
 
   useEffect(()=>{
     createClient.fetch(
-    `*[_type == "supply"]{
+    `*[_type == 'supply']{
       ...,
         Supplies[]->{
           ...,
@@ -34,53 +39,42 @@ const Nearbyjobs = ({navigation}) => {
     <View>
 
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>Popular Sellers</Text>
+        <Text style={styles.headerTitle}>Popular supplies</Text>
           <TouchableOpacity>
             <Text style={styles.headerBtn} >Show all</Text>
           </TouchableOpacity>
       </View>
 
-<View style={styles.cardsContainer}>
-      <FlatList
-        data={sellers}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-           style={stylis.item}
-           onPress={() => navigation.navigate('supplydetails',{
-            id:item._id, 
-            name:item.name, 
-            short_description:item.short_description,
-            price:item.price,
-            imgurl:item.image.asset._ref
-          })}
-          >
-              <Image
-                source={{ uri: urlFor(item.image.asset._ref).url(),}}
-                style={stylis.image}
-              />
-            <View style={stylis.textContainer}>
-              <Text style={stylis.trackTitle}>{item.name}</Text>
-              <Text style={stylis.artistName}>{item.short_description}</Text>
-            </View>
-          </TouchableOpacity>
-        )}
-        keyExtractor={(item) => item.id}
-        contentContainerStyle={stylis.list}
-        showsHorizontalScrollIndicator={false}
-        horizontal
-      />
-
-      {/* {sellers?.map((item)=>(
-          <NearbyJobCard
-            key={item._id}
-            id={item._id}
-            name={item.name}
-            short_description={item.short_description}
-          />
-           ))
-      } */}
-
-    </View>
+      <View style={stylis.container}>
+  <FlatList
+    data={sellers}
+    renderItem={({ item }) => (
+      <TouchableOpacity
+        style={[stylis.item,{width: itemWidth}]}
+        onPress={() => navigation.navigate('supplydetails', {
+          id: item._id,
+          name: item.name,
+          short_description: item.short_description,
+          price: item.price,
+          imgurl: item.image.asset._ref,
+        })}
+      >
+        <Image
+          source={{ uri: urlFor(item.image.asset._ref).url() }}
+          style={stylis.image}
+        />
+        <View style={stylis.textContainer}>
+          <Text style={stylis.trackTitle}>{item.name}</Text>
+          <Text style={stylis.artistName}>{item.short_description}</Text>
+        </View>
+      </TouchableOpacity>
+    )}
+    keyExtractor={(item) => item.id}
+    showsHorizontalScrollIndicator={false}
+    horizontal
+    contentContainerStyle={{ paddingHorizontal, columnGap:10 }}
+  />
+</View>
     </View>
   );
 };
@@ -88,26 +82,17 @@ const Nearbyjobs = ({navigation}) => {
 const stylis = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5FCFF',
-    paddingHorizontal: 16,
+    backgroundColor: '#f5f5f5',
     paddingTop: 40,
     overflow: 'hidden',
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    marginBottom: 20,
-    color: '#222222',
-  },
-  list: {
-    columnGap: 16,
+    padding:10
   },
   item: {
-    flexDirection: 'row',
-    alignItems: 'center',
     padding: 16,
-    borderRadius: 8,
-    backgroundColor: '#FFFFFF',
+    borderRadius: 10,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    gap:10
   },
   image: {
     width: 70,
@@ -118,29 +103,17 @@ const stylis = StyleSheet.create({
   textContainer: {
     flex: 1,
     justifyContent: 'center',
+    textAlign: 'center',
   },
   trackTitle: {
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 4,
-    color: '#222222',
+    color: '#222',
   },
   artistName: {
     fontSize: 16,
-    color: '#777777',
-  },
-  playButton: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    backgroundColor: '#222222',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginLeft: 16,
-  },
-  playIcon: {
-    width: 24,
-    height: 24,
+    color: '#777',
   },
 });
 

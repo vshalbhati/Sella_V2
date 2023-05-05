@@ -1,12 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 import { View, ScrollView, SafeAreaView, Animated, Text, TouchableOpacity, FlatList, ActivityIndicator, ActivityIndicatorBase, TextInput, Button, Image, StyleSheet, Easing } from 'react-native'
 import { createStackNavigator } from '@react-navigation/stack';
 import {COLORS, icons, images, SIZES, FONT} from '../constants';
 import { Nearbyjobs, ScreenHeaderBtn, Welcome} from '../components';
-import account from "./account/Account";
-import { Stack, useRouter } from "expo-router";
+import account from './account/Account';
+import { Stack, useRouter } from 'expo-router';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import createClient, { urlFor } from "../sanity";
+import createClient, { urlFor } from '../sanity';
 
 
 const styles = StyleSheet.create({
@@ -15,12 +15,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     height: 60,
-    with:"100%",
+    with:'100%',
     backgroundColor: '#fff',
     borderTopWidth: 1,
     borderColor: '#ddd',
     elevation: 5,
-    position:"absolute",
+    position:'absolute',
     bottom:0,
     left:0,
     right:0,
@@ -31,14 +31,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#fff',
     height: '100%',
-    width: "33%",
+    width: '33%',
   },
   selectedIcon: {
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: COLORS.tertiary,
     height: '120%',
-    width: "33%",
+    width: '33%',
     borderTopRightRadius: 10,
     borderTopLeftRadius: 10,
     elevation: 3,
@@ -51,11 +51,11 @@ const styles = StyleSheet.create({
     columnGap: 16,
   },
   item: {
-    flexDirection:"row",
+    flexDirection:'row',
     alignItems: 'center',
     padding: 16,
     borderRadius: 8,
-    backgroundColor: "rgba(255,255,255,0.7)",
+    backgroundColor: 'rgba(255,255,255,0.7)',
     gap:10,
   },
   image: {
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     color: COLORS.secondary,
   },
   cardsContainer: {
-    width:"100%",
+    width:'100%',
     marginTop: SIZES.xxLarge,
     marginBottom: SIZES.xxLarge,
     gap: SIZES.xxLarge,
@@ -91,9 +91,9 @@ const styles = StyleSheet.create({
     gap:10,
   },
   header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     marginTop: SIZES.small,
   },
   headerTitle: {
@@ -142,7 +142,7 @@ const Home = ({navigation}) =>{
 
   // useEffect(()=>{
   //   createClient.fetch(
-  //   `*[_type == "seller"]{
+  //   `*[_type == 'seller']{
   //     ...,
 
   //       Supplies[]->{
@@ -169,7 +169,7 @@ const Home = ({navigation}) =>{
           },
           headerRight: () => (
             <TouchableOpacity style={styles.iconButton} onPress={()=>navigation.navigate('cart')}>
-              <Icon name="shopping-cart" size={32} color={COLORS.gray} />
+              <Icon name='shopping-cart' size={32} color={COLORS.gray} />
             </TouchableOpacity>
           ),
           headerLeft: () => (
@@ -177,18 +177,16 @@ const Home = ({navigation}) =>{
               style={styles.iconButton}
               onPress={()=> navigation.navigate('account')}
             >
-              <Icon name="person" size={36} color={COLORS.gray} />
+              <Icon name='person' size={36} color={COLORS.gray} />
             </TouchableOpacity>
           ),
-          headerTitle:"CONSTRO",
+          headerTitle:'CONSTRO',
         }}
       />
       <ScrollView showsHorizontalScrollIndicator={false}>
         <View style={{flex:1,padding: SIZES.medium}}>
-           <Welcome />
-          <Nearbyjobs
-            navigation={navigation}
-          />
+          <Welcome navigation={navigation}/>
+          <Nearbyjobs navigation={navigation}/>
 
       {/* <View style={styles.header}>
         <Text style={styles.headerTitle}>Popular Sellers</Text>
@@ -228,13 +226,13 @@ const Home = ({navigation}) =>{
       
       <SafeAreaView style={styles.navla}>
       <TouchableOpacity onPress={() => {setSelected(0), navigation.navigate('home')}} style={iconStyles(0)}>
-        <Icon name="build" size={28} color={selected === 0 ? "#fff" : "#444"} />
+        <Icon name='build' size={28} color={selected === 0 ? '#fff' : '#444'} />
       </TouchableOpacity>
       <TouchableOpacity onPress={() => {setSelected(1), navigation.navigate('thekedar'), setSelected(0)}} style={iconStyles(1)}>
-        <Icon name="people" size={28} color={selected === 1 ? "#fff" : "#444"} />
+        <Icon name='people' size={28} color={selected === 1 ? '#fff' : '#444'} />
       </TouchableOpacity>
       <TouchableOpacity onPress={() => {setSelected(2), navigation.navigate('movers'), setSelected(0)}} style={iconStyles(2)}>
-        <Icon name="local-shipping" size={28} color={selected === 2 ? "#fff" : "#444"} />
+        <Icon name='local-shipping' size={28} color={selected === 2 ? '#fff' : '#444'} />
       </TouchableOpacity>
     </SafeAreaView>
     </SafeAreaView>

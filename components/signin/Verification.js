@@ -22,7 +22,7 @@ const Verification = ({navigation, route}) => {
         email: userdata[0]?.email,
         password: userdata[0]?.password,
       }
-      fetch("http://localhost:3000/signup", {
+      fetch('http://localhost:3000/signup', {
       method: 'POST',
       body: JSON.stringify(usdata),
       headers: {'Content-Type': 'application/json'}
@@ -36,11 +36,11 @@ const Verification = ({navigation, route}) => {
         })
       // console.log(usdata);
       }
-    else if(code =='' || code == "XXXXXX"){
-      alert("Please enter the code!")
+    else if(code =='' || code == 'XXXXXX'){
+      alert('Please enter the code!')
     }
     else{
-      alert("The code didn't match!")
+      alert('The code didnt match!')
     }
 }
   

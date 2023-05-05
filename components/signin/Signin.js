@@ -31,7 +31,7 @@ const Signin = ({navigation}) => {
     setIsLoading(true);
     try {
       const response = await 
-      fetch("http://localhost:3000/signin", {
+      fetch('http://localhost:3000/signin', {
         method: 'POST',
         body: JSON.stringify({
           email: email,
@@ -44,10 +44,10 @@ const Signin = ({navigation}) => {
       .then(res => res.json()).then(
         data => {
           if(data.error){
-            alert("Something went wrong!");
+            alert('Something went wrong!');
           }
           else{
-            alert("Login Successfull!");
+            alert('Login Successfull!');
             navigation.navigate('home');
           }
         }
@@ -69,7 +69,7 @@ const Signin = ({navigation}) => {
       headerLeft: () => (
         <ScreenHeaderBtn
           iconUrl={icons.homeicon}
-          dimension="60%"
+          dimension='60%'
           handlePress={() => navigation.navigate('home')}
         />
       ),
@@ -78,19 +78,19 @@ const Signin = ({navigation}) => {
   />
   <Text style={styles.title}>Sign In</Text>
   <TextInput
-    style={[styles.input, { borderColor: emailError ?"red" : "gray" },]}
-    placeholder="Enter your Email"
+    style={[styles.input, { borderColor: emailError ?'red' : 'gray' },]}
+    placeholder='Enter your Email'
     onChangeText={(text) => setEmail(text)}
     value={email}
-    keyboardType="email-address"
-    autoCapitalize="none"
+    keyboardType='email-address'
+    autoCapitalize='none'
   />
   {emailError && (
         <Text style={styles.error}>Please enter a valid email</Text>
       )}
   <TextInput
-    style={[styles.input, { borderColor: passwordError ? "red" : "gray" },]}
-    placeholder="Enter your Password"
+    style={[styles.input, { borderColor: passwordError ? 'red' : 'gray' },]}
+    placeholder='Enter your Password'
     onChangeText={(text) => setPassword(text)}
     value={password}
     secureTextEntry
@@ -108,7 +108,7 @@ const Signin = ({navigation}) => {
       disabled={isLoading}
   >
         {isLoading ? (
-          <ActivityIndicator size="small" color={COLORS.white} />
+          <ActivityIndicator size='small' color={COLORS.white} />
         ) : (
           <Text style={styles.buttonText}>Sign In</Text>
         )}  
@@ -119,13 +119,13 @@ const Signin = ({navigation}) => {
   <Text style={styles.orText}>OR Login with</Text>
   <View style={styles.socialBtnsContainer}>
     <TouchableOpacity style={styles.socialBtn}>
-      <Image source={require("../../assets/icons/google.png")} />
+      <Image source={require('../../assets/icons/google.png')} />
     </TouchableOpacity>
     <TouchableOpacity style={styles.socialBtn}>
-      <Image source={require("../../assets/icons/microsoft.png")} />
+      <Image source={require('../../assets/icons/microsoft.png')} />
     </TouchableOpacity>
     <TouchableOpacity style={styles.socialBtn}>
-      <Image source={require("../../assets/icons/apple.png")} />
+      <Image source={require('../../assets/icons/apple.png')} />
     </TouchableOpacity>
   </View>
 </View>

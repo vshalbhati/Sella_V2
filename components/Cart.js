@@ -5,7 +5,7 @@ import {COLORS, icons, images, SIZES} from '../constants';
 import ScreenHeaderBtn from '../components/common/header/ScreenHeaderBtn';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectSupply } from '../features/supplyslice';
-import { selectBasketItems, basketTotal, removeFromBasket, selectBasketTotal } from '../features/basketSlice';
+import { selectBasketItems, basketTotal, removeFromBasket, selectBasketTotal, addToBasket } from '../features/basketSlice';
 import { useState } from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { urlFor } from '../sanity';
@@ -38,25 +38,16 @@ const Cart = ({navigation}) => {
       <View style={styles.backArrow}>
         <TouchableOpacity>
           <Icon
-            name="arrow-back"
+            name='arrow-back'
             size={28}
             color={COLORS.lightWhite}
             onPress={() => navigation.goBack()}
           />      
         </TouchableOpacity>
       </View>
-      {/* <View style={styles.cartItemContainer}>
-        <View style={styles.cartItem}>
-          <Image source={require('../assets/images/kemal.jpeg')} style={styles.cartItemImage} />
-          <View style={styles.cartItemDetails}>
-            <Text style={styles.cartItemName}>Product 1</Text>
-            <Text style={styles.cartItemPrice}>$20</Text>
-          </View>
-        </View>
-      </View> */}
       <ScrollView>
         {Object.entries(groupedItemsInBasket).map(([key, items]) => (
-          <View key={key} style={{flex:1, flexDirection:"row", alignItems:"center",padding:10}}>
+          <View key={key} style={{flex:1, flexDirection:'row', alignItems:'center',padding:10}}>
             <Image
             source={{uri: urlFor(items[0]?.imgurl).url()}}
             style={styles.cartItemImage}
@@ -64,15 +55,25 @@ const Cart = ({navigation}) => {
             <View >
             <Text style={styles.cartItemName}>{items[0]?.name}</Text>
             <Text style={styles.cartItemPrice}>
-            <CurrencyFormat value={items[0]?.price} displayType={'text'} prefix={'₹'}/>
+              <Text>
+              <CurrencyFormat value={items[0]?.price} displayType={'text'} prefix={'₹'}/>
+              </Text>
             </Text>
-            <View style={{flex:1, flexDirection:"row", gap:10}}>
+            <View style={{flex:1, flexDirection:'row', gap:10}}>
+            <TouchableOpacity >
+              <Icon 
+               name='add'
+               size={20} 
+               color='#333'
+               onPress={() => dispatch(addToBasket({id:key,price:items[0]?.price}))}
+               />
+            </TouchableOpacity>
             <Text>{items.length}</Text>
             <TouchableOpacity >
               <Icon 
-               name="delete"
+               name='delete'
                size={20} 
-               color="#333"
+               color='#333'
                onPress={() => dispatch(removeFromBasket({id:key}))}
                />
             </TouchableOpacity>
@@ -81,26 +82,32 @@ const Cart = ({navigation}) => {
           </View>
         ))}
       </ScrollView>
-      <View style={{backgroundColor:"rgba(255,255,255,0.9)",padding:5,position:"absolute",bottom:0, width:"100%"}}>
+      <View style={{backgroundColor:'rgba(255,255,255,0.9)',padding:5,position:'absolute',bottom:0, width:'100%'}}>
 
-        <View style={{flex:1, flexDirection:"row",justifyContent:'space-between'}}>
+        <View style={{flex:1, flexDirection:'row',justifyContent:'space-between'}}>
         <Text style={styles.footerText}>Subtotal</Text>
-        <Text style={{fontSize: 16,color:COLORS.gray,right:0,position:"absolute",marginRight:5}}>
-        <CurrencyFormat value={basketTotal} displayType={'text'} prefix={'₹'}/>
+        <Text style={{fontSize: 16,color:COLORS.gray,right:0,position:'absolute',marginRight:5}}>
+          <Text>
+          <CurrencyFormat value={basketTotal} displayType={'text'} prefix={'₹'}/>
+          </Text>
         </Text>
         </View>
 
-        <View style={{flex:1, flexDirection:"row"}}>
-        <Text style={styles.footerText}>Delivery Fee</Text>
-        <Text style={{fontSize: 16,color:COLORS.gray,right:0,position:"absolute",marginRight:5}}>
-        <CurrencyFormat value={200} displayType={'text'} prefix={'₹'}/>
+        <View style={{flex:1, flexDirection:'row'}}>
+        <Text style={styles.footerText}>Delivery Fee (Free if order above 1000)</Text>
+        <Text style={{fontSize: 16,color:COLORS.gray,right:0,position:'absolute',marginRight:5}}>
+          <Text>
+          <CurrencyFormat value={(basketTotal == 0 || basketTotal>=1000)? 0: 200} displayType={'text'} prefix={'₹'}/>
+          </Text>
         </Text>
         </View>
 
-        <View style={{flex:1, flexDirection:"row", alignItems:'center', alignContent:'center'}}>
-        <Text style={{fontSize: 16,color:COLORS.gray,fontWeight:"bold", marginLeft:5}}>Grand Total</Text>
-        <Text style={{fontSize: 16,color:COLORS.gray,fontWeight:"bolder",right:0,position:"absolute", marginRight:5}}>
-        <CurrencyFormat value={basketTotal +200} displayType={'text'} prefix={'₹'}/>
+        <View style={{flex:1, flexDirection:'row', alignItems:'center', alignContent:'center'}}>
+        <Text style={{fontSize: 16,color:COLORS.gray,fontWeight:'bold', marginLeft:5}}>Grand Total</Text>
+        <Text style={{fontSize: 16,color:COLORS.gray,fontWeight:'bolder',right:0,position:'absolute', marginRight:5}}>
+          <Text>
+          <CurrencyFormat value={basketTotal +((basketTotal == 0 || basketTotal>=1000)? 0: 200)} displayType={'text'} prefix={'₹'}/>
+          </Text>
         </Text>
         </View>
 
@@ -123,7 +130,7 @@ const styles = StyleSheet.create({
     backgroundColor:COLORS.one,
     padding:5, 
     borderRadius:50, 
-    position:"absolute",
+    position:'absolute',
     zIndex:1,
     marginTop:8,
     marginLeft:8,
@@ -186,7 +193,7 @@ const styles = StyleSheet.create({
     },
     checkoutButton: {
       height:40,
-      width:"90%",
+      width:'90%',
       marginBottom:10,
       backgroundColor:COLORS.one,
       borderRadius:10,

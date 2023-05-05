@@ -5,33 +5,17 @@ import { useRouter } from 'expo-router'
 import styles from './welcome.style'
 import { icons, SIZES} from '../../../constants';
 
-const jobTypes =["Cement","Karesar","Rodi","Patthar","Concrete"];
-import {username} from "../../signin/Signup"
+const jobTypes =['Cement','Putti','Bricks','Patthar','Binola'];
+import {username} from '../../signin/Signup'
 
 
-const Welcome = () => {
+const Welcome = ({navigation}) => {
   const router = useRouter();
   const [activeJobType, setActiveJobType] = useState('Cement');
   const isLoading=false;
   const error = false;
 
   const [query, setQuery] = useState('');
-  const [songs, setSongs] = useState([]);
-
-  const searchSongs = async () => {
-    try {
-      const response = await fetch(`https://shazam.p.rapidapi.com/search?term=${query}`, {
-        headers: {
-          'x-rapidapi-host': 'shazam.p.rapidapi.com',
-          // 'x-rapidapi-key': '4c281832ccmsh01bafa44beb87fap18e2c5jsn1b8f0b733086'
-        }
-      });
-      const data = await response.json();
-      setSongs(data.tracks);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const stylis = StyleSheet.create({
     container: {
@@ -66,13 +50,13 @@ const Welcome = () => {
             style={styles.searchInput}
             onChangeText={text => setQuery(text)}
             value={query}
-            placeholder="what are you looking for?"
+            placeholder='what are you looking for?'
           />
         </View>
-        <TouchableOpacity style={styles.searchBtn} onPress={searchSongs}>
+        <TouchableOpacity style={styles.searchBtn} onPress={() => navigation.navigate('search',{query:query})}>
           <Image
           source={icons.search}
-          resizeMode="contain"
+          resizeMode='contain'
           style={styles.searchBtnImage}
           />
         </TouchableOpacity>
@@ -85,7 +69,7 @@ const Welcome = () => {
           style={styles.tab(activeJobType, item)} 
           onPress={()=>{
             setActiveJobType(item);
-            router.push(`/search/${item}`)
+            navigation.navigate('search',{query:item})
           }}
           >
             <Text style={styles.tabText(activeJobType, item)}>{item}</Text>
@@ -96,7 +80,7 @@ const Welcome = () => {
         showsHorizontalScrollIndicator={false}
         horizontal
         />
-        <FlatList
+        {/* <FlatList
       data={songs}
       renderItem={({ item }) => (
         <View style={stylis.container}>
@@ -112,7 +96,7 @@ const Welcome = () => {
       keyExtractor={item => item.track.key}
       showsHorizontalScrollIndicator={false}
       horizontal
-    />
+    /> */}
       </View>
     </View>
   )

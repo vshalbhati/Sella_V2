@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, FlatList, ActivityIndicator, ActivityIndi
 import {useRouter} from 'expo-router'
 
 import { COLORS, SIZES} from '../../../../constants';
-import createClient, { urlFor } from "../../../../sanity";
+import createClient, { urlFor } from '../../../../sanity';
 import styles from './nearbyjobcard.style'
 
 const NearbyJobCard = ({id, title, description}) => {
@@ -12,7 +12,7 @@ const NearbyJobCard = ({id, title, description}) => {
   // useEffect(()=>{
   //   createClient.fetch(
   //   `
-  //   *[_type == "sellers"]{
+  //   *[_type == 'sellers']{
   //     ...,
   //       Supplies[]->{
   //         ...,

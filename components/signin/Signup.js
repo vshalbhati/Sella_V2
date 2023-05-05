@@ -47,7 +47,7 @@ const Signup = ({navigation}) => {
     setIsLoading(true);
     try {
       const response = await 
-      fetch("http://localhost:3000/verify", {
+      fetch('http://localhost:3000/verify', {
   method: 'POST',
   body: JSON.stringify({
     username: username,
@@ -59,9 +59,9 @@ const Signup = ({navigation}) => {
 .then(res => res.json()).then(
   data =>{
     if(data.error){
-      alert("something went wrong!");
+      alert('something went wrong!');
     }
-    else if(data.message === "Verification code has been sent to your email!"){
+    else if(data.message === 'Verification code has been sent to your email!'){
       console.log(data.udata);
       alert(data.message);
       navigation.navigate('verification', { userdata: data.udata})
@@ -90,14 +90,14 @@ const Signup = ({navigation}) => {
             headerLeft:()=>(
                 <ScreenHeaderBtn
                 iconUrl={icons.left}
-                dimension="60%"
+                dimension='60%'
                 handlePress={() => navigation.navigate('signin')}
                 />
             ),
             headerRight: () => (
               <ScreenHeaderBtn
                 iconUrl={icons.homeicon}
-                dimension="60%"
+                dimension='60%'
                 handlePress={() => navigation.navigate('home')}
               />
             ),
@@ -108,9 +108,9 @@ const Signup = ({navigation}) => {
       <TextInput
         style={[
           styles.input,
-          { borderColor: usernameError ? "red" : "gray" },
+          { borderColor: usernameError ? 'red' : 'gray' },
         ]}
-        placeholder="Username"
+        placeholder='Username'
         onChangeText={(text) => setUsername(text)}
         value={username}
       />
@@ -120,9 +120,9 @@ const Signup = ({navigation}) => {
       <TextInput
         style={[
           styles.input,
-          { borderColor: emailError ?"red" : "gray" },
+          { borderColor: emailError ?'red' : 'gray' },
         ]}
-        placeholder="Email"
+        placeholder='Email'
         onChangeText={(text) => setEmail(text)}
         value={email}
       />
@@ -132,9 +132,9 @@ const Signup = ({navigation}) => {
       <TextInput
         style={[
           styles.input,
-          { borderColor: passwordError ? "red" : "gray" },
+          { borderColor: passwordError ? 'red' : 'gray' },
         ]}
-        placeholder="Password"
+        placeholder='Password'
         secureTextEntry={true}
         onChangeText={(text) => setPassword(text)}
         value={password}
@@ -145,10 +145,10 @@ const Signup = ({navigation}) => {
       <TextInput
         style={[
           styles.input,
-          { borderColor: cpasswordError ? "red" : "green" },
+          { borderColor: cpasswordError ? 'red' : 'green' },
 
         ]}
-        placeholder="Confirm Password"
+        placeholder='Confirm Password'
         secureTextEntry={true}
         onChangeText={(text) => setCpassword(text)}
         value={cpassword}
@@ -165,7 +165,7 @@ const Signup = ({navigation}) => {
         disabled={isLoading}
       >
         {isLoading ? (
-          <ActivityIndicator size="small" color={COLORS.white} />
+          <ActivityIndicator size='small' color={COLORS.white} />
         ) : (
           <Text style={styles.buttonText}>Sign Up</Text>
         )}
@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 50,
-    borderColor: "gray",
+    borderColor: 'gray',
     borderWidth: 2,
     borderRadius: 10,
     width: '80%',

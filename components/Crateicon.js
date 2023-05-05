@@ -9,20 +9,20 @@ import CurrencyFormat from 'react-currency-format';
 const style = StyleSheet.create({
     container:{
         flex: 1,
-        width:"90%",
+        width:'90%',
         marginBottom:10,
         backgroundColor:COLORS.one,
-        position:"absolute",
+        position:'absolute',
         bottom:0,
         borderRadius:10,
         alignSelf:'center',
-        flexDirection:"row",
+        flexDirection:'row',
         zIndex:1,
     },
     curr:{
-        color:"white",
+        color:'white',
         fontSize:24,
-        fontWeight:"bold",
+        fontWeight:'bold',
         paddingRight:5    
     }
 })
@@ -32,15 +32,17 @@ const Crateicon = ({navigation}) => {
 
     if(items.length === 0) return null;
   return (
-    <View style={[style.container, {display:items.length>0 ?"block": 'none'}]}>
+    <View style={[style.container, {display:items.length>0 ?'block': 'none'}]}>
         <TouchableOpacity
-         style={{flex:1,flexDirection:'row',gap:10,alignItems:"center",padding:4}}
-         onPress={() => navigation.navigate("cart")}
+         style={{flex:1,flexDirection:'row',gap:10,alignItems:'center',padding:4}}
+         onPress={() => navigation.navigate('cart')}
         >
-        <Text style={{color:COLORS.lightWhite, fontWeight:"extrabold", fontSize:24, paddingLeft:5}}>{items.length}</Text>
-        <Text style={{flex:1, color:COLORS.lightWhite, textAlign:"center"}}>View Crate</Text>
+        <Text style={{color:COLORS.lightWhite, fontWeight:'extrabold', fontSize:24, paddingLeft:5}}>{items.length}</Text>
+        <Text style={{flex:1, color:COLORS.lightWhite, textAlign:'center'}}>View Crate</Text>
         <Text style={style.curr}>
+            <Text>
             <CurrencyFormat value={basketTotal} displayType={'text'} prefix={'₹'}/>
+            </Text>
         </Text>
         </TouchableOpacity>
     </View>

@@ -14,10 +14,10 @@ const styles = StyleSheet.create({
   backArrow:{
     height:40,
     width:40, 
-    backgroundColor:"rgba(255,255,255,0.6)",
+    backgroundColor:'rgba(255,255,255,0.6)',
     padding:5, 
     borderRadius:50, 
-    position:"absolute",
+    position:'absolute',
     zIndex:2,
     marginTop:8,
     marginLeft:8,
@@ -38,20 +38,20 @@ const styles = StyleSheet.create({
   gola:{
     height:40,
     width:40,
-    backgroundColor:"rgba(0,255,0,0.5)",
+    backgroundColor:'rgba(0,255,0,0.5)',
     borderRadius:50,
     padding:6
   },
   cartbar:{
     height:50,
-    width:"90%",
+    width:'90%',
     marginLeft:20,
     marginBottom:10,
-    backgroundColor:"orange",
-    position:"absolute",
+    backgroundColor:'orange',
+    position:'absolute',
     bottom:0,
     borderRadius:10,
-    display:"block",
+    display:'block',
     flex:1,
     flexDirection:'row',
     color:COLORS.lightWhite,
@@ -104,7 +104,7 @@ params.set('param', 'value');
 
   useEffect(()=>{
   createClient.fetch(
-    `*[_type == "seller"  && _id == $id]{
+    `*[_type == 'seller'  && _id == $id]{
       ...,
 
         Supplies[]->{
@@ -126,7 +126,7 @@ params.set('param', 'value');
       <View style={styles.backArrow}>
         <TouchableOpacity>
           <Icon
-            name="arrow-back"
+            name='arrow-back'
             size={28}
             onPress={() => navigation.goBack()}
           />      
@@ -136,7 +136,7 @@ params.set('param', 'value');
       
       <Image
       source={{uri: urlFor(imgurl).url()}}
-      style={{ width: "100%", height: 200 }}
+      style={{ width: '100%', height: 200 }}
       />
 
        <Text style={styles.name}>{name || 'No name'}</Text>
@@ -144,22 +144,22 @@ params.set('param', 'value');
 
         <View>  
           <View>
-            <Text style={{color:"rgba(0,255,0,0.5)",fontSize:26}}>Supplies</Text>
+            <Text style={{color:'rgba(0,255,0,0.5)',fontSize:26}}>Supplies</Text>
             {supply.supplies && supply.supplies.map((item) => (
               <View>
               <Text key={item._key}>{item._key}</Text>
-              <View style={{flex:1, flexDirection:"row"}}>
+              <View style={{flex:1, flexDirection:'row'}}>
               <TouchableOpacity style={styles.gola}>
                 <Icon
-                name="add"
+                name='add'
                 size={28}
                 onPress={()=> addbill(item._key)}
                 />
                 </TouchableOpacity>
-                <Text style={{ fontSize:24,fontWeight:"bold",paddingLeft:10,paddingRight:10}}>{items.length}</Text>
+                <Text style={{ fontSize:24,fontWeight:'bold',paddingLeft:10,paddingRight:10}}>{items.length}</Text>
                 <TouchableOpacity style={styles.gola}>
                 <Icon
-                name="remove"
+                name='remove'
                 size={28}
                 onPress={()=> removebill(item._key)}
                 />
@@ -174,8 +174,8 @@ params.set('param', 'value');
 </View>
 </View>
 <View style={[styles.cartbar, { display: (bill>0) ? 'block' : 'none' }]}>
-<Text style={{color:COLORS.lightWhite,fontSize:30, paddingLeft:"5%"}}>Total</Text>
-<Text style={{color:COLORS.lightWhite,fontSize:24, paddingLeft:"60%"}}>{bill}</Text>
+<Text style={{color:COLORS.lightWhite,fontSize:30, paddingLeft:'5%'}}>Total</Text>
+<Text style={{color:COLORS.lightWhite,fontSize:24, paddingLeft:'60%'}}>{bill}</Text>
 </View> 
       </ScrollView>
   )

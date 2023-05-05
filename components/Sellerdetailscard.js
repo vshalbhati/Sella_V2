@@ -13,10 +13,10 @@ const styles = StyleSheet.create({
     backArrow:{
       height:40,
       width:40, 
-      backgroundColor:"rgba(255,255,255,0.6)",
+      backgroundColor:'rgba(255,255,255,0.6)',
       padding:5, 
       borderRadius:50, 
-      position:"fixed",
+      position:'fixed',
       zIndex:2,
       marginTop:8,
       marginLeft:8,
@@ -37,20 +37,20 @@ const styles = StyleSheet.create({
     gola:{
       height:40,
       width:40,
-      backgroundColor:"rgba(0,255,0,0.5)",
+      backgroundColor:'rgba(0,255,0,0.5)',
       borderRadius:50,
       padding:6
     },
     cartbar:{
       height:50,
-      width:"90%",
+      width:'90%',
       marginLeft:20,
       marginBottom:10,
-      backgroundColor:"orange",
-      position:"fixed",
+      backgroundColor:'orange',
+      position:'fixed',
       bottom:0,
       borderRadius:10,
-      display:"block",
+      display:'block',
       flex:1,
       flexDirection:'row',
       color:COLORS.lightWhite,
@@ -87,18 +87,18 @@ const Sellerdetailscard = (props) => {
     <View>
              <View>
                 <Text>{props.keyValue}</Text>
-              <View style={{flex:1, flexDirection:"row"}}>
+              <View style={{flex:1, flexDirection:'row'}}>
               <TouchableOpacity style={styles.gola}>
               <Icon
-                name="add"
+                name='add'
                 size={28}
                 onPress={()=> addbill()}
                 />
                 </TouchableOpacity>
-                <Text style={{ fontSize:24,fontWeight:"bold",paddingLeft:10,paddingRight:10}}>{items.length}</Text>
+                <Text style={{ fontSize:24,fontWeight:'bold',paddingLeft:10,paddingRight:10}}>{items.length}</Text>
                 <TouchableOpacity style={styles.gola}>
                 <Icon
-                name="remove"
+                name='remove'
                 size={28}
                 onPress={()=> removebill()}
                 />

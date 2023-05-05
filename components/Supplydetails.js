@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, FlatList, StyleSheet, Image } from 'react-native'
+import { View, Text, ScrollView, FlatList, StyleSheet, Image,ImageBackground ,Dimensions} from 'react-native'
 import { useState, useEffect } from 'react';
 import createClient, { urlFor } from '../sanity';
 import { COLORS, FONT, SIZES } from '../constants';
@@ -9,15 +9,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addToBasket, removeFromBasket, selectBasketItems, selectBasketItemsWithId } from '../features/basketSlice';
 import Crateicon from './Crateicon';
 import { setSupply } from '../features/supplyslice';
+const { height } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   backArrow:{
     height:40,
     width:40, 
-    backgroundColor:"rgba(255,255,255,0.6)",
+    backgroundColor:'rgba(255,255,255,0.6)',
     padding:5, 
     borderRadius:50, 
-    position:"absolute",
+    position:'absolute',
     zIndex:2,
     marginTop:8,
     marginLeft:8,
@@ -43,14 +44,14 @@ const styles = StyleSheet.create({
   },
   cartbar:{
     height:50,
-    width:"90%",
+    width:'90%',
     marginLeft:20,
     marginBottom:10,
-    backgroundColor:"orange",
-    position:"absolute",
+    backgroundColor:'orange',
+    position:'absolute',
     bottom:0,
     borderRadius:10,
-    display:"block",
+    display:'block',
     flex:1,
     flexDirection:'row',
     color:COLORS.lightWhite,
@@ -65,25 +66,11 @@ const Supplydetails = ({navigation}) => {
   const items = useSelector(state => selectBasketItemsWithId(state, id));
 
   const addbill=(key)=>{
-    // setBill(prevBill => prevBill + 10);
-    // setQuantity(prevQuantity => {
-    //   const newQuantity = { ...prevQuantity };
-    //   newQuantity[itemId] = (newQuantity[itemId] || 0) + 1;
-    //   return newQuantity;
-    // });  
     dispatch(addToBasket({id, name, short_description, imgurl, price}))
   }
   console.log(items)
 
   const removebill=(itemId)=>{
-    // if(bill>0){
-    // setBill(prevBill => prevBill - 10);
-    // }
-    //   setQuantity(prevQuantity => {
-    //     const newQuantity = { ...prevQuantity };
-    //     newQuantity[itemId] = Math.max(0, (newQuantity[itemId] || 0) - 1);
-    //     return newQuantity;
-    //   });
     if(!items.length >0) return;
     dispatch(removeFromBasket({id}));
 
@@ -104,12 +91,13 @@ const Supplydetails = ({navigation}) => {
   return (
     <>
     <Crateicon
-    navigation={navigation}/>
+    navigation={navigation}
+    />
     <ScrollView>
       <View style={styles.backArrow}>
         <TouchableOpacity>
           <Icon
-            name="arrow-back"
+            name='arrow-back'
             size={28}
             onPress={() => navigation.goBack()}
           />      
@@ -117,25 +105,34 @@ const Supplydetails = ({navigation}) => {
       </View>
       <Image
       source={{uri: urlFor(imgurl).url()}}
-      style={{ width: "100%", height: 200 }}
+      style={{ 
+      width: '100%', 
+      height: 200,
+      flex: 1,
+      resizeMode: 'cover',
+      position: 'absolute',
+      width: '100%',
+      height: height,
+      zIndex:-1
+    }}
       />
       <Text>{name}</Text>
       <Text>{short_description}</Text>
       <Text>{price}</Text>
       <Text>Choose the quantity</Text>
 
-      <View style={{flex:1, flexDirection:"row"}}>
+      <View style={{flex:1, flexDirection:'row'}}>
       <TouchableOpacity style={[styles.gola,{backgroundColor:COLORS.one}]}>
         <Icon
-            name="add"
+            name='add'
             size={28}
             onPress={()=> addbill()}
         />
       </TouchableOpacity>
-          <Text style={{ fontSize:24,fontWeight:"bold",paddingLeft:10,paddingRight:10}}>{items.length}</Text>
-      <TouchableOpacity disabled={!items.length} style={[styles.gola,{backgroundColor:(items.length) >0 ? COLORS.one :"rgba(127,127,127,0.8)"}]}>
+          <Text style={{ fontSize:24,fontWeight:'bold',paddingLeft:10,paddingRight:10}}>{items.length}</Text>
+      <TouchableOpacity disabled={!items.length} style={[styles.gola,{backgroundColor:(items.length) >0 ? COLORS.one :'rgba(127,127,127,0.8)'}]}>
         <Icon
-          name="remove"
+          name='remove'
           size={28}
           onPress={()=> removebill()}
         />
