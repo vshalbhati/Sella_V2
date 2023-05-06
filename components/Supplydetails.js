@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addToBasket, removeFromBasket, selectBasketItems, selectBasketItemsWithId } from '../features/basketSlice';
 import Crateicon from './Crateicon';
 import { setSupply } from '../features/supplyslice';
+import { SafeAreaView } from 'react-native';
 const { height } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
@@ -20,7 +21,7 @@ const styles = StyleSheet.create({
     borderRadius:50, 
     position:'absolute',
     zIndex:2,
-    marginTop:8,
+    marginTop:30,
     marginLeft:8,
   },
   name:{
@@ -68,12 +69,10 @@ const Supplydetails = ({navigation}) => {
   const addbill=(key)=>{
     dispatch(addToBasket({id, name, short_description, imgurl, price}))
   }
-  console.log(items)
 
   const removebill=(itemId)=>{
     if(!items.length >0) return;
     dispatch(removeFromBasket({id}));
-
   }
 
   useEffect(() => {
@@ -89,10 +88,9 @@ const Supplydetails = ({navigation}) => {
   },[]);
 
   return (
-    <>
-    <Crateicon
-    navigation={navigation}
-    />
+    <SafeAreaView >
+    <View style={{height:(height)}}>
+
     <ScrollView>
       <View style={styles.backArrow}>
         <TouchableOpacity>
@@ -105,21 +103,13 @@ const Supplydetails = ({navigation}) => {
       </View>
       <Image
       source={{uri: urlFor(imgurl).url()}}
-      style={{ 
-      width: '100%', 
-      height: 200,
-      flex: 1,
-      resizeMode: 'cover',
-      position: 'absolute',
-      width: '100%',
-      height: height,
-      zIndex:-1
-    }}
+      style={{height:(300),width:'100%'}}
       />
-      <Text>{name}</Text>
-      <Text>{short_description}</Text>
-      <Text>{price}</Text>
-      <Text>Choose the quantity</Text>
+      <View>
+      <Text style={{fontSize:26,fontWeight:"200"}}>{name}</Text>
+      <Text style={{fontSize:22,fontWeight:"100"}}>{short_description}</Text>
+      <Text style={{fontSize:22,color:COLORS.tertiary}}>₹{price}/pc</Text>
+      <Text style={{fontSize:22}}>Choose the quantity</Text>
 
       <View style={{flex:1, flexDirection:'row'}}>
       <TouchableOpacity style={[styles.gola,{backgroundColor:COLORS.one}]}>
@@ -138,8 +128,13 @@ const Supplydetails = ({navigation}) => {
         />
       </TouchableOpacity>
       </View>
+      </View>
     </ScrollView>
-    </>
+    <Crateicon
+    navigation={navigation}
+    />
+    </View>
+    </SafeAreaView>
   )
 }
 

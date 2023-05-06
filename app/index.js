@@ -9,12 +9,10 @@ import Thekedar from '../components/Thekedar';
 import Movers from '../components/Movers';
 import Preparecheckout from '../components/Preparecheckout';
 import Delivery from '../components/Delivery';
-import {Text, SafeAreaView } from 'react-native';
 import Sellerdetails from '../components/Sellerdetails';
 import Supplydetails from '../components/Supplydetails'
 import { Provider } from 'react-redux';
 import { store } from '../store';
-import { NavigationContainer } from '@react-navigation/native';
 import Search from '../components/Search';
 import Login from '../components/Login';
 import 'react-native-url-polyfill/auto';
@@ -25,22 +23,21 @@ export default function App() {
   return (
     <Provider store={store}>
   <Stack.Navigator>
+    <Stack.Screen name='login' component={Login} options={{headerShown:false}} />
     <Stack.Screen name='home' component={Home} />
     <Stack.Screen name='signin' component={Signin} />
-    <Stack.Screen name='account' component={Account} options={{presentation:'modal'}}/>
+    <Stack.Screen name='account' component={Account} options={{presentation:'transparentModal'}}/>
     <Stack.Screen name='signup' component={Signup}/>
     <Stack.Screen name='cart' component={Cart} options={{presentation:'modal', headerShown:false}}/>
     <Stack.Screen name='thekedar' component={Thekedar}/>
     <Stack.Screen name='movers' component={Movers}/>
-    <Stack.Screen name='prepare' component={Preparecheckout} options={{headerShown:false}}/>
+    <Stack.Screen name='prepare' component={Preparecheckout} options={{headerShown:false,presentation:'modal'}}/>
     <Stack.Screen name='delivery' component={Delivery}/>
     <Stack.Screen name='verification' component={Verification} options={{headerShown:false}}/>
     <Stack.Screen name='sellerdetails' component={Sellerdetails} options={{headerShown:false}}/>
     <Stack.Screen name='supplydetails' component={Supplydetails} options={{headerShown:false}}/>
     <Stack.Screen name='search' component={Search} options={{headerShown:false}}/>
-    {/* <Stack.Screen name='login' component={Login} options={{headerShown:false}} /> */}
   </Stack.Navigator>
   </Provider>
-
   );
 }

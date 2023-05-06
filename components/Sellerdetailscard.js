@@ -70,7 +70,6 @@ const Sellerdetailscard = (props) => {
     const addbill=()=>{
         dispatch(addToBasket(key))
       }
-      console.log(items)
 
       const removebill=()=>{
         // if(bill>0){

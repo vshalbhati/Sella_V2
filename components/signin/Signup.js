@@ -62,7 +62,6 @@ const Signup = ({navigation}) => {
       alert('something went wrong!');
     }
     else if(data.message === 'Verification code has been sent to your email!'){
-      console.log(data.udata);
       alert(data.message);
       navigation.navigate('verification', { userdata: data.udata})
     }
@@ -70,7 +69,6 @@ const Signup = ({navigation}) => {
     //   alert('Account created succesfully!');
     //   navigation.navigate('signin');
     // }
-    // console.log(data);
   }
 
 )

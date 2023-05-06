@@ -34,7 +34,6 @@ const Verification = ({navigation, route}) => {
           navigation.navigate('signin');
           }
         })
-      // console.log(usdata);
       }
     else if(code =='' || code == 'XXXXXX'){
       alert('Please enter the code!')

@@ -18,7 +18,6 @@ const Search = ({navigation}) => {
       setResults(data);
     });
   },[]);
-  console.log(results)
   return (
     <View>
       <Searchresults

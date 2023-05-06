@@ -22,8 +22,6 @@ const NearbyJobCard = ({id, title, description}) => {
   //     setSupply(data);
   //   });
   // },[]);
-    //   console.log(supply);
-
 
   return (
     <SafeAreaView>

@@ -3,13 +3,11 @@ import React,{useState} from 'react'
 import { ScrollView } from 'react-native'
 import { COLORS, FONT } from '../constants'
 import { TouchableOpacity } from 'react-native'
-import { Picker } from '@react-native-picker/picker';
 import PhoneInput from 'react-native-phone-number-input';
 
 const {height} = Dimensions.get('window');
 
-const Login = () => {
-    const [selectedValue, setSelectedValue] = useState('dgfvd');
+const Login = ({navigation}) => {
     const [phoneNumber, setPhoneNumber] = useState('');
 
     const handlePhoneInputChange = (text) => {
@@ -36,9 +34,15 @@ const Login = () => {
             />
             </View>
         </View>
-        <TouchableOpacity style={[styles.button,,{backgroundColor:(phoneNumber.length==13)?COLORS.one:COLORS.gray2}]}>
+        <TouchableOpacity 
+            style={[styles.button,,{backgroundColor:(phoneNumber.length==13)?COLORS.one:COLORS.gray2}]}
+            onPress={()=> navigation.navigate('home')}
+            disabled={phoneNumber.length !== 13}
+        >
             <Text style={{padding:7,fontFamily:FONT.medium, color:COLORS.lightWhite}}>Send OTP</Text>
         </TouchableOpacity>
+
+
         <View style={{height:1,width:'90%',backgroundColor:'black',marginTop:50,alignSelf:'center',}}/>
         <View style={{position:'absolute',marginTop:'66%',marginLeft:'37%',alignContent:'center',backgroundColor:'#FCFCFC'}}>
         <Text style={{textAlign:'center'}}>or</Text>

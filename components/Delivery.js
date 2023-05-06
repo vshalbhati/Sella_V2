@@ -1,9 +1,35 @@
-import { View, Text, SafeAreaView } from 'react-native'
+import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity } from 'react-native'
 import React from 'react'
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import { COLORS } from '../constants';
 
-const Delivery = () => {
+const styles = StyleSheet.create({
+  backArrow:{
+    height:40,
+    width:40, 
+    backgroundColor:'rgba(255,255,255,0.6)',
+    padding:5, 
+    borderRadius:50, 
+    position:'absolute',
+    zIndex:2,
+    marginTop:30,
+    marginLeft:8,
+  }
+});
+
+const Delivery = ({navigation}) => {
   return (
     <SafeAreaView>
+      <View style={styles.backArrow}>
+        <TouchableOpacity>
+          <Icon
+            name='arrow-back'
+            size={28}
+            color={COLORS.lightWhite}
+            onPress={() => navigation.navigate('home')}
+          />      
+        </TouchableOpacity>
+      </View>
       <Text>This is hte delivery page</Text>
     </SafeAreaView>
   )

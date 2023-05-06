@@ -17,7 +17,6 @@ const style = StyleSheet.create({
         borderRadius:10,
         alignSelf:'center',
         flexDirection:'row',
-        zIndex:1,
     },
     curr:{
         color:'white',
@@ -32,17 +31,18 @@ const Crateicon = ({navigation}) => {
 
     if(items.length === 0) return null;
   return (
-    <View style={[style.container, {display:items.length>0 ?'block': 'none'}]}>
+    <View style={[style.container, {display:items.length>0 ?'flex': 'none'}]}>
         <TouchableOpacity
          style={{flex:1,flexDirection:'row',gap:10,alignItems:'center',padding:4}}
          onPress={() => navigation.navigate('cart')}
         >
-        <Text style={{color:COLORS.lightWhite, fontWeight:'extrabold', fontSize:24, paddingLeft:5}}>{items.length}</Text>
+        <Text style={{color:COLORS.lightWhite, fontWeight:'bold', fontSize:24, paddingLeft:5}}>{items.length}</Text>
         <Text style={{flex:1, color:COLORS.lightWhite, textAlign:'center'}}>View Crate</Text>
         <Text style={style.curr}>
-            <Text>
+            {/* <Text>
             <CurrencyFormat value={basketTotal} displayType={'text'} prefix={'₹'}/>
-            </Text>
+            </Text> */}
+            ₹{basketTotal}
         </Text>
         </TouchableOpacity>
     </View>

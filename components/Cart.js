@@ -28,13 +28,9 @@ const Cart = ({navigation}) => {
       }, {});
       setGroupedItemsInBasket(groupedItems);
     },[items])
-    console.log(items)
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerText}>Shopping Cart</Text>
-      </View>
       <View style={styles.backArrow}>
         <TouchableOpacity>
           <Icon
@@ -44,6 +40,12 @@ const Cart = ({navigation}) => {
             onPress={() => navigation.goBack()}
           />      
         </TouchableOpacity>
+      </View>
+
+      <View>
+        <Text>
+          {items.length>0?`These items are in your cart!`:'Your cart is empty! The items that you add to cart will show here.'}
+        </Text>
       </View>
       <ScrollView>
         {Object.entries(groupedItemsInBasket).map(([key, items]) => (
@@ -55,9 +57,10 @@ const Cart = ({navigation}) => {
             <View >
             <Text style={styles.cartItemName}>{items[0]?.name}</Text>
             <Text style={styles.cartItemPrice}>
-              <Text>
-              <CurrencyFormat value={items[0]?.price} displayType={'text'} prefix={'₹'}/>
-              </Text>
+              {/* <Text>
+              // <CurrencyFormat value={items[0]?.price} displayType={'text'} prefix={'₹'}/>
+              // </Text> */}
+              ₹{items[0]?.price}
             </Text>
             <View style={{flex:1, flexDirection:'row', gap:10}}>
             <TouchableOpacity >
@@ -87,27 +90,30 @@ const Cart = ({navigation}) => {
         <View style={{flex:1, flexDirection:'row',justifyContent:'space-between'}}>
         <Text style={styles.footerText}>Subtotal</Text>
         <Text style={{fontSize: 16,color:COLORS.gray,right:0,position:'absolute',marginRight:5}}>
-          <Text>
-          <CurrencyFormat value={basketTotal} displayType={'text'} prefix={'₹'}/>
-          </Text>
+          {/* // <Text>
+          // <CurrencyFormat value={basketTotal} displayType={'text'} prefix={'₹'}/>
+          // </Text> */}
+          ₹{basketTotal}
         </Text>
         </View>
 
         <View style={{flex:1, flexDirection:'row'}}>
-        <Text style={styles.footerText}>Delivery Fee (Free if order above 1000)</Text>
+        <Text style={styles.footerText}>Delivery Fee (Free above 1000)</Text>
         <Text style={{fontSize: 16,color:COLORS.gray,right:0,position:'absolute',marginRight:5}}>
-          <Text>
-          <CurrencyFormat value={(basketTotal == 0 || basketTotal>=1000)? 0: 200} displayType={'text'} prefix={'₹'}/>
-          </Text>
+          {/* // <Text>
+          // <CurrencyFormat value={(basketTotal == 0 || basketTotal>=1000)? 0: 200} displayType={'text'} prefix={'₹'}/>
+          // </Text> */}
+          ₹{(basketTotal == 0 || basketTotal>=1000)? 0: 200}
         </Text>
         </View>
 
         <View style={{flex:1, flexDirection:'row', alignItems:'center', alignContent:'center'}}>
-        <Text style={{fontSize: 16,color:COLORS.gray,fontWeight:'bold', marginLeft:5}}>Grand Total</Text>
-        <Text style={{fontSize: 16,color:COLORS.gray,fontWeight:'bolder',right:0,position:'absolute', marginRight:5}}>
-          <Text>
+        <Text style={{fontSize: 16,color:COLORS.gray,fontWeight:'bold', marginLeft:5}}>Order Total</Text>
+        <Text style={{fontSize: 16,color:COLORS.gray,fontWeight:'bold',right:0,position:'absolute', marginRight:5}}>
+          {/* <Text>
           <CurrencyFormat value={basketTotal +((basketTotal == 0 || basketTotal>=1000)? 0: 200)} displayType={'text'} prefix={'₹'}/>
-          </Text>
+          </Text> */}
+          ₹{basketTotal +((basketTotal == 0 || basketTotal>=1000)? 0: 200)}
         </Text>
         </View>
 
@@ -130,9 +136,8 @@ const styles = StyleSheet.create({
     backgroundColor:COLORS.one,
     padding:5, 
     borderRadius:50, 
-    position:'absolute',
     zIndex:1,
-    marginTop:8,
+    marginTop:30,
     marginLeft:8,
   },
   header: {

@@ -1,10 +1,10 @@
-import { View, Text, SafeAreaView } from 'react-native'
+import { View, Text, SafeAreaView,Dimensions, StyleSheet } from 'react-native'
 import React, { useEffect } from 'react'
 import * as Animatable from 'react-native-animatable'
 import { SlideInUp } from 'react-native-reanimated'
 import { COLORS } from '../constants'
 import * as Progress from 'react-native-progress';
-
+const {height} = Dimensions.get('window');
 
 const Preparecheckout = ({navigation}) => {
     useEffect(() => {
@@ -18,11 +18,12 @@ const Preparecheckout = ({navigation}) => {
             source={require('../assets/images/load.gif')}
             animation={[SlideInUp, 'fadeInUp']}
             iterationCount={1}
+            style={{height:height,width:'100%'}}
         />
         <Animatable.Text
             animation={[SlideInUp, 'fadeIn']}
             iterationCount={1}
-            style={{color:COLORS.lightWhite, textAlign:'center', fontSize:'x-large', position:'absolute'}}
+            style={{color:COLORS.lightWhite, textAlign:'center', fontSize:20, position:'absolute'}}
         >
             Woohoooo!
         </Animatable.Text>

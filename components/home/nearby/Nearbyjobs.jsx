@@ -33,8 +33,6 @@ const itemWidth = (windowWidth - paddingHorizontal * 2) / 2;
       setSellers(data);
     });
   },[]);
-  // console.log(sellers);
-
   return (
     <View>
 
