@@ -62,11 +62,7 @@ const styles = StyleSheet.create({
 
 const Sellerdetails = ({navigation}) => {
   const route = useRoute();
-  const { URLSearchParams } = require('url-search-params');
-const params = new URLSearchParams();
-params.set('param', 'value');
-
-  const { id, imgurl, name, short_description ,supplies} = route.params;
+  const { id, imgurl, name, short_description} = route.params;
   const [supply, setSupply] = useState([]);
 
   const [ispressed, setIspressed] = useState(false);
@@ -173,7 +169,7 @@ params.set('param', 'value');
             ))}
 </View>
 </View>
-<View style={[styles.cartbar, { display: (bill>0) ? 'block' : 'none' }]}>
+<View style={[styles.cartbar, { display: (bill>0) ? 'flex' : 'none' }]}>
 <Text style={{color:COLORS.lightWhite,fontSize:30, paddingLeft:'5%'}}>Total</Text>
 <Text style={{color:COLORS.lightWhite,fontSize:24, paddingLeft:'60%'}}>{bill}</Text>
 </View> 

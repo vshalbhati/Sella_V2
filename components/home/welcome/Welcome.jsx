@@ -40,7 +40,7 @@ const Welcome = ({navigation}) => {
   return (
     <View>
       <View style={styles.container}>
-        <Text style={styles.userName}>Hey Anya{username}</Text>
+        <Text style={styles.userName}>Hey Anya {username}</Text>
         <Text style={styles.welcomeMessage}>Find your seller</Text>
       </View>
 
