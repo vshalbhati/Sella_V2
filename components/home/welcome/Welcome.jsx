@@ -6,8 +6,31 @@ import styles from './welcome.style'
 import { icons, SIZES} from '../../../constants';
 
 const jobTypes =['Cement','Putti','Bricks','Patthar','Binola'];
-import {username} from '../../signin/Signup'
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useSelector, useDispatch } from 'react-redux';
+import { clearUser } from '../../../features/userSlice';
+
+
+const stylis = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    paddingVertical: 16,
+    paddingHorizontal: 8,
+    alignItems: 'center',
+    backgroundColor: '#F8F8F8',
+  },
+  image: {
+    width: 50,
+    height: 50,
+    borderRadius: 4,
+    marginRight: 8,
+  },
+  title: {
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+});
 
 const Welcome = ({navigation}) => {
   const router = useRouter();
@@ -16,32 +39,16 @@ const Welcome = ({navigation}) => {
   const error = false;
 
   const [query, setQuery] = useState('');
+  const dispatch = useDispatch();
+  const userInfo = useSelector((state) => state.user);
 
-  const stylis = StyleSheet.create({
-    container: {
-      flexDirection: 'row',
-      paddingVertical: 16,
-      paddingHorizontal: 8,
-      alignItems: 'center',
-      backgroundColor: '#F8F8F8',
-    },
-    image: {
-      width: 50,
-      height: 50,
-      borderRadius: 4,
-      marginRight: 8,
-    },
-    title: {
-      fontWeight: 'bold',
-      fontSize: 16,
-    },
-  });
+
 
   return (
     <View>
       <View style={styles.container}>
-        <Text style={styles.userName}>Hey Anya {username}</Text>
-        <Text style={styles.welcomeMessage}>Find your seller</Text>
+        <Text style={styles.userName}>Hey <Text>{JSON.stringify(userInfo?.given_name,null,2)}</Text></Text>
+        <Text style={styles.welcomeMessage}>CHoose location</Text>
       </View>
 
       <View style={styles.searchContainer}>

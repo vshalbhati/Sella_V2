@@ -3,7 +3,6 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { selectBasketItems, selectBasketTotal } from '../features/basketSlice';
 import { COLORS, FONT, SIZES } from '../constants';
-import CurrencyFormat from 'react-currency-format';
 
 
 const style = StyleSheet.create({
@@ -39,9 +38,6 @@ const Crateicon = ({navigation}) => {
         <Text style={{color:COLORS.lightWhite, fontWeight:'bold', fontSize:24, paddingLeft:5}}>{items.length}</Text>
         <Text style={{flex:1, color:COLORS.lightWhite, textAlign:'center'}}>View Crate</Text>
         <Text style={style.curr}>
-            {/* <Text>
-            <CurrencyFormat value={basketTotal} displayType={'text'} prefix={'₹'}/>
-            </Text> */}
             ₹{basketTotal}
         </Text>
         </TouchableOpacity>

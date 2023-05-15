@@ -9,8 +9,6 @@ import { selectBasketItems, basketTotal, removeFromBasket, selectBasketTotal, ad
 import { useState } from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { urlFor } from '../sanity';
-import CurrencyFormat from 'react-currency-format';
-
 
 
 const Cart = ({navigation}) => {
@@ -57,9 +55,6 @@ const Cart = ({navigation}) => {
             <View >
             <Text style={styles.cartItemName}>{items[0]?.name}</Text>
             <Text style={styles.cartItemPrice}>
-              {/* <Text>
-              // <CurrencyFormat value={items[0]?.price} displayType={'text'} prefix={'₹'}/>
-              // </Text> */}
               ₹{items[0]?.price}
             </Text>
             <View style={{flex:1, flexDirection:'row', gap:10}}>
@@ -90,9 +85,6 @@ const Cart = ({navigation}) => {
         <View style={{flex:1, flexDirection:'row',justifyContent:'space-between'}}>
         <Text style={styles.footerText}>Subtotal</Text>
         <Text style={{fontSize: 16,color:COLORS.gray,right:0,position:'absolute',marginRight:5}}>
-          {/* // <Text>
-          // <CurrencyFormat value={basketTotal} displayType={'text'} prefix={'₹'}/>
-          // </Text> */}
           ₹{basketTotal}
         </Text>
         </View>
@@ -100,9 +92,6 @@ const Cart = ({navigation}) => {
         <View style={{flex:1, flexDirection:'row'}}>
         <Text style={styles.footerText}>Delivery Fee (Free above 1000)</Text>
         <Text style={{fontSize: 16,color:COLORS.gray,right:0,position:'absolute',marginRight:5}}>
-          {/* // <Text>
-          // <CurrencyFormat value={(basketTotal == 0 || basketTotal>=1000)? 0: 200} displayType={'text'} prefix={'₹'}/>
-          // </Text> */}
           ₹{(basketTotal == 0 || basketTotal>=1000)? 0: 200}
         </Text>
         </View>
@@ -110,15 +99,12 @@ const Cart = ({navigation}) => {
         <View style={{flex:1, flexDirection:'row', alignItems:'center', alignContent:'center'}}>
         <Text style={{fontSize: 16,color:COLORS.gray,fontWeight:'bold', marginLeft:5}}>Order Total</Text>
         <Text style={{fontSize: 16,color:COLORS.gray,fontWeight:'bold',right:0,position:'absolute', marginRight:5}}>
-          {/* <Text>
-          <CurrencyFormat value={basketTotal +((basketTotal == 0 || basketTotal>=1000)? 0: 200)} displayType={'text'} prefix={'₹'}/>
-          </Text> */}
           ₹{basketTotal +((basketTotal == 0 || basketTotal>=1000)? 0: 200)}
         </Text>
         </View>
 
-        <TouchableOpacity style={styles.checkoutButton} onPress={() => navigation.navigate('prepare')}>
-          <Text style={styles.checkoutButtonText}>Checkout</Text>
+        <TouchableOpacity style={[styles.checkoutButton,{backgroundColor:(items.length) >0 ? COLORS.one :'rgba(127,127,127,0.8)'}]} disabled={items.length==0} onPress={() => navigation.navigate('prepare')}>
+          <Text style={styles.checkoutButtonText} >Checkout</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>

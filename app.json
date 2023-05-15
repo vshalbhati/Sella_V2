@@ -5,6 +5,24 @@
       "bundler": "metro"
     },
     "name": "sella",
-    "slug": "sella"
+    "slug": "sella",
+    "extra": {
+      "eas": {
+        "projectId": "f762d4a1-f69f-4aee-9647-d9b98bfa6ce0"
+      }
+    },
+    "android": {
+      "googleServicesFile": "./google-services.json",
+      "package": "com.vshalbhati_294.sella",
+      "config": {
+        "googleSignIn": {
+          "expoClientId":"679645096836-hk12ep2qpaorsnseoqa2vh0hq8htv318.apps.googleusercontent.com"
+        }
+      }
+    },
+    "ios": {
+      "bundleIdentifier": "host.exp.exponent",
+      "expoClientId": "679645096836-hk12ep2qpaorsnseoqa2vh0hq8htv318.apps.googleusercontent.com"
+    }
   }
 }

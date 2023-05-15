@@ -1,27 +1,79 @@
-import { SafeAreaView, StyleSheet, Text, View ,Image, TextInput, Dimensions} from 'react-native'
-import React,{useState} from 'react'
+import { SafeAreaView, StyleSheet, Text, View ,Image, Dimensions} from 'react-native'
+import React,{useState, useEffect} from 'react'
 import { ScrollView } from 'react-native'
 import { COLORS, FONT } from '../constants'
 import { TouchableOpacity } from 'react-native'
 import PhoneInput from 'react-native-phone-number-input';
+import useAuth from '../hook/useAuth'
+import * as Google from "expo-auth-session/providers/google"
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as WebBrowser from 'expo-web-browser';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../features/userSlice';
+
 
 const {height} = Dimensions.get('window');
 
+WebBrowser.maybeCompleteAuthSession();
+
 const Login = ({navigation}) => {
+  const dispatch = useDispatch();
     const [phoneNumber, setPhoneNumber] = useState('');
 
     const handlePhoneInputChange = (text) => {
       setPhoneNumber(text);
     };
 
+    const [userInfo, setUserInfo] = React.useState(null)
+    const [request, response, promptAsync] = Google.useAuthRequest({
+      androidClientId:"679645096836-hk12ep2qpaorsnseoqa2vh0hq8htv318.apps.googleusercontent.com",
+      webClientId:"679645096836-775l66pkib93nmrlgf8thqpokgmig79d.apps.googleusercontent.com",
+    })
+    React.useEffect(() =>{
+      handleSignInWithGoogle();
+    }, [response]);
+  
+    async function handleSignInWithGoogle(){
+      const user = await AsyncStorage.getItem("@user");
+      if(!user){
+        if(response?.type === "success"){
+          await getUserInfo(response.authentication.accessToken);
+          await AsyncStorage.setItem('userInfo', JSON.stringify(userInfo));
+        }
+      }
+      else{
+        setUserInfo(JSON.parse(user));
+      }
+    }
+  
+    const getUserInfo = async(token)=>{
+      if(!token) return ;
+      try {
+        const response = await fetch(
+          "https://www.googleapis.com/userinfo/v2/me",
+          {
+            headers:{Authorization: `Bearer ${token}`},
+          }
+        );
+        const user = await response.json();
+        await AsyncStorage.setItem("@user", JSON.stringify(user));
+        setUserInfo(user);
+        dispatch(setUser(user));
+        navigation.navigate('account');
+      } catch(error){
+        console.log(error);
+      }
+    }
+
   return (
-    <SafeAreaView style={{width:'100%',height:(height+40)}}>
+    <SafeAreaView style={{width:'100%',height:(height)}}>
     <Image
       source={require('../assets/images/back.jpg')}
-      style={{width:'100%',height:(height-400),zIndex:-1}}
+      style={{width:'100%',height:(height),zIndex:-1}}
     />
     <ScrollView style={styles.dabba}>
-        <View style={{flex:1,flexDirection:'row',gap:10,marginTop:110,alignSelf:'center'}}>
+      <Text>{JSON.stringify(userInfo?.name)}</Text>
+              <View style={{flex:1,flexDirection:'row',gap:10,marginTop:110,alignSelf:'center'}}>
             <View style={styles.container}>
             <PhoneInput
                 defaultCode='IN'
@@ -35,8 +87,10 @@ const Login = ({navigation}) => {
             </View>
         </View>
         <TouchableOpacity 
-            style={[styles.button,,{backgroundColor:(phoneNumber.length==13)?COLORS.one:COLORS.gray2}]}
-            onPress={()=> navigation.navigate('home')}
+            style={[styles.button,{backgroundColor:(phoneNumber.length==13)?COLORS.one:COLORS.gray2}]}
+            onPress={()=>
+              navigation.navigate('account')
+            }
             disabled={phoneNumber.length !== 13}
         >
             <Text style={{padding:7,fontFamily:FONT.medium, color:COLORS.lightWhite}}>Send OTP</Text>
@@ -49,8 +103,8 @@ const Login = ({navigation}) => {
         </View>
 
         <View style={{ flexDirection:'row',gap:55,marginLeft:'22%',marginTop:'10%'}}>
-        <TouchableOpacity>
-            <Image style={styles.socialBtn} source={require('../assets/icons/google.png')} />
+        <TouchableOpacity onPress={()=>promptAsync()}>
+        <Image style={styles.socialBtn} source={require('../assets/icons/google.png')} />
         </TouchableOpacity>
         <TouchableOpacity>
             <Image style={styles.socialBtn} source={require('../assets/icons/microsoft.png')} />
@@ -72,8 +126,8 @@ const Login = ({navigation}) => {
     </SafeAreaView>
   )
 }
+export default Login;
 
-export default Login
 
 const styles = StyleSheet.create({
     dabba:{

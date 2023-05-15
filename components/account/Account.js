@@ -4,7 +4,9 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import {COLORS, icons, images, SIZES} from '../../constants';
 import '../../assets/images/kemal.jpeg'
 import ScreenHeaderBtn from '../common/header/ScreenHeaderBtn';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useSelector, useDispatch } from 'react-redux';
+import { clearUser } from '../../features/userSlice';
 
 
 const styles = StyleSheet.create({
@@ -17,8 +19,7 @@ const styles = StyleSheet.create({
   image: {
     padding: SIZES.medium,
     paddingBottom: 100,
-    width: 100,
-    height: 100,
+    width: 110,
     resizeMode: 'cover',
     borderRadius: 50,
     borderWidth: 2,
@@ -59,6 +60,20 @@ const styles = StyleSheet.create({
 
 const Account = ({navigation}) => {
     const router = useRouter();
+    const dispatch = useDispatch();
+    const userInfo = useSelector((state) => state.user);
+
+    const handleRemoveUser = async () => {
+      try {
+        await AsyncStorage.removeItem('userInfo');
+        await AsyncStorage.removeItem('@user');
+        dispatch(clearUser()); // Dispatch the clearUser action to remove the user info from Redux
+        navigation.navigate('login'); // Navigate back to the login page
+      } catch (error) {
+        console.log('Error removing user info from AsyncStorage:', error);
+      }
+    };
+
   return (
     <SafeAreaView style={styles.container}>
           <Stack.Screen
@@ -83,11 +98,11 @@ const Account = ({navigation}) => {
         }}
         />
       <Image
-        source={require('../../assets/images/kemal.jpeg')}
+        source={{ uri: userInfo?.picture }}
         style={styles.image}
       /> 
-      <Text style={styles.text}>Anya Forger</Text>
-      <TouchableOpacity style={styles.button} onPress={()=> navigation.navigate('signin')}>
+      <Text style={styles.text}>{JSON.stringify(userInfo?.name,null,2)}</Text>
+      <TouchableOpacity style={styles.button} onPress={()=> handleRemoveUser()}>
         <Text style={styles.buttonText}>Log Out</Text>
       </TouchableOpacity>
       <View style={styles.continer}>

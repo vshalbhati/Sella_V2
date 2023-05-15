@@ -21,7 +21,7 @@ const Preparecheckout = ({navigation}) => {
             style={{height:height,width:'100%'}}
         />
         <Animatable.Text
-            animation={[SlideInUp, 'fadeIn']}
+            animation={[ 'fadeIn', SlideInUp]}
             iterationCount={1}
             style={{color:COLORS.lightWhite, textAlign:'center', fontSize:20, position:'absolute'}}
         >

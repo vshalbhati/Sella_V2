@@ -109,10 +109,12 @@ const styles = StyleSheet.create({
 
 const Home = ({navigation}) =>{
   const router = useRouter();
+  const userInfo = router.params?.userInfo;
 
   const [selected, setSelected] = useState(0);
   const [featuredCategories, setFeaturedcategories] = useState();
   const animationValues = [1, 1, 1, 1].map(() => new Animated.Value(1));
+
 
   const onPress = (index) => {
     setSelected(index);
@@ -184,7 +186,8 @@ const Home = ({navigation}) =>{
       />
       <ScrollView showsHorizontalScrollIndicator={false}>
         <View style={{flex:1,padding: SIZES.medium}}>
-          <Welcome navigation={navigation}/>
+        <Text>{JSON.stringify(userInfo?.name)}</Text>
+          <Welcome navigation={navigation} />
           <Nearbyjobs navigation={navigation}/>
 
       {/* <View style={styles.header}>
@@ -237,4 +240,5 @@ const Home = ({navigation}) =>{
     </SafeAreaView>
   )
 }
+
 export default Home;
