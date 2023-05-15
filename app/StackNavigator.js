@@ -11,25 +11,23 @@ import Preparecheckout from '../components/Preparecheckout';
 import Delivery from '../components/Delivery';
 import Sellerdetails from '../components/Sellerdetails';
 import Supplydetails from '../components/Supplydetails'
-import { Provider } from 'react-redux';
-import { store } from '../store';
 import Search from '../components/Search';
 import Login from '../components/Login';
 // import 'react-native-url-polyfill/auto';
 import Khalisi from '../components/khalisi';
 import { useSelector, useDispatch } from 'react-redux';
-import StackNavigator from './StackNavigator';
+import { useEffect } from 'react';
+
 const Stack = createStackNavigator();
 
-export default function App() {
+ const StackNavigator=({navigation}) => {
 
-  // const user =false;
-  // const user = useSelector(state => state.user);
+  const user = useSelector(state => state.user);
+
   return (
-     <Provider store={store}>
-      {/* <Stack.Navigator>
-        {user? (
-          <>
+      <Stack.Navigator>
+        {/* {user? ( */}
+        {/* //   <> */}
         <Stack.Screen name='home' component={Home} />
         <Stack.Screen name='signin' component={Signin} />
         <Stack.Screen name='account' component={Account} options={{presentation:'transparentModal'}}/>
@@ -44,14 +42,12 @@ export default function App() {
         <Stack.Screen name='supplydetails' component={Supplydetails} options={{headerShown:false}}/>
         <Stack.Screen name='search' component={Search} options={{headerShown:false}}/>
         <Stack.Screen name='khalisi' component={Khalisi} options={{headerShown:false}}/>
-        </>
-        ):(
+        {/* </> */}
+        {/* // ):( */}
           <Stack.Screen name='login' component={Login} options={{headerShown:false}} />
-        )
-        }
-      </Stack.Navigator> */}
-
-      <StackNavigator/>
-     </Provider>
+        {/* // ) */}
+        {/* } */}
+      </Stack.Navigator>
   );
 }
+export default StackNavigator;

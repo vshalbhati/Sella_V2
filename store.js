@@ -2,6 +2,8 @@ import { configureStore } from "@reduxjs/toolkit";
 import basketReducer from "./features/basketSlice";
 import supplyReducer from "./features/supplyslice";
 import userReducer from "./features/userSlice";
+import { applyMiddleware } from 'redux';
+import thunkMiddleware from 'redux-thunk';
 
 
 export const store = configureStore({
@@ -10,4 +12,4 @@ export const store = configureStore({
         supply: supplyReducer,  
         user: userReducer,
     },
-});
+},applyMiddleware(thunkMiddleware));

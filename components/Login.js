@@ -59,7 +59,7 @@ const Login = ({navigation}) => {
         await AsyncStorage.setItem("@user", JSON.stringify(user));
         setUserInfo(user);
         dispatch(setUser(user));
-        navigation.navigate('account');
+        navigation.navigate('home');
       } catch(error){
         console.log(error);
       }
