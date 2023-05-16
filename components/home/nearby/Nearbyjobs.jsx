@@ -1,4 +1,4 @@
-import React, { useState, useEffect , useLayoutEffect} from 'react';
+import React, { useState, useEffect , useLayoutEffect,useRef} from 'react';
 import { View, Text, TouchableOpacity, FlatList, ActivityIndicator, ActivityIndicatorBase, TextInput, Button, Image, StyleSheet } from 'react-native'
 import {useRouter} from 'expo-router'
 
@@ -33,6 +33,36 @@ const itemWidth = (windowWidth - paddingHorizontal * 2) / 2;
       setSellers(data);
     });
   },[]);
+
+
+  const flatListRef = useRef(null);
+
+  useEffect(() => {
+    const interval = setInterval(scrollToNextItem, 4000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const scrollToNextItem = () => {
+    if (flatListRef.current) {
+      const currentIndex = sellers.findIndex(item => item.isLastViewed);
+      const nextIndex = (currentIndex + 1) % sellers.length;
+
+      if (currentIndex !== -1) {
+        const updatedSellers = [...sellers];
+        updatedSellers[currentIndex].isLastViewed = false;
+        setSellers(updatedSellers);
+      }
+
+      flatListRef.current.scrollToIndex({ index: nextIndex, animated: true });
+
+      const updatedSellers = [...sellers];
+      updatedSellers[nextIndex].isLastViewed = true;
+      setSellers(updatedSellers);
+    }
+  };
+  
+  
   return (
     <View>
 
@@ -45,6 +75,7 @@ const itemWidth = (windowWidth - paddingHorizontal * 2) / 2;
 
       <View style={stylis.container}>
   <FlatList
+    ref={flatListRef}
     data={sellers}
     renderItem={({ item }) => (
       <TouchableOpacity

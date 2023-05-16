@@ -36,7 +36,7 @@ const Stack = createStackNavigator();
         <Stack.Screen name='thekedar' component={Thekedar}/>
         <Stack.Screen name='movers' component={Movers}/>
         <Stack.Screen name='prepare' component={Preparecheckout} options={{headerShown:false,presentation:'modal'}}/>
-        <Stack.Screen name='delivery' component={Delivery}/>
+        <Stack.Screen name='delivery' component={Delivery} options={{headerShown:false}}/>
         <Stack.Screen name='verification' component={Verification} options={{headerShown:false}}/>
         <Stack.Screen name='sellerdetails' component={Sellerdetails} options={{headerShown:false}}/>
         <Stack.Screen name='supplydetails' component={Supplydetails} options={{headerShown:false}}/>

@@ -143,7 +143,7 @@ const Home = ({navigation}) =>{
 
   // useEffect(()=>{
   //   createClient.fetch(
-  //   `*[_type == 'seller']{
+  //   `*[_type == 'featured']{
   //     ...,
 
   //       Supplies[]->{
@@ -186,17 +186,16 @@ const Home = ({navigation}) =>{
       />
       <ScrollView showsHorizontalScrollIndicator={false}>
         <View style={{flex:1,padding: SIZES.medium}}>
-        <Text>{JSON.stringify(userInfo?.name)}</Text>
           <Welcome navigation={navigation} />
           <Nearbyjobs navigation={navigation}/>
 
       {/* <View style={styles.header}>
         <Text style={styles.headerTitle}>Popular Sellers</Text>
         <TouchableOpacity>
-          <Text style={styles.headerBtn} >Show all</Text>
+          <Text style={styles.headerBtn}>Show all</Text>
         </TouchableOpacity>
-      </View> */}
-        {/* <View style={styles.cardsContainer}>
+      </View>
+        <view style={styles.cardsContainer}>
           <FlatList 
         data={featuredCategories}
         renderItem={({ item }) => (
@@ -205,7 +204,7 @@ const Home = ({navigation}) =>{
            onPress={() => navigation.navigate('sellerdetails', { id: item._id, imgurl:item.image.asset._ref, name:item.name, short_description:item.short_description, supplies:item.supplies })}
           >
               <Image
-                source={{ uri: urlFor(item.image.asset._ref).url(),}}
+                source={{ uri: urlFor(item.image.asset).url(),}}
                 style={styles.image}
               />
             <View style={styles.textContainer}>
@@ -221,7 +220,7 @@ const Home = ({navigation}) =>{
         contentContainerStyle={styles.list}
         showsHorizontalScrollIndicator={false}
       />
-      </View> */}
+      </view> */}
         </View>
       </ScrollView>
 
