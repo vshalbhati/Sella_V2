@@ -1,6 +1,10 @@
-import { View, Text, Image, StyleSheet, Dimensions, ScrollView } from 'react-native'
+import { View, Text, Image, StyleSheet, Dimensions, ScrollView, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { urlFor } from '../sanity';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import {COLORS, icons, images, SIZES} from '../constants';
+
+
 
 const { height } = Dimensions.get('window');
 
@@ -8,15 +12,10 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       justifyContent: 'center',
-      alignItems: 'center',
     },
     backgroundImage: {
-      flex: 1,
-      resizeMode: 'cover',
       position: 'absolute',
-      width: '100%',
-      height: height,
-      zIndex:-1,
+      zIndex:-1
     },
     textBox: {
       backgroundColor: 'rgba(255, 255, 255, 0.5)',
@@ -26,19 +25,42 @@ const styles = StyleSheet.create({
     text: {
       fontSize: 18,
       fontWeight: 'bold',
-      marginBottom: 10,
+      justifyContent: 'center',
+      textAlign:'center'
+    },
+    backArrow:{
+      height:40,
+      width:40, 
+      backgroundColor:COLORS.one,
+      borderRadius:50, 
+      zIndex:1,
+      marginTop:10,
+      marginLeft:10,
+      justifyContent:'center',
+      alignItems:'center',
     },
   });
   
 
-const Searchresults = ({name, short_description,price,imgurl}) => {
+const Searchresults = ({name, short_description,price,imgurl,navigation}) => {
   return (
     <ScrollView contentContainerStyle={{ height }}>
+      <View style={styles.backArrow}>
+        <TouchableOpacity>
+          <Icon
+            name='arrow-back'
+            size={28}
+            color={COLORS.lightWhite}
+            onPress={() => navigation.goBack()}
+          />      
+        </TouchableOpacity>
+      </View>
     <View style={styles.container}>
   <Image
     source={require('../assets/images/back.jpg')}
     style={styles.backgroundImage}
   />
+
   <View style={styles.textBox}>
     <Text style={styles.text}>{name}</Text>
   </View>
@@ -48,7 +70,7 @@ const Searchresults = ({name, short_description,price,imgurl}) => {
   </View>
   <View style={styles.textBox}>
 
-    <Text style={styles.text}>{price}</Text>
+    <Text style={styles.text}>₹{price}</Text>
     </View>
 </View>
 </ScrollView>

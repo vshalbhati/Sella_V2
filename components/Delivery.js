@@ -7,13 +7,14 @@ const styles = StyleSheet.create({
   backArrow:{
     height:40,
     width:40, 
-    backgroundColor:'rgba(255,255,255,0.6)',
-    padding:5, 
+    backgroundColor:COLORS.one,
     borderRadius:50, 
     position:'absolute',
     zIndex:2,
     marginTop:30,
     marginLeft:8,
+    justifyContent:'center',
+    alignItems:'center',
   }
 });
 

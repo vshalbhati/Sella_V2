@@ -45,7 +45,7 @@ const Cart = ({navigation}) => {
           {items.length>0?`These items are in your cart!`:'Your cart is empty! The items that you add to cart will show here.'}
         </Text>
       </View>
-      <ScrollView>
+      <ScrollView >
         {Object.entries(groupedItemsInBasket).map(([key, items]) => (
           <View key={key} style={{flex:1, flexDirection:'row', alignItems:'center',padding:10}}>
             <Image
@@ -103,7 +103,7 @@ const Cart = ({navigation}) => {
         </Text>
         </View>
 
-        <TouchableOpacity style={[styles.checkoutButton,{backgroundColor:(items.length) >0 ? COLORS.one :'rgba(127,127,127,0.8)'}]} disabled={items.length==0} onPress={() => navigation.navigate('prepare')}>
+        <TouchableOpacity style={[styles.checkoutButton,{backgroundColor:(items.length) >0 ? COLORS.one :'#BDC3C7'}]} disabled={items.length==0} onPress={() => navigation.navigate('prepare')}>
           <Text style={styles.checkoutButtonText} >Checkout</Text>
         </TouchableOpacity>
       </View>
@@ -120,11 +120,12 @@ const styles = StyleSheet.create({
     height:40,
     width:40, 
     backgroundColor:COLORS.one,
-    padding:5, 
     borderRadius:50, 
     zIndex:1,
-    marginTop:30,
-    marginLeft:8,
+    marginTop:10,
+    marginLeft:10,
+    justifyContent:'center',
+    alignItems:'center',
   },
   header: {
     height: 60,

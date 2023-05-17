@@ -38,29 +38,30 @@ const itemWidth = (windowWidth - paddingHorizontal * 2) / 2;
   const flatListRef = useRef(null);
 
   useEffect(() => {
-    const interval = setInterval(scrollToNextItem, 4000);
-
+    const interval = setInterval(scrollToNextItem, 5000);
+  
     return () => clearInterval(interval);
   }, []);
-
+  
   const scrollToNextItem = () => {
-    if (flatListRef.current) {
-      const currentIndex = sellers.findIndex(item => item.isLastViewed);
-      const nextIndex = (currentIndex + 1) % sellers.length;
-
-      if (currentIndex !== -1) {
+    if (sellers.length > 0) {
+      if (flatListRef.current) {
+        const currentIndex = sellers.findIndex(item => item.isLastViewed);
+        const nextIndex = (currentIndex + 1) % sellers.length;
+  
+        if (currentIndex !== -1) {
+          const updatedSellers = [...sellers];
+          updatedSellers[currentIndex].isLastViewed = false;
+          setSellers(updatedSellers);
+        }
+        flatListRef.current.scrollToIndex({ index: nextIndex, animated: true });
         const updatedSellers = [...sellers];
-        updatedSellers[currentIndex].isLastViewed = false;
+        updatedSellers[nextIndex].isLastViewed = true;
         setSellers(updatedSellers);
       }
-
-      flatListRef.current.scrollToIndex({ index: nextIndex, animated: true });
-
-      const updatedSellers = [...sellers];
-      updatedSellers[nextIndex].isLastViewed = true;
-      setSellers(updatedSellers);
     }
   };
+  
   
   
   return (

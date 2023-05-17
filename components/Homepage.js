@@ -105,6 +105,19 @@ const styles = StyleSheet.create({
     fontFamily: FONT.medium,
     color: COLORS.gray,
   },
+  boticon:{
+    width: 50,
+    height: 50,
+    backgroundColor:COLORS.tertiary,
+    justifyContent:'center',
+    alignItems:'center',
+    borderRadius:50,
+    position:'absolute',
+    bottom:0,
+    right:0,
+    marginBottom:-120,
+    marginRight:10
+  }
 });
 
 const Home = ({navigation}) =>{
@@ -221,6 +234,13 @@ const Home = ({navigation}) =>{
         showsHorizontalScrollIndicator={false}
       />
       </view> */}
+
+
+        <TouchableOpacity
+        style={styles.boticon}
+         onPress={() => navigation.navigate('chatbot')}>
+        <Icon name="chat" size={30} color="white"/>
+        </TouchableOpacity>
         </View>
       </ScrollView>
 

@@ -17,12 +17,13 @@ const styles = StyleSheet.create({
     height:40,
     width:40, 
     backgroundColor:'rgba(255,255,255,0.6)',
-    padding:5, 
     borderRadius:50, 
     position:'absolute',
     zIndex:2,
     marginTop:30,
     marginLeft:8,
+    justifyContent:'center',
+    alignItems:'center',
   },
   name:{
     flex: 1,
@@ -41,7 +42,8 @@ const styles = StyleSheet.create({
     height:40,
     width:40,
     borderRadius:50,
-    padding:6
+    justifyContent:'center',
+    alignItems:'center',
   },
   cartbar:{
     height:50,
@@ -120,7 +122,7 @@ const Supplydetails = ({navigation}) => {
         />
       </TouchableOpacity>
           <Text style={{ fontSize:24,fontWeight:'bold',paddingLeft:10,paddingRight:10}}>{items.length}</Text>
-      <TouchableOpacity disabled={!items.length} style={[styles.gola,{backgroundColor:(items.length) >0 ? COLORS.one :'rgba(127,127,127,0.8)'}]}>
+      <TouchableOpacity disabled={!items.length} style={[styles.gola,{backgroundColor:(items.length) >0 ? COLORS.one : '#BDC3C7'}]}>
         <Icon
           name='remove'
           size={28}

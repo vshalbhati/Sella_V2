@@ -2,7 +2,6 @@ import {Text, View, SafeAreaView, ScrollView, ActivityIndicator, RefreshControl,
 import {Stack, useRouter, useSearchParams} from 'expo-router';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {COLORS, icons, images, SIZES} from '../../constants';
-import '../../assets/images/kemal.jpeg'
 import ScreenHeaderBtn from '../common/header/ScreenHeaderBtn';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useSelector, useDispatch } from 'react-redux';

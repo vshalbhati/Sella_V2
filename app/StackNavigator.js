@@ -14,9 +14,9 @@ import Supplydetails from '../components/Supplydetails'
 import Search from '../components/Search';
 import Login from '../components/Login';
 // import 'react-native-url-polyfill/auto';
-import Khalisi from '../components/khalisi';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
+import Chatbot from '../components/chatbot/Chatbot';
 
 const Stack = createStackNavigator();
 
@@ -41,10 +41,10 @@ const Stack = createStackNavigator();
         <Stack.Screen name='sellerdetails' component={Sellerdetails} options={{headerShown:false}}/>
         <Stack.Screen name='supplydetails' component={Supplydetails} options={{headerShown:false}}/>
         <Stack.Screen name='search' component={Search} options={{headerShown:false}}/>
-        <Stack.Screen name='khalisi' component={Khalisi} options={{headerShown:false}}/>
+        <Stack.Screen name='chatbot' component={Chatbot} options={{headerShown:false,presentation:'modal'}}/>
         {/* </> */}
         {/* // ):( */}
-          <Stack.Screen name='login' component={Login} options={{headerShown:false}} />
+        <Stack.Screen name='login' component={Login} options={{headerShown:false}} />
         {/* // ) */}
         {/* } */}
       </Stack.Navigator>

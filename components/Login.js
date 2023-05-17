@@ -10,6 +10,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as WebBrowser from 'expo-web-browser';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../features/userSlice';
+import { ANDROID_CLIENT_ID, WEB_CLIENT_ID } from '@env';
+
 
 
 const {height} = Dimensions.get('window');
@@ -26,8 +28,8 @@ const Login = ({navigation}) => {
 
     const [userInfo, setUserInfo] = React.useState(null)
     const [request, response, promptAsync] = Google.useAuthRequest({
-      androidClientId:"679645096836-hk12ep2qpaorsnseoqa2vh0hq8htv318.apps.googleusercontent.com",
-      webClientId:"679645096836-775l66pkib93nmrlgf8thqpokgmig79d.apps.googleusercontent.com",
+      androidClientId: ANDROID_CLIENT_ID,
+      webClientId: WEB_CLIENT_ID,
     })
     React.useEffect(() =>{
       handleSignInWithGoogle();

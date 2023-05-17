@@ -56,7 +56,6 @@ const Welcome = ({navigation}) => {
         const { latitude, longitude } = coords;
         setLocation({ latitude, longitude });
         console.log(location)
-
         getAddressFromCoordinates(latitude, longitude);
       } else {
         console.log('Location permission not granted');
@@ -86,22 +85,20 @@ const Welcome = ({navigation}) => {
     //   setLocation('Error fetching location');
     // }
         try {
-      const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
-      const response = await axios.get(url);
-      const data = response.data;
+          const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
+          const response = await axios.get(url);
+          const data = response.data;
 
-      if (data.display_name) {
-        const address = data.display_name;
-        setAddress(address);
-      }
-    } catch (error) {
-      console.log('Error getting address', error);
-    }
+          if (data.display_name) {
+            const address = data.display_name;
+            setAddress(address);
+          }
+        } catch (error) {
+          console.log('Error getting address', error);
+        }
   };
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.user);
-
-
 
   return (
     <View>

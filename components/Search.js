@@ -25,6 +25,7 @@ const Search = ({navigation}) => {
       // imgurl={results.image.asset._ref}
       short_description={results.short_description}
       price={results.price}
+      navigation={navigation}
       />
     </View>
   )
