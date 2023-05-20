@@ -15,7 +15,6 @@ const styles = StyleSheet.create({
     },
     backgroundImage: {
       position: 'absolute',
-      zIndex:-1
     },
     textBox: {
       backgroundColor: 'rgba(255, 255, 255, 0.5)',
@@ -34,14 +33,13 @@ const styles = StyleSheet.create({
       backgroundColor:COLORS.one,
       borderRadius:50, 
       zIndex:1,
-      marginTop:10,
+      marginTop:30,
       marginLeft:10,
       justifyContent:'center',
       alignItems:'center',
     },
   });
   
-
 const Searchresults = ({name, short_description,price,imgurl,navigation}) => {
   return (
     <ScrollView contentContainerStyle={{ height }}>

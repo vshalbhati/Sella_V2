@@ -1,9 +1,7 @@
 import { useState, useEffect } from 'react';
 import { View, ScrollView, SafeAreaView, Animated, Text, TouchableOpacity, FlatList, ActivityIndicator, ActivityIndicatorBase, TextInput, Button, Image, StyleSheet, Easing } from 'react-native'
-import { createStackNavigator } from '@react-navigation/stack';
 import {COLORS, icons, images, SIZES, FONT} from '../constants';
 import { Nearbyjobs, ScreenHeaderBtn, Welcome} from '../components';
-import account from './account/Account';
 import { Stack, useRouter } from 'expo-router';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import createClient, { urlFor } from '../sanity';
@@ -115,15 +113,14 @@ const styles = StyleSheet.create({
     position:'absolute',
     bottom:0,
     right:0,
-    marginBottom:-120,
-    marginRight:10
+    zIndex:1,
+    marginBottom:70,
+    marginRight:10,
   }
 });
 
 const Home = ({navigation}) =>{
-  const router = useRouter();
-  const userInfo = router.params?.userInfo;
-
+  const route = useRouter();
   const [selected, setSelected] = useState(0);
   const [featuredCategories, setFeaturedcategories] = useState();
   const animationValues = [1, 1, 1, 1].map(() => new Animated.Value(1));
@@ -194,7 +191,7 @@ const Home = ({navigation}) =>{
               <Icon name='person' size={36} color={COLORS.gray} />
             </TouchableOpacity>
           ),
-          headerTitle:'CONSTRO',
+          headerTitle:'CONSTRUCK',
         }}
       />
       <ScrollView showsHorizontalScrollIndicator={false}>
@@ -236,16 +233,19 @@ const Home = ({navigation}) =>{
       </view> */}
 
 
-        <TouchableOpacity
-        style={styles.boticon}
-         onPress={() => navigation.navigate('chatbot')}>
-        <Icon name="chat" size={30} color="white"/>
-        </TouchableOpacity>
+        
         </View>
       </ScrollView>
 
+
+        <TouchableOpacity
+          style={styles.boticon}
+          onPress={() => navigation.navigate('chatbot')}>
+          <Icon name="chat" size={30} color="white"/>
+        </TouchableOpacity>
+
       
-      <SafeAreaView style={styles.navla}>
+    <SafeAreaView style={styles.navla}>
       <TouchableOpacity onPress={() => {setSelected(0), navigation.navigate('home')}} style={iconStyles(0)}>
         <Icon name='build' size={28} color={selected === 0 ? '#fff' : '#444'} />
       </TouchableOpacity>

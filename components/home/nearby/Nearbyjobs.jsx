@@ -19,6 +19,7 @@ const paddingHorizontal = 0;
 const itemWidth = (windowWidth - paddingHorizontal * 2) / 2;
 
   const [sellers, setSellers] = useState([])
+  const [currentIndex, setCurrentIndex] = useState(0);
 
 
   useEffect(()=>{
@@ -39,34 +40,20 @@ const itemWidth = (windowWidth - paddingHorizontal * 2) / 2;
 
   useEffect(() => {
     const interval = setInterval(scrollToNextItem, 5000);
-  
+
     return () => clearInterval(interval);
   }, []);
-  
+
   const scrollToNextItem = () => {
     if (sellers.length > 0) {
-      if (flatListRef.current) {
-        const currentIndex = sellers.findIndex(item => item.isLastViewed);
-        const nextIndex = (currentIndex + 1) % sellers.length;
-  
-        if (currentIndex !== -1) {
-          const updatedSellers = [...sellers];
-          updatedSellers[currentIndex].isLastViewed = false;
-          setSellers(updatedSellers);
-        }
-        flatListRef.current.scrollToIndex({ index: nextIndex, animated: true });
-        const updatedSellers = [...sellers];
-        updatedSellers[nextIndex].isLastViewed = true;
-        setSellers(updatedSellers);
-      }
+      const nextIndex = (currentIndex + 1) % sellers.length;
+      flatListRef.current.scrollToIndex({ index: nextIndex, animated: true });
+      setCurrentIndex(nextIndex);
     }
   };
   
-  
-  
   return (
     <View>
-
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Popular supplies</Text>
           <TouchableOpacity>
@@ -75,11 +62,12 @@ const itemWidth = (windowWidth - paddingHorizontal * 2) / 2;
       </View>
 
       <View style={stylis.container}>
-  <FlatList
+  {/* <FlatList
     ref={flatListRef}
     data={sellers}
     renderItem={({ item }) => (
       <TouchableOpacity
+        key={item._id}
         style={[stylis.item,{width: itemWidth}]}
         onPress={() => navigation.navigate('supplydetails', {
           id: item._id,
@@ -103,7 +91,39 @@ const itemWidth = (windowWidth - paddingHorizontal * 2) / 2;
     showsHorizontalScrollIndicator={false}
     horizontal
     contentContainerStyle={{ paddingHorizontal, columnGap:10 }}
-  />
+  /> */}
+  <FlatList
+  ref={flatListRef}
+  data={sellers}
+  renderItem={({ item }) => (
+    <TouchableOpacity
+      key={item._id} // Add the unique key prop here
+      style={[stylis.item,{width: itemWidth}]}
+      onPress={() => navigation.navigate('supplydetails', {
+        id: item._id,
+        name: item.name,
+        short_description: item.short_description,
+        price: item.price,
+        imgurl: item.image.asset._ref,
+      })}
+    >
+      <Image
+        source={{ uri: urlFor(item.image.asset._ref).url() }}
+        style={stylis.image}
+      />
+      <View style={stylis.textContainer}>
+        <Text style={stylis.trackTitle}>{item.name}</Text>
+        <Text style={stylis.artistName}>{item.short_description}</Text>
+      </View>
+    </TouchableOpacity>
+  )}
+  keyExtractor={(item) => item._id} // Use a unique identifier as the key
+  showsHorizontalScrollIndicator={false}
+  horizontal
+  contentContainerStyle={{ paddingHorizontal, columnGap: 10 }}
+/>
+
+
 </View>
     </View>
   );

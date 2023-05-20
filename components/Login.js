@@ -4,14 +4,13 @@ import { ScrollView } from 'react-native'
 import { COLORS, FONT } from '../constants'
 import { TouchableOpacity } from 'react-native'
 import PhoneInput from 'react-native-phone-number-input';
-import useAuth from '../hook/useAuth'
 import * as Google from "expo-auth-session/providers/google"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as WebBrowser from 'expo-web-browser';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../features/userSlice';
 import { ANDROID_CLIENT_ID, WEB_CLIENT_ID } from '@env';
-
+import firebase from '../hook/firebaseConfig';
 
 
 const {height} = Dimensions.get('window');
@@ -19,8 +18,10 @@ const {height} = Dimensions.get('window');
 WebBrowser.maybeCompleteAuthSession();
 
 const Login = ({navigation}) => {
-  const dispatch = useDispatch();
+    const dispatch = useDispatch();
     const [phoneNumber, setPhoneNumber] = useState('');
+    const [verificationId, setVerificationId] = useState('');
+    const [verificationCode, setVerificationCode] = useState('');
 
     const handlePhoneInputChange = (text) => {
       setPhoneNumber(text);
@@ -67,6 +68,23 @@ const Login = ({navigation}) => {
       }
     }
 
+    const handleSendCode = async () => {
+      try {
+        const confirmation = await firebase.auth().signInWithPhoneNumber(phoneNumber);
+        setVerificationId(confirmation.verificationId);
+      } catch (error) {
+        console.log('Phone authentication error:', error);
+      }
+    };
+    const handleVerifyCode = async () => {
+      try {
+        const credential = firebase.auth.PhoneAuthProvider.credential(verificationId, verificationCode);
+        await firebase.auth().signInWithCredential(credential);
+      } catch (error) {
+        console.log('Verification code error:', error);
+      }
+    };
+
   return (
     <SafeAreaView style={{width:'100%',height:(height)}}>
     <Image
@@ -91,7 +109,8 @@ const Login = ({navigation}) => {
         <TouchableOpacity 
             style={[styles.button,{backgroundColor:(phoneNumber.length==13)?COLORS.one:COLORS.gray2}]}
             onPress={()=>
-              navigation.navigate('account')
+              // navigation.navigate('account')
+              handleSendCode
             }
             disabled={phoneNumber.length !== 13}
         >

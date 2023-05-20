@@ -10,7 +10,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#BDC3C7',
-        padding: 16,
     },
     textInput: {
         backgroundColor: 'white',
@@ -34,13 +33,15 @@ const styles = StyleSheet.create({
         width:40, 
         backgroundColor:COLORS.one,
         borderRadius:50, 
-        position:'absolute',
-        zIndex:2,
         justifyContent:'center',
         alignItems:'center',
+        marginTop:30,
+        marginLeft:10,
     },
     navi:{
         flexDirection:'row',
+        padding: 16,
+
     }
 });
 

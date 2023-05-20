@@ -41,8 +41,11 @@ const Cart = ({navigation}) => {
       </View>
 
       <View>
-        <Text>
-          {items.length>0?`These items are in your cart!`:'Your cart is empty! The items that you add to cart will show here.'}
+        <Text style={{textAlign:'center'}}>
+          {items.length>0?`These items are in your cart!`:'Your cart is empty!'}
+        </Text>
+        <Text style={{textAlign:'center'}}>
+          {items.length>0?` `:'The items that you add to cart will appear here.'}
         </Text>
       </View>
       <ScrollView >
@@ -121,8 +124,7 @@ const styles = StyleSheet.create({
     width:40, 
     backgroundColor:COLORS.one,
     borderRadius:50, 
-    zIndex:1,
-    marginTop:10,
+    marginTop:30,
     marginLeft:10,
     justifyContent:'center',
     alignItems:'center',

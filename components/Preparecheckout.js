@@ -16,12 +16,12 @@ const Preparecheckout = ({navigation}) => {
     <SafeAreaView style={{backgroundColor:'black', flex: 1, justifyContent: 'center', alignItems: 'center'}}>
         <Animatable.Image
             source={require('../assets/images/load.gif')}
-            animation={[SlideInUp, 'fadeInUp']}
+            animation="fadeInUp"
             iterationCount={1}
             style={{height:height,width:'100%'}}
         />
         <Animatable.Text
-            animation={[ 'fadeIn', SlideInUp]}
+            animation="slideInDown"
             iterationCount={1}
             style={{color:COLORS.lightWhite, textAlign:'center', fontSize:20, position:'absolute'}}
         >

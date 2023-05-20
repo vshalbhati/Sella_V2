@@ -19,9 +19,9 @@ const styles = StyleSheet.create({
     backgroundColor:'rgba(255,255,255,0.6)',
     borderRadius:50, 
     position:'absolute',
-    zIndex:2,
+    zIndex:1,
     marginTop:30,
-    marginLeft:8,
+    marginLeft:10,
     justifyContent:'center',
     alignItems:'center',
   },
@@ -45,21 +45,6 @@ const styles = StyleSheet.create({
     justifyContent:'center',
     alignItems:'center',
   },
-  cartbar:{
-    height:50,
-    width:'90%',
-    marginLeft:20,
-    marginBottom:10,
-    backgroundColor:'orange',
-    position:'absolute',
-    bottom:0,
-    borderRadius:10,
-    display:'block',
-    flex:1,
-    flexDirection:'row',
-    color:COLORS.lightWhite,
-    fontSize:24
-  }
 });
 
 const Supplydetails = ({navigation}) => {
@@ -108,12 +93,12 @@ const Supplydetails = ({navigation}) => {
       style={{height:(300),width:'100%'}}
       />
       <View>
-      <Text style={{fontSize:26,fontWeight:"200"}}>{name}</Text>
-      <Text style={{fontSize:22,fontWeight:"100"}}>{short_description}</Text>
-      <Text style={{fontSize:22,color:COLORS.tertiary}}>₹{price}/pc</Text>
-      <Text style={{fontSize:22}}>Choose the quantity</Text>
+      <Text style={{fontSize:26,fontWeight:"200", textAlign:'center'}}>{name}</Text>
+      <Text style={{fontSize:22,fontWeight:"100",textAlign:'center'}}>{short_description}</Text>
+      <Text style={{fontSize:22,color:COLORS.tertiary,textAlign:'center'}}>₹{price}/pc</Text>
+      <Text style={{fontSize:22,textAlign:'center'}}>Choose the quantity</Text>
 
-      <View style={{flex:1, flexDirection:'row'}}>
+      <View style={{flex:1, flexDirection:'row',alignSelf:'center'}}>
       <TouchableOpacity style={[styles.gola,{backgroundColor:COLORS.one}]}>
         <Icon
             name='add'

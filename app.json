@@ -15,14 +15,11 @@
       "googleServicesFile": "./google-services.json",
       "package": "com.vshalbhati_294.sella",
       "config": {
-        "googleSignIn": {
-          "expoClientId":"679645096836-hk12ep2qpaorsnseoqa2vh0hq8htv318.apps.googleusercontent.com"
-        }
+
       }
     },
     "ios": {
-      "bundleIdentifier": "host.exp.exponent",
-      "expoClientId": "679645096836-hk12ep2qpaorsnseoqa2vh0hq8htv318.apps.googleusercontent.com"
+      "bundleIdentifier": "host.exp.exponent"
     }
   }
 }

@@ -7,11 +7,12 @@ import { icons, SIZES} from '../../../constants';
 
 const jobTypes =['Cement','Putti','Bricks','Patthar','Binola'];
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useSelector, useDispatch } from 'react-redux';
-import { clearUser } from '../../../features/userSlice';
 import * as Location from 'expo-location'
 import axios from 'axios';
+import { OPENCAGE_API_KEY } from '@env';
+import { setLoocation } from '../../../features/locationSlice';
+
 
 
 const stylis = StyleSheet.create({
@@ -46,7 +47,10 @@ const Welcome = ({navigation}) => {
   const [activeJobType, setActiveJobType] = useState('Cement');
   const [query, setQuery] = useState('');
   const [location, setLocation] = useState();
-  const [address, setAddress] = useState(null);
+  const [address, setAddress] = useState('No Location Added');
+  const dispatch = useDispatch();
+
+
 
   const getLocation = async () => {
     try {
@@ -65,7 +69,7 @@ const Welcome = ({navigation}) => {
     }
   };
 
-  const API_KEY = '065b23ac3ad24715b6acc48693239a7a';
+  const API_KEY = OPENCAGE_API_KEY;
 
   const getAddressFromCoordinates = async (latitude, longitude) => {
     // try {
@@ -92,12 +96,12 @@ const Welcome = ({navigation}) => {
           if (data.display_name) {
             const address = data.display_name;
             setAddress(address);
+            dispatch(setLoocation(address));
           }
         } catch (error) {
           console.log('Error getting address', error);
         }
   };
-  const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.user);
 
   return (
