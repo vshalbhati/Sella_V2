@@ -10,7 +10,6 @@ const jobTypes =['Cement','Putti','Bricks','Patthar','Binola'];
 import { useSelector, useDispatch } from 'react-redux';
 import * as Location from 'expo-location'
 import axios from 'axios';
-import { OPENCAGE_API_KEY } from '@env';
 import { setLoocation } from '../../../features/locationSlice';
 
 
@@ -43,6 +42,7 @@ const stylis = StyleSheet.create({
 });
 
 const Welcome = ({navigation}) => {
+  const locationInfo = useSelector((state) => state.location)
   const router = useRouter();
   const [activeJobType, setActiveJobType] = useState('Cement');
   const [query, setQuery] = useState('');
@@ -69,27 +69,9 @@ const Welcome = ({navigation}) => {
     }
   };
 
-  const API_KEY = OPENCAGE_API_KEY;
-
   const getAddressFromCoordinates = async (latitude, longitude) => {
-    // try {
-    //   const response = await fetch(
-    //     `https://api.opencagedata.com/geocode/v1/json?key=${API_KEY}&q=${latitude}+${longitude}&no_annotations=1`
-    //   );
-    //   const data = await response.json();
-      
-    //   if (data.results.length > 0) {
-    //     const addres = data.results[0].formatted;
-    //     setAddress(addres);
-    //   } else {
-    //     setLocation('Location not found');
-    //   }
-    // } catch (error) {
-    //   console.error('Error fetching location:', error);
-    //   setLocation('Error fetching location');
-    // }
         try {
-          const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
+          const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${28.98}&lon=${78.22}`;
           const response = await axios.get(url);
           const data = response.data;
 
@@ -107,7 +89,13 @@ const Welcome = ({navigation}) => {
   return (
     <View>
       <View style={styles.container}>
-        <Text style={styles.userName}>Hey <Text>{JSON.stringify(userInfo?.given_name,null,2)}</Text></Text>
+        <Text style={styles.userName}>Hey 
+        {userInfo.length>0 ? (
+        <Text>{JSON.stringify(userInfo?.given_name)}</Text>
+        ):(
+          <Text> Guest</Text>
+        )}
+        </Text>
         <TouchableOpacity onPress={()=>getLocation()}>
         <Text style={styles.welcomeMessage}>
           Choose location
@@ -115,7 +103,7 @@ const Welcome = ({navigation}) => {
         </TouchableOpacity>
         {address && (
         <View style={styles.addressContainer}>
-          <Text style={styles.addressText}>{address}</Text>
+          <Text style={styles.addressText}>{locationInfo.location}</Text>
         </View>
       )}
       </View>

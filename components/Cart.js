@@ -1,5 +1,5 @@
 import { View, Text, SafeAreaView, Image, TouchableOpacity, StyleSheet, ScrollView } from 'react-native'
-import React, { useMemo } from 'react';
+import React, { useMemo ,useEffect} from 'react';
 import {Stack, useRouter} from 'expo-router';
 import {COLORS, icons, images, SIZES} from '../constants';
 import ScreenHeaderBtn from '../components/common/header/ScreenHeaderBtn';
@@ -13,10 +13,13 @@ import { urlFor } from '../sanity';
 
 const Cart = ({navigation}) => {
     const router = useRouter();
+    const locationInfo = useSelector((state) => state.location);
     const supply = useSelector(selectSupply);
     const items = useSelector(selectBasketItems);
     const basketTotal = useSelector(selectBasketTotal)
     const [groupedItemsInBasket, setGroupedItemsInBasket] = useState([]);
+    const [address, setAddress] = useState(locationInfo.location);
+    const [sector, setSector] = useState("");
     const dispatch = useDispatch();
 
     useMemo(() => {
@@ -25,7 +28,39 @@ const Cart = ({navigation}) => {
         return results;
       }, {});
       setGroupedItemsInBasket(groupedItems);
-    },[items])
+    },[items]);
+
+
+    useEffect(() => {
+      setAddress(locationInfo.location)
+      const sectorno = () =>{
+        for (let i = 0; i < address.length; i++) {
+          if ((address[i] == 'S' || address[i] == 's') &&
+          (address[i + 1] == 'e' || address[i + 1] == 'E') &&
+          (address[i + 2] == 'c' || address[i + 2] == 'C') &&
+          (address[i + 3] == 't' || address[i + 3] == 'T') &&
+          (address[i + 4] == 'o' || address[i + 4] == 'O') &&
+          (address[i + 5] == 'r' || address[i + 5] == 'R') &&
+          (address[i+6]==' ' || ((address[i+6]>='a' && address[i+6]<='z') || (address[i+6]>='A' && address[i+6]<='D')))
+        ) {
+            let s="";
+              for(let j=0; j<=address.length;j++){
+                if(address[i+7+j] == ',' || address[i+7+j] == ' '){
+                  break;
+                }
+                else{
+                  s+=address[i+7+j];
+                }
+              }
+              console.log(s);
+              setSector(s);
+            break;
+          }
+        }
+      }
+      sectorno()
+    }, [address])
+    
 
   return (
     <SafeAreaView style={styles.container}>
@@ -39,6 +74,27 @@ const Cart = ({navigation}) => {
           />      
         </TouchableOpacity>
       </View>
+
+{sector.length>0 ? (
+      <View>
+        <Text style={{textAlign:'center'}}>
+        Deliver to this address?
+        </Text>
+        <Text style={{textAlign:'center'}}>
+          {address}
+        </Text>
+        </View>
+):(
+        <View>
+        <Text style={{textAlign:'center'}}>Regrets that we couldn't detect your location correctly</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('location')}>
+        <Text style={{textAlign:'center'}}>
+        Select a location
+        </Text>
+        </TouchableOpacity>
+        </View>
+)
+}
 
       <View>
         <Text style={{textAlign:'center'}}>
@@ -106,7 +162,9 @@ const Cart = ({navigation}) => {
         </Text>
         </View>
 
-        <TouchableOpacity style={[styles.checkoutButton,{backgroundColor:(items.length) >0 ? COLORS.one :'#BDC3C7'}]} disabled={items.length==0} onPress={() => navigation.navigate('prepare')}>
+        <TouchableOpacity style={[styles.checkoutButton,{backgroundColor:(items.length) >0 ? COLORS.one :'#BDC3C7'}]}
+        disabled={items.length==0}
+        onPress={() => navigation.navigate('prepare',{ sector: sector })}>
           <Text style={styles.checkoutButtonText} >Checkout</Text>
         </TouchableOpacity>
       </View>
@@ -200,6 +258,13 @@ const styles = StyleSheet.create({
       textAlign:'center',
       marginTop:7,
     },
+    changeButton:{
+      backgroundColor:COLORS.one,
+      width:120,
+      justifyContent:'center',
+      alignSelf:'center',
+      alignItems:'center'
+    }
   });
 
 export default Cart

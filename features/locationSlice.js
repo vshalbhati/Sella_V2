@@ -5,7 +5,13 @@ const locationSlice = createSlice({
     initialState: {location: []},
     reducers: {
       setLoocation: (state, action) => {
-        return action.payload;
+        const newLocation = action.payload;
+        const isLocationExists = state.location.includes(newLocation);
+      
+        if (!isLocationExists) {
+          // state.location = [...state.location, newLocation];
+          state.location = newLocation;
+        }      
       },
       clearLocation: (state) => {
         state.location = [];
@@ -13,7 +19,6 @@ const locationSlice = createSlice({
     },
   });
   
-
 export const { setLoocation, clearLocation } = locationSlice.actions;
 
 export default locationSlice.reducer;

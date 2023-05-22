@@ -1,9 +1,15 @@
-import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
+import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, ScrollView,TouchableWithoutFeedback, FlatList } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { COLORS } from '../constants';
 import { useSelector } from 'react-redux';
 import { clearLocation } from '../features/locationSlice';
+import { useDispatch } from 'react-redux';
+import * as Location from 'expo-location'
+import { setLoocation } from '../features/locationSlice';
+import axios from 'axios';
+
+
 
 const styles = StyleSheet.create({
   backArrow:{
@@ -20,9 +26,9 @@ const styles = StyleSheet.create({
   },
   container:{
     backgroundColor: COLORS.one,
-    height:200,
+    height:250,
     padding:10,
-    borderBottomWidth: 1,
+    borderBottomWidth: 3,
     borderColor: '#ddd',
     elevation: 5,
   },
@@ -33,21 +39,24 @@ const styles = StyleSheet.create({
     borderRadius:7,
     justifyContent:'center',
     alignItems:'center',
+  },
+  dropdown:{
+    backgroundColor:'#fff',
+    width:370,
+    zIndex:1,
+    position:'absolute',
+    left:0,
+    borderRadius:10,
+    padding:10,
+    marginTop:20,
+    maxHeight: 150,
   }
 });
 
-const Delivery = ({navigation}) => {
-  const locationInfo = useSelector((state) => state.location);
-  const[no, setNo] = useState(0);
-  const pressi =()=>{
-    if(no%2==0){
-      setNo(no+1)
-    }
-    else{
-      setNo(0);
-    }
-    console.log(`BHAI DABGO ${no}`)
-  }
+const Delivery = ({navigation,route}) => {
+  const { sector } = route.params;
+  const locationInfo = useSelector((state) => state.location)
+  
   return (
     <SafeAreaView>
       <View style={styles.backArrow}>
@@ -62,44 +71,11 @@ const Delivery = ({navigation}) => {
       </View>
       <View style={styles.container}>
         <View style={{marginTop:100}}>
-        <Text>Deliver to this address</Text>
-        {/* <Text>{locationInfo}</Text> */}
+        <Text>Delivering to this address</Text>
+        <Text>{locationInfo.location}</Text>
 
-
-        {(no%2)?(
-          <View>
-            <View style={{flexDirection:'row'}}>
-            <Text>Addressssss</Text>
-            <Icon
-            name='arrow-right'
-            size={20}
-            color={COLORS.two}
-            style={{ transform: [{ rotate: '90deg' }]}}       
-            />
-            </View>
-          <TouchableOpacity style={styles.removeButton} onPress={pressi}>
-          <Text>Remove address</Text>
-          </TouchableOpacity>
-          </View>
-        ):(
-          <View>
-                  <View style={{flexDirection:'row'}}>
-                  <Text>No adress selected</Text>
-                  <Icon
-                  name='arrow-right'
-                  size={20}
-                  color={COLORS.two}
-                  style={{ transform: [{ rotate: '90deg' }]}}       
-                  />
-                  </View>
-          <TouchableOpacity style={styles.removeButton} onPress={pressi}>
-          <Text>Add address</Text>
-          </TouchableOpacity>
-          </View>
-        )}
-
+        <Text>{sector}</Text>
         </View>
-        
       </View>
     </SafeAreaView>
   )
