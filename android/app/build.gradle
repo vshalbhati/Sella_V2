@@ -1,5 +1,5 @@
 apply plugin: "com.android.application"
-apply plugin: "com.facebook.react";
+apply plugin: "com.facebook.react"
 
 import com.android.build.OutputFile
 
@@ -113,7 +113,7 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace 'com.vshalbhati_294.sella'
+    namespace "com.sella"
     defaultConfig {
         applicationId 'com.vshalbhati_294.sella'
         minSdkVersion rootProject.ext.minSdkVersion

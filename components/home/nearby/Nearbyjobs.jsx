@@ -97,7 +97,7 @@ const itemWidth = (windowWidth - paddingHorizontal * 2) / 2;
   data={sellers}
   renderItem={({ item }) => (
     <TouchableOpacity
-      key={item._id} // Add the unique key prop here
+      key={item._id}
       style={[stylis.item,{width: itemWidth}]}
       onPress={() => navigation.navigate('supplydetails', {
         id: item._id,

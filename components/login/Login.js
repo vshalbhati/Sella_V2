@@ -1,16 +1,16 @@
 import { SafeAreaView, StyleSheet, Text, View ,Image, Dimensions} from 'react-native'
 import React,{useState, useEffect} from 'react'
 import { ScrollView } from 'react-native'
-import { COLORS, FONT } from '../constants'
+import { COLORS, FONT } from '../../constants'
 import { TouchableOpacity } from 'react-native'
 import PhoneInput from 'react-native-phone-number-input';
 import * as Google from "expo-auth-session/providers/google"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as WebBrowser from 'expo-web-browser';
 import { useDispatch } from 'react-redux';
-import { setUser } from '../features/userSlice';
-import { ANDROID_CLIENT_ID, WEB_CLIENT_ID } from '@env';
-import firebase from '../hook/firebaseConfig';
+import { setUser } from '../../features/userSlice';
+import { ANDROID_CLIENT_ID, WEB_CLIENT_ID,EXPO_CLIENT_ID } from '@env';
+import firebase from '../../hook/firebaseConfig';
 
 
 const {height} = Dimensions.get('window');
@@ -31,6 +31,7 @@ const Login = ({navigation}) => {
     const [request, response, promptAsync] = Google.useAuthRequest({
       androidClientId: ANDROID_CLIENT_ID,
       webClientId: WEB_CLIENT_ID,
+      expoClientId: EXPO_CLIENT_ID
     })
     React.useEffect(() =>{
       handleSignInWithGoogle();
@@ -86,10 +87,10 @@ const Login = ({navigation}) => {
     };
 
   return (
-    <SafeAreaView style={{width:'100%',height:(height)}}>
+    <SafeAreaView style={{flex:1,width:'100%'}}>
     <Image
-      source={require('../assets/images/back.jpg')}
-      style={{width:'100%',height:(height),zIndex:-1}}
+      source={require('../../assets/images/back.jpg')}
+      style={{width:'100%',zIndex:-1}}
     />
     <ScrollView style={styles.dabba}>
       <Text>{JSON.stringify(userInfo?.name)}</Text>
@@ -109,33 +110,31 @@ const Login = ({navigation}) => {
         <TouchableOpacity 
             style={[styles.button,{backgroundColor:(phoneNumber.length==13)?COLORS.one:COLORS.gray2}]}
             onPress={()=>
-              // navigation.navigate('account')
-              handleSendCode
+              navigation.navigate('otp')
             }
             disabled={phoneNumber.length !== 13}
         >
             <Text style={{padding:7,fontFamily:FONT.medium, color:COLORS.lightWhite}}>Send OTP</Text>
         </TouchableOpacity>
 
+        <View style={{position: 'relative',justifyContent:'center',marginVertical: 50}}>
+      <View style={{height: 1,backgroundColor: 'black',marginVertical: 10,width:'80%',alignSelf:'center'}} />
+      <Text style={{position: 'absolute',top: -5,backgroundColor: COLORS.lightWhite, paddingHorizontal: 10,alignSelf:'center',fontSize:20}}>or</Text>
+      </View>
 
-        <View style={{height:1,width:'90%',backgroundColor:'black',marginTop:50,alignSelf:'center',}}/>
-        <View style={{position:'absolute',marginTop:'66%',marginLeft:'37%',alignContent:'center',backgroundColor:'#FCFCFC'}}>
-        <Text style={{textAlign:'center'}}>or</Text>
-        </View>
-
-        <View style={{ flexDirection:'row',gap:55,marginLeft:'22%',marginTop:'10%'}}>
+        <View style={{ flexDirection:'row',gap:55,marginLeft:'22%'}}>
         <TouchableOpacity onPress={()=>promptAsync()}>
-        <Image style={styles.socialBtn} source={require('../assets/icons/google.png')} />
+        <Image style={styles.socialBtn} source={require('../../assets/icons/google.png')} />
         </TouchableOpacity>
         <TouchableOpacity>
-            <Image style={styles.socialBtn} source={require('../assets/icons/microsoft.png')} />
+            <Image style={styles.socialBtn} source={require('../../assets/icons/microsoft.png')} />
         </TouchableOpacity>
         <TouchableOpacity>
-            <Image style={styles.socialBtn} source={require('../assets/icons/apple.png')} />
+            <Image style={styles.socialBtn} source={require('../../assets/icons/apple.png')} />
         </TouchableOpacity>
         </View>
 
-        <View style={{ flexDirection:'row',gap:10,marginLeft:'20%',marginTop:'20%'}}>
+        <View style={{ flexDirection:'row',gap:10,marginLeft:'20%',marginTop:'10%'}}>
             <Text style={{textAlign:'center'}} onPress={() => console.log('bhai')}>
                Not registered yet? 
             </Text>
@@ -186,7 +185,9 @@ const styles = StyleSheet.create({
         alignItems:'center',
         alignSelf:'center',
         borderRadius:10,      
-        height:35
+        height:45,
+        justifyContent: 'center',
+
     },
     socialBtn:{
         height:40,

@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react';
 import { View, ScrollView, SafeAreaView, Animated, Text, TouchableOpacity, FlatList, ActivityIndicator, ActivityIndicatorBase, TextInput, Button, Image, StyleSheet, Easing } from 'react-native'
-import {COLORS, icons, images, SIZES, FONT} from '../constants';
-import { Nearbyjobs, ScreenHeaderBtn, Welcome} from '../components';
+import {COLORS, icons, images, SIZES, FONT} from '../../constants';
+import { Nearbyjobs, ScreenHeaderBtn, Welcome} from '..';
 import { Stack, useRouter } from 'expo-router';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import createClient, { urlFor } from '../sanity';
+import createClient, { urlFor } from '../../sanity';
+import {selectBasketItems} from '../../features/basketSlice';
+import { useDispatch, useSelector } from 'react-redux';
+
 
 
 const styles = StyleSheet.create({
@@ -116,6 +119,19 @@ const styles = StyleSheet.create({
     zIndex:1,
     marginBottom:70,
     marginRight:10,
+  },
+  itemcount:{
+    height:25,
+    width:25,
+    backgroundColor:COLORS.tertiary,
+    borderRadius:50,
+    position:'absolute',
+    zIndex:1,
+    justifyContent:'center',
+    alignItems:'center',
+    right:0,
+    marginTop:-10,
+    marginRight:3
   }
 });
 
@@ -124,6 +140,8 @@ const Home = ({navigation}) =>{
   const [selected, setSelected] = useState(0);
   const [featuredCategories, setFeaturedcategories] = useState();
   const animationValues = [1, 1, 1, 1].map(() => new Animated.Value(1));
+  const items = useSelector(selectBasketItems);
+
 
 
   const onPress = (index) => {
@@ -180,6 +198,12 @@ const Home = ({navigation}) =>{
           },
           headerRight: () => (
             <TouchableOpacity style={styles.iconButton} onPress={()=>navigation.navigate('cart')}>
+              {items.length>0 &&(
+                <View style={styles.itemcount}>
+                <Text style={{textAlign:'center',}}>{items.length}</Text>
+                </View>
+              )}
+              
               <Icon name='shopping-cart' size={32} color={COLORS.gray} />
             </TouchableOpacity>
           ),

@@ -1,14 +1,14 @@
 import { View, Text, SafeAreaView, Image, TouchableOpacity, StyleSheet, ScrollView } from 'react-native'
 import React, { useMemo ,useEffect} from 'react';
 import {Stack, useRouter} from 'expo-router';
-import {COLORS, icons, images, SIZES} from '../constants';
-import ScreenHeaderBtn from '../components/common/header/ScreenHeaderBtn';
+import {COLORS, icons, images, SIZES} from '../../constants';
+import ScreenHeaderBtn from '../common/header/ScreenHeaderBtn';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectSupply } from '../features/supplyslice';
-import { selectBasketItems, basketTotal, removeFromBasket, selectBasketTotal, addToBasket } from '../features/basketSlice';
+import { selectSupply } from '../../features/supplyslice';
+import { selectBasketItems, basketTotal, removeFromBasket, selectBasketTotal, addToBasket } from '../../features/basketSlice';
 import { useState } from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { urlFor } from '../sanity';
+import { urlFor } from '../../sanity';
 
 
 const Cart = ({navigation}) => {
@@ -76,37 +76,37 @@ const Cart = ({navigation}) => {
       </View>
 
 {sector.length>0 ? (
-      <View>
-        <Text style={{textAlign:'center'}}>
-        Deliver to this address?
+      <View style={styles.dabba}>
+        <Text style={{textAlign:'center',color:COLORS.lightWhite}}>
+        Delivering to this address
         </Text>
-        <Text style={{textAlign:'center'}}>
-          {address}
+        <Text style={{textAlign:'center',color:COLORS.lightWhite,fontSize:20}}>
+          {locationInfo.location}
         </Text>
         </View>
-):(
-        <View>
-        <Text style={{textAlign:'center'}}>Regrets that we couldn't detect your location correctly</Text>
-        <TouchableOpacity onPress={() => navigation.navigate('location')}>
+    ):(
+        <View style={styles.dabba}>
+        <Text style={{textAlign:'center',color:COLORS.lightWhite}}>Regrets that we couldn't detect your location correctly</Text>
+        <TouchableOpacity style={styles.selectLocationButton} onPress={() => navigation.navigate('location')}>
         <Text style={{textAlign:'center'}}>
-        Select a location
+        Select location
         </Text>
         </TouchableOpacity>
         </View>
 )
 }
 
-      <View>
-        <Text style={{textAlign:'center'}}>
-          {items.length>0?`These items are in your cart!`:'Your cart is empty!'}
+      <View style={styles.cartText}>
+        <Text style={{textAlign:'center',color:COLORS.lightWhite}}>
+          {items.length>0?'These items are in your cart!':'Your cart is empty!'}
         </Text>
-        <Text style={{textAlign:'center'}}>
+        <Text style={{textAlign:'center',color:COLORS.lightWhite}}>
           {items.length>0?` `:'The items that you add to cart will appear here.'}
         </Text>
       </View>
-      <ScrollView >
+      <ScrollView style={styles.itemsContainer}>
         {Object.entries(groupedItemsInBasket).map(([key, items]) => (
-          <View key={key} style={{flex:1, flexDirection:'row', alignItems:'center',padding:10}}>
+          <View key={key} style={{flexDirection:'row', alignItems:'center',padding:10}}>
             <Image
             source={{uri: urlFor(items[0]?.imgurl).url()}}
             style={styles.cartItemImage}
@@ -116,7 +116,7 @@ const Cart = ({navigation}) => {
             <Text style={styles.cartItemPrice}>
               ₹{items[0]?.price}
             </Text>
-            <View style={{flex:1, flexDirection:'row', gap:10}}>
+            <View style={{flexDirection:'row', gap:10}}>
             <TouchableOpacity >
               <Icon 
                name='add'
@@ -139,6 +139,7 @@ const Cart = ({navigation}) => {
           </View>
         ))}
       </ScrollView>
+      
       <View style={{backgroundColor:'rgba(255,255,255,0.9)',padding:5,position:'absolute',bottom:0, width:'100%'}}>
 
         <View style={{flex:1, flexDirection:'row',justifyContent:'space-between'}}>
@@ -182,7 +183,7 @@ const styles = StyleSheet.create({
     width:40, 
     backgroundColor:COLORS.one,
     borderRadius:50, 
-    marginTop:30,
+    marginTop:40,
     marginLeft:10,
     justifyContent:'center',
     alignItems:'center',
@@ -211,8 +212,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   cartItemImage: {
-    width: 60,
-    height: 60,
+    width: 70,
+    height: 70,
     marginRight: 10,
     borderRadius: 10,
   },
@@ -222,7 +223,7 @@ const styles = StyleSheet.create({
   cartItemName: {
     fontSize: SIZES.medium,
     fontWeight: 'bold',
-    color: COLORS.black,
+    color: COLORS.gray2,
     marginBottom: 5,
   },
   cartItemPrice: {
@@ -234,9 +235,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 20,
-      padding: 10,
-      borderTopWidth: 1,
-      borderTopColor: '#ccc',
+    padding: 10,
+    borderTopWidth: 1,
+    borderTopColor: COLORS.gray2,
     },
     footerText: {
       fontSize: 16,
@@ -264,6 +265,40 @@ const styles = StyleSheet.create({
       justifyContent:'center',
       alignSelf:'center',
       alignItems:'center'
+    },
+    selectLocationButton: {
+      backgroundColor: COLORS.one,
+      borderRadius: 5,
+      width:200,
+      justifyContent:'center',
+      alignSelf:'center',
+      margin:10,
+      height:30
+    },
+    dabba:{
+      height:180,
+      backgroundColor:COLORS.two,
+      position:'absolute',
+      width:'100%',
+      zIndex:-1,
+      padding:50,
+      borderBottomWidth: 2,
+      borderColor: 'rgba(0,0,0,0.1)',
+      elevation: 5,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 5 },
+      shadowOpacity: 0.65,
+    },
+    cartText:{
+      marginTop:60,
+      color:COLORS.lightWhite
+    },
+    itemsContainer:{
+      height:565,
+      width:'100%',
+      position:'absolute',
+      marginTop:180,
+      overflow:'scroll'
     }
   });
 

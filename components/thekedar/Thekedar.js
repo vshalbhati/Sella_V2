@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { View, ScrollView, SafeAreaView, Animated, Text, TouchableOpacity, FlatList, ActivityIndicator, ActivityIndicatorBase, TextInput, Button, Image, StyleSheet, Easing } from 'react-native'
 import { createStackNavigator } from '@react-navigation/stack';
-import {COLORS, icons, images, SIZES} from '../constants';
-import account from './account/Account';
+import {COLORS, icons, images, SIZES} from '../../constants';
+import account from '../account/Account';
 import { Stack, useRouter } from 'expo-router';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
@@ -11,8 +11,8 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       justifyContent: 'space-around',
       alignItems: 'center',
-      height: 60,
       width:'100%',
+      height: 60,
       backgroundColor: '#fff',
       borderTopWidth: 1,
       borderColor: '#ddd',
@@ -42,12 +42,12 @@ const styles = StyleSheet.create({
     iconButton: {
         paddingHorizontal: 16,
         paddingVertical: 8,
-    },
+      },
   });
 
 
-const Movers = ({navigation}) => {
-const [selected, setSelected] = useState(2);
+const Thekedar = ({navigation}) => {
+    const [selected, setSelected] = useState(1);
     const animationValues = [1, 1, 1, 1].map(() => new Animated.Value(1));
   
     const onPress = (index) => {
@@ -110,7 +110,7 @@ const [selected, setSelected] = useState(2);
       <TouchableOpacity onPress={() => {setSelected(1), navigation.navigate('thekedar')}} style={iconStyles(1)}>
         <Icon name='people' size={28} color={selected === 1 ? '#fff' : '#444'} />
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => {setSelected(2), navigation.navigate('movers'), setSelected(2)}} style={iconStyles(2)}>
+      <TouchableOpacity onPress={() => {setSelected(2), navigation.navigate('movers'), setSelected(1)}} style={iconStyles(2)}>
         <Icon name='local-shipping' size={28} color={selected === 2 ? '#fff' : '#444'} />
       </TouchableOpacity>
     </SafeAreaView>    
@@ -118,4 +118,4 @@ const [selected, setSelected] = useState(2);
   )
 }
 
-export default Movers
+export default Thekedar

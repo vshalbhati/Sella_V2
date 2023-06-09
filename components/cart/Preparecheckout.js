@@ -2,7 +2,7 @@ import { View, Text, SafeAreaView,Dimensions, StyleSheet } from 'react-native'
 import React, { useEffect } from 'react'
 import * as Animatable from 'react-native-animatable'
 import { SlideInUp } from 'react-native-reanimated'
-import { COLORS } from '../constants'
+import { COLORS } from '../../constants'
 import * as Progress from 'react-native-progress';
 const {height} = Dimensions.get('window');
 
@@ -16,7 +16,7 @@ const Preparecheckout = ({navigation,route }) => {
   return (
     <SafeAreaView style={{backgroundColor:'black', flex: 1, justifyContent: 'center', alignItems: 'center'}}>
         <Animatable.Image
-            source={require('../assets/images/load.gif')}
+            source={require('../../assets/images/load.gif')}
             animation="fadeInUp"
             iterationCount={1}
             style={{height:height,width:'100%'}}

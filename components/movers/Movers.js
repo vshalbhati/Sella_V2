@@ -1,18 +1,26 @@
-import { useState } from 'react';
-import { View, ScrollView, SafeAreaView, Animated, Text, TouchableOpacity, FlatList, ActivityIndicator, ActivityIndicatorBase, TextInput, Button, Image, StyleSheet, Easing } from 'react-native'
-import { createStackNavigator } from '@react-navigation/stack';
-import {COLORS, icons, images, SIZES} from '../constants';
-import account from './account/Account';
-import { Stack, useRouter } from 'expo-router';
+import { useState, useRef, useEffect } from 'react';
+import { View, SafeAreaView, Animated, Text, TouchableOpacity, FlatList, StyleSheet, Easing, ScrollView,Image,ImageBackground } from 'react-native'
+import {COLORS, icons, images, SIZES} from '../../constants';
+import { Stack } from 'expo-router';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import createClient, { urlFor } from '../../sanity';
 
 const styles = StyleSheet.create({
+  content: {
+    width: 300,
+    height: 600,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: COLORS.two,
+    marginHorizontal: 55,
+    borderRadius:20
+  },
     navla: {
       flexDirection: 'row',
       justifyContent: 'space-around',
       alignItems: 'center',
-      width:'100%',
       height: 60,
+      width:'100%',
       backgroundColor: '#fff',
       borderTopWidth: 1,
       borderColor: '#ddd',
@@ -42,13 +50,32 @@ const styles = StyleSheet.create({
     iconButton: {
         paddingHorizontal: 16,
         paddingVertical: 8,
-      },
+    },
+    image: {
+      height: 400,
+      position:'absolute',
+      left:0,
+      right:0
+    },
   });
 
 
-const Thekedar = ({navigation}) => {
-    const [selected, setSelected] = useState(1);
+const Movers = ({navigation}) => {
+    const [selected, setSelected] = useState(2);
+    const [vehicle, setVehicle] = useState([]);
+
+
     const animationValues = [1, 1, 1, 1].map(() => new Animated.Value(1));
+
+    useEffect(()=>{
+      createClient.fetch(
+      `*[_type == 'movers']{
+        ...,
+      }`
+      ).then((data)=>{
+        setVehicle(data);
+      });
+    },[]);
   
     const onPress = (index) => {
       setSelected(index);
@@ -67,6 +94,7 @@ const Thekedar = ({navigation}) => {
         }),
       ]).start();
     };
+
     const iconStyles = (index) => [
       styles.icon,
       selected === index && styles.selectedIcon,
@@ -74,9 +102,9 @@ const Thekedar = ({navigation}) => {
         transform: [{ scale: animationValues[index] }],
       },
     ];
-  
+    
   return (
-    <SafeAreaView style={{ backgroundColor:COLORS.lightWhite, height:'100%'}}>
+    <SafeAreaView style={{ backgroundColor:COLORS.lightWhite,flex:1}}>
         <Stack.Screen 
         options={{
           headerStyle: { backgroundColor: COLORS.lightWhite },
@@ -103,14 +131,46 @@ const Thekedar = ({navigation}) => {
           headerTitle:'CONSTRO',
         }}
       />
-<SafeAreaView style={styles.navla}>
+        <FlatList
+          data={vehicle}
+          keyExtractor={(item) => item.id}
+          horizontal
+          pagingEnabled
+          showsHorizontalScrollIndicator={false}
+          scrollEventThrottle={16}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+            style={styles.content}
+              key={item._id}
+              disabled
+              onPress={() => navigation.navigate('moverscard', {
+                id: item._id,
+                name: item.name,
+                short_description: item.short_description,
+                price: item.price,
+              })}
+            >
+              <Image
+                source={{ uri: urlFor(item.image.asset._ref).url() }}
+                style={styles.image}
+
+              />
+              <View style={{marginTop:450,padding:20}}>
+                <Text style={{textAlign:'center',color:COLORS.lightWhite,fontWeight:'bold'}}>{item.name}</Text>
+                <Text style={{color:COLORS.lightWhite}}>{item.short_description}</Text>
+              </View>
+            </TouchableOpacity>
+          )}
+        />
+
+    <SafeAreaView style={styles.navla}>
       <TouchableOpacity onPress={() => {setSelected(0), navigation.navigate('home'), setSelected(1)}} style={iconStyles(0)}>
         <Icon name='build' size={28} color={selected === 0 ? '#fff' : '#444'} />
       </TouchableOpacity>
       <TouchableOpacity onPress={() => {setSelected(1), navigation.navigate('thekedar')}} style={iconStyles(1)}>
         <Icon name='people' size={28} color={selected === 1 ? '#fff' : '#444'} />
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => {setSelected(2), navigation.navigate('movers'), setSelected(1)}} style={iconStyles(2)}>
+      <TouchableOpacity onPress={() => {setSelected(2), navigation.navigate('movers'), setSelected(2)}} style={iconStyles(2)}>
         <Icon name='local-shipping' size={28} color={selected === 2 ? '#fff' : '#444'} />
       </TouchableOpacity>
     </SafeAreaView>    
@@ -118,4 +178,4 @@ const Thekedar = ({navigation}) => {
   )
 }
 
-export default Thekedar
+export default Movers

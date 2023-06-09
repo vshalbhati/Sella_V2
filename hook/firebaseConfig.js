@@ -1,4 +1,6 @@
 import { firebase } from '@react-native-firebase/app';
+import { initializeApp } from 'firebase/app';
+
 
 // Add your Firebase configuration here
 const firebaseConfig = {
@@ -10,7 +12,6 @@ const firebaseConfig = {
   appId: '1:679645096836:android:0a15d5bb6b77b89b960bd1',
 };
 
-// Initialize Firebase
 // if (!firebase.apps.length) {
 //     firebase.default.initializeApp(firebaseConfig);
 // }

@@ -1,7 +1,7 @@
 import { View, Text, FlatList, Image} from 'react-native'
 import React,{useEffect, useState} from 'react'
 import { useRoute } from '@react-navigation/native'
-import createClient, { urlFor } from '../sanity';
+import createClient, { urlFor } from '../../sanity';
 import Searchresults from './Searchresults';
 
 const Search = ({navigation}) => {

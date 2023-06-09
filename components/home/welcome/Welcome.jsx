@@ -48,6 +48,7 @@ const Welcome = ({navigation}) => {
   const [query, setQuery] = useState('');
   const [location, setLocation] = useState();
   const [address, setAddress] = useState('No Location Added');
+
   const dispatch = useDispatch();
 
 
@@ -90,8 +91,8 @@ const Welcome = ({navigation}) => {
     <View>
       <View style={styles.container}>
         <Text style={styles.userName}>Hey 
-        {userInfo.length>0 ? (
-        <Text>{JSON.stringify(userInfo?.given_name)}</Text>
+        {(userInfo)? (
+        <Text>{JSON.stringify(userInfo.given_name)}</Text>
         ):(
           <Text> Guest</Text>
         )}

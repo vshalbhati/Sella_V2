@@ -1,12 +1,12 @@
 import { View, Text, ScrollView, FlatList, StyleSheet, Image } from 'react-native'
 import { useState, useEffect } from 'react';
-import createClient, { urlFor } from '../sanity';
-import { COLORS, FONT, SIZES } from '../constants';
+import createClient, { urlFor } from '../../sanity';
+import { COLORS, FONT, SIZES } from '../../constants';
 import { useRoute } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { TouchableOpacity } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { addToBasket, selectBasketItems, selectBasketItemsWithId } from '../features/basketSlice';
+import { addToBasket, selectBasketItems, selectBasketItemsWithId } from '../../features/basketSlice';
 import Sellerdetailscard from './Sellerdetailscard';
 
 

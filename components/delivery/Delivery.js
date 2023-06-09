@@ -1,12 +1,12 @@
 import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, ScrollView,TouchableWithoutFeedback, FlatList } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { COLORS } from '../constants';
+import { COLORS } from '../../constants';
 import { useSelector } from 'react-redux';
-import { clearLocation } from '../features/locationSlice';
+import { clearLocation } from '../../features/locationSlice';
 import { useDispatch } from 'react-redux';
 import * as Location from 'expo-location'
-import { setLoocation } from '../features/locationSlice';
+import { setLoocation } from '../../features/locationSlice';
 import axios from 'axios';
 
 

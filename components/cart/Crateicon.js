@@ -1,8 +1,8 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { selectBasketItems, selectBasketTotal } from '../features/basketSlice';
-import { COLORS, FONT, SIZES } from '../constants';
+import { selectBasketItems, selectBasketTotal } from '../../features/basketSlice';
+import { COLORS, FONT, SIZES } from '../../constants';
 
 
 const style = StyleSheet.create({
