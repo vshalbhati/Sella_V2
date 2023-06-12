@@ -19,6 +19,9 @@ import Chatbot from '../components/chatbot/Chatbot';
 import Locate from '../components/location/Location';
 import MoverCard from '../components/movers/MoverCard';
 import Otp from '../components/login/Otp';
+import Allsupplies from '../components/home/nearby/Allsupplies';
+import Orders from '../components/account/orders/Orders';
+import UserDetails from '../components/account/userdetails/UserDetails';
 
 const Stack = createStackNavigator();
 
@@ -33,12 +36,9 @@ const Stack = createStackNavigator();
     ) : (
       <> */}
 
-        <Stack.Screen name="login" component={Login} options={{ headerShown: false }} />
         <Stack.Screen name="home" component={Home} />
-        <Stack.Screen name="account" component={Account} options={{ presentation: 'modal', headerShown: false }} />
         <Stack.Screen name="cart" component={Cart} options={{ presentation: 'modal', headerShown: false }} />
         <Stack.Screen name="thekedar" component={Thekedar} />
-        <Stack.Screen name="movers" component={Movers} />
         <Stack.Screen name="prepare" component={Preparecheckout} options={{ headerShown: false, presentation: 'modal' }} />
         <Stack.Screen name="delivery" component={Delivery} options={{ headerShown: false }} />
         <Stack.Screen name="verification" component={Verification} options={{ headerShown: false }} />
@@ -48,6 +48,16 @@ const Stack = createStackNavigator();
         <Stack.Screen name="chatbot" component={Chatbot} options={{ headerShown: false, presentation: 'modal' }} />
         <Stack.Screen name="location" component={Locate} options={{ headerShown: false, presentation: 'modal' }} />
         <Stack.Screen name="moverscard" component={MoverCard} options={{ headerShown: false, presentation: 'modal' }} />
+        <Stack.Screen name="allsuply" component={Allsupplies} options={{headerShown: false,  presentation: 'modal' }} />
+        <Stack.Screen name="movers" component={Movers} />
+
+        {/* Account Screens */}
+        <Stack.Screen name="account" component={Account} options={{ presentation: 'modal', headerShown: false }} />
+        <Stack.Screen name="orders" component={Orders} options={{ presentation: 'modal', headerShown: false }}/>
+        <Stack.Screen name="userdetails" component={UserDetails} options={{ presentation: 'modal', headerShown: false }}/>
+
+        {/* Login Screens */}
+        <Stack.Screen name="login" component={Login} options={{ headerShown: false }} />
         <Stack.Screen name="otp" component={Otp} options={{headerShown: false,  presentation: 'transparentModal' }} />
 
         {/* <Stack.Screen name="login" component={Login} options={{ headerShown: false }} /> */}

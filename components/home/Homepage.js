@@ -221,43 +221,7 @@ const Home = ({navigation}) =>{
       <ScrollView showsHorizontalScrollIndicator={false}>
         <View style={{flex:1,padding: SIZES.medium}}>
           <Welcome navigation={navigation} />
-          <Nearbyjobs navigation={navigation}/>
-
-      {/* <View style={styles.header}>
-        <Text style={styles.headerTitle}>Popular Sellers</Text>
-        <TouchableOpacity>
-          <Text style={styles.headerBtn}>Show all</Text>
-        </TouchableOpacity>
-      </View>
-        <view style={styles.cardsContainer}>
-          <FlatList 
-        data={featuredCategories}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-           style={styles.item}
-           onPress={() => navigation.navigate('sellerdetails', { id: item._id, imgurl:item.image.asset._ref, name:item.name, short_description:item.short_description, supplies:item.supplies })}
-          >
-              <Image
-                source={{ uri: urlFor(item.image.asset).url(),}}
-                style={styles.image}
-              />
-            <View style={styles.textContainer}>
-              <Text style={styles.trackTitle}>{item.name}</Text>
-              <Text style={styles.artistName}>{item.short_description}</Text>
-              <Text style={styles.artistName}>{item.address}</Text>
-              <Text style={styles.artistName}>{item.rating}/5</Text>
-   
-            </View>
-          </TouchableOpacity>
-        )}
-        keyExtractor={(item) => item.id}
-        contentContainerStyle={styles.list}
-        showsHorizontalScrollIndicator={false}
-      />
-      </view> */}
-
-
-        
+          <Nearbyjobs navigation={navigation}/>        
         </View>
       </ScrollView>
 

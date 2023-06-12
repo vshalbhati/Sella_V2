@@ -9,6 +9,7 @@ import { selectBasketItems, basketTotal, removeFromBasket, selectBasketTotal, ad
 import { useState } from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { urlFor } from '../../sanity';
+import { addToOrder, removeFromOrder } from '../../features/orderSlice';
 
 
 const Cart = ({navigation}) => {
@@ -165,7 +166,11 @@ const Cart = ({navigation}) => {
 
         <TouchableOpacity style={[styles.checkoutButton,{backgroundColor:(items.length) >0 ? COLORS.one :'#BDC3C7'}]}
         disabled={items.length==0}
-        onPress={() => navigation.navigate('prepare',{ sector: sector })}>
+        onPress={() => {
+          dispatch(addToOrder({items:groupedItemsInBasket}));
+          navigation.navigate('prepare', { sector: sector });
+        }}
+        >
           <Text style={styles.checkoutButtonText} >Checkout</Text>
         </TouchableOpacity>
       </View>
@@ -299,7 +304,7 @@ const styles = StyleSheet.create({
       position:'absolute',
       marginTop:180,
       overflow:'scroll'
-    }
+    },
   });
 
 export default Cart

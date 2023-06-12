@@ -72,6 +72,8 @@ const Account = ({navigation}) => {
     const router = useRouter();
     const dispatch = useDispatch();
     const userInfo = useSelector((state) => state.user);
+    const defaultImageSource = 'https://cdn.landesa.org/wp-content/uploads/default-user-image.png';
+
 
     const handleRemoveUser = async () => {
       try {
@@ -99,31 +101,32 @@ const Account = ({navigation}) => {
       </View>
 
       <View style={{marginTop:100,width:'90%',justifyContent:'center',alignSelf:'center'}}>
+
+        
       <View style={{position: 'relative',justifyContent:'center'}}>
       <View style={{height: 1,backgroundColor: 'black',marginVertical: 10,}} />
       <Text style={{position: 'absolute',top: -10,backgroundColor: 'white', paddingHorizontal: 10,alignSelf:'center',fontSize:20}}>Profile</Text>
       </View>
 
-      <View style={styles.item}>
+      <TouchableOpacity style={styles.item} onPress={()=>navigation.navigate('userdetails')}>
         <Image
-        source={{ uri: userInfo?.picture }}
-        style={styles.image}
+            source={{ uri: userInfo?.picture || defaultImageSource }}
+            style={styles.image}
       />
         <View style={{flexDirection:'column'}}>
-        <Text style={styles.text}>{JSON.stringify(userInfo?.name)}</Text>
-        {/* <Text style={styles.text}>Vishal Bhati</Text> */}
+        <Text style={styles.text}>{ userInfo?.name || 'Guest User'}</Text>
         <Text style={styles.text}>8572862193</Text>
         </View>
-      </View>
+      </TouchableOpacity>
 
-      <View onPress={()=> navigation.navigate('cart')} style={styles.item}>
+      <TouchableOpacity onPress={()=> navigation.navigate('orders')} style={styles.item}>
         <View style={{flexDirection:'row',gap:20}}>
         <Icon name='shopping-cart' size={30} color={COLORS.gray} />
         <Text style={styles.text}>My Orders</Text>
         </View>
-      </View>
+      </TouchableOpacity>
 
-      <View style={{position: 'relative',justifyContent:'center'}}>
+      <View style={{position: 'relative',justifyContent:'center',marginVertical: 10,}}>
       <View style={{height: 1,backgroundColor: 'black',marginVertical: 10,}} />
       <Text style={{position: 'absolute',top: -10,backgroundColor: 'white', paddingHorizontal: 10,alignSelf:'center',fontSize:20}}>Settings</Text>
       </View>

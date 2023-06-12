@@ -6,15 +6,6 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import createClient, { urlFor } from '../../sanity';
 
 const styles = StyleSheet.create({
-  content: {
-    width: 300,
-    height: 600,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: COLORS.two,
-    marginHorizontal: 55,
-    borderRadius:20
-  },
     navla: {
       flexDirection: 'row',
       justifyContent: 'space-around',
@@ -52,30 +43,42 @@ const styles = StyleSheet.create({
         paddingVertical: 8,
     },
     image: {
-      height: 400,
+      width: '100%',
+      zIndex:-1,
       position:'absolute',
+      top:0,
       left:0,
+      bottom:0,
       right:0
     },
+    content: {
+      width: '90%',
+      height: 210,
+      alignSelf: 'center',
+      borderColor:'black',
+      borderWidth:1,
+      borderRadius:10,
+      margin:10,
+      overflow:'hidden',
+      elevation:5
+    },
+    info:{
+      position:'absolute',
+      bottom:0,
+      backgroundColor:'rgba(0,0,0,0.4)',
+      left:0,
+      right:0,
+      padding:10
+    }
   });
 
 
 const Movers = ({navigation}) => {
-    const [selected, setSelected] = useState(2);
     const [vehicle, setVehicle] = useState([]);
 
 
+    const [selected, setSelected] = useState(2);
     const animationValues = [1, 1, 1, 1].map(() => new Animated.Value(1));
-
-    useEffect(()=>{
-      createClient.fetch(
-      `*[_type == 'movers']{
-        ...,
-      }`
-      ).then((data)=>{
-        setVehicle(data);
-      });
-    },[]);
   
     const onPress = (index) => {
       setSelected(index);
@@ -94,7 +97,6 @@ const Movers = ({navigation}) => {
         }),
       ]).start();
     };
-
     const iconStyles = (index) => [
       styles.icon,
       selected === index && styles.selectedIcon,
@@ -102,6 +104,15 @@ const Movers = ({navigation}) => {
         transform: [{ scale: animationValues[index] }],
       },
     ];
+    useEffect(()=>{
+      createClient.fetch(
+      `*[_type == 'movers']{
+        ...,
+      }`
+      ).then((data)=>{
+        setVehicle(data);
+      });
+    },[]);
     
   return (
     <SafeAreaView style={{ backgroundColor:COLORS.lightWhite,flex:1}}>
@@ -128,40 +139,49 @@ const Movers = ({navigation}) => {
               <Icon name='person' size={36} color={COLORS.gray} />
             </TouchableOpacity>
           ),
-          headerTitle:'CONSTRO',
+          headerTitle:'CONSTRUCK',
         }}
       />
-        <FlatList
+
+
+
+          <View style={{justifyContent:'center',marginVertical: 10,alignItems:'center'}}>
+          <View style={{height: 1.7,backgroundColor: 'black',marginVertical: 5,width:'90%'}}/>
+          <Text style={{position: 'absolute',top: -10,backgroundColor: COLORS.lightWhite, paddingHorizontal: 10,alignSelf:'center',fontSize:20}}>Movers</Text>
+          </View>  
+
+
+
+      <View style={{justifyContent:'center'}}>
+      <FlatList
+          style={{marginBottom:90}}
           data={vehicle}
           keyExtractor={(item) => item.id}
-          horizontal
-          pagingEnabled
           showsHorizontalScrollIndicator={false}
-          scrollEventThrottle={16}
           renderItem={({ item }) => (
             <TouchableOpacity
-            style={styles.content}
+              style={styles.content}
               key={item._id}
-              disabled
               onPress={() => navigation.navigate('moverscard', {
                 id: item._id,
                 name: item.name,
                 short_description: item.short_description,
                 price: item.price,
+                imgurl: item.image.asset._ref,
               })}
             >
               <Image
                 source={{ uri: urlFor(item.image.asset._ref).url() }}
                 style={styles.image}
-
               />
-              <View style={{marginTop:450,padding:20}}>
-                <Text style={{textAlign:'center',color:COLORS.lightWhite,fontWeight:'bold'}}>{item.name}</Text>
-                <Text style={{color:COLORS.lightWhite}}>{item.short_description}</Text>
+              <View style={styles.info}>
+                <Text style={{fontWeight:'bold',color:COLORS.lightWhite}}>{item.name}</Text>
+                <Text style={{color:COLORS.lightWhite}}>₹{item.price}/hr</Text>
               </View>
             </TouchableOpacity>
           )}
         />
+        </View>
 
     <SafeAreaView style={styles.navla}>
       <TouchableOpacity onPress={() => {setSelected(0), navigation.navigate('home'), setSelected(1)}} style={iconStyles(0)}>

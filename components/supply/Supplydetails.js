@@ -122,35 +122,17 @@ const Supplydetails = ({navigation}) => {
       })
     )
   },[]);
-  // const [backgroundImage, setBackgroundImage] = useState('https://images.unsplash.com/photo-1682685797743-3a7b6b8d8149?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');
-  // const [buttonColor, setButtonColor] = useState(null);
-
-  // const handleImageLoad = async () => {
-  //   try {
-  //     const colors = await ImageColors.getColors(backgroundImage, {
-  //       fallback: '#000000', // Fallback color in case extraction fails
-  //       quality: 'low', // Choose between 'high', 'medium', or 'low'
-  //     });
-  //     setButtonColor(colors.dominantColor);
-  //     console.log(colors.dominantColor) // Access the desired color value from the extracted colors
-  //   } catch (error) {
-  //     console.error('Error extracting color:', error);
-  //   }
-  // };
-
 
   return (
     <ImageBackground
     source={{uri: urlFor(imgurl).url()}}
-    // source={{ uri: backgroundImage }}
     style={styles.backgroundImage}
     resizeMode="cover"
-    // onLoad={handleImageLoad}
     >
     <SafeAreaView style={styles.container}>
+    
     <LinearGradient colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0.8)','rgba(0,0,0,1)']} style={styles.container}>
-    <ScrollView>
-      <View style={styles.backArrow}>
+    <View style={styles.backArrow}>
         <TouchableOpacity>
           <Icon
             name='arrow-back'
@@ -159,6 +141,8 @@ const Supplydetails = ({navigation}) => {
           />      
         </TouchableOpacity>
       </View>
+    <ScrollView>
+      
       {/* <Image
       source={{uri: urlFor(imgurl).url()}}
       style={{height:(600),width:'100%',zIndex:-1}}

@@ -90,12 +90,7 @@ const Welcome = ({navigation}) => {
   return (
     <View>
       <View style={styles.container}>
-        <Text style={styles.userName}>Hey 
-        {(userInfo)? (
-        <Text>{JSON.stringify(userInfo.given_name)}</Text>
-        ):(
-          <Text> Guest</Text>
-        )}
+        <Text style={styles.userName}>Hello, { userInfo?.name || 'Guest User'}
         </Text>
         <TouchableOpacity onPress={()=>getLocation()}>
         <Text style={styles.welcomeMessage}>

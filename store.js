@@ -5,6 +5,7 @@ import userReducer from "./features/userSlice";
 import { applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import locationReducer from "./features/locationSlice";
+import orderSlice from "./features/orderSlice";
 
 
 export const store = configureStore({
@@ -12,6 +13,7 @@ export const store = configureStore({
         basket: basketReducer,
         supply: supplyReducer,  
         user: userReducer,
-        location: locationReducer
+        location: locationReducer,
+        order: orderSlice,
     },
 },applyMiddleware(thunkMiddleware));

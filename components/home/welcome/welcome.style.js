@@ -7,12 +7,12 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   userName: {
-    fontFamily: FONT.regular,
+    fontFamily: FONT.bold,
     fontSize: SIZES.large,
     color: COLORS.primary,
   },
   welcomeMessage: {
-    fontFamily: FONT.bold,
+    fontFamily: FONT.regular,
     fontSize: SIZES.xLarge,
     color: COLORS.secondary,
     marginTop: 2,
@@ -57,9 +57,9 @@ const styles = StyleSheet.create({
     marginTop: SIZES.medium,
   },
   tab: (activeJobType, item) => ({
-    paddingVertical: SIZES.small / 2,
-    paddingHorizontal: SIZES.small,
-    borderRadius: SIZES.medium,
+    paddingVertical: 20,
+    paddingHorizontal: 20,
+    borderRadius: 5,
     borderWidth: 1,
     borderColor: activeJobType === item ? COLORS.secondary : COLORS.gray2,
   }),

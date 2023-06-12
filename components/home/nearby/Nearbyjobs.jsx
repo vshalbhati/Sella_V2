@@ -1,7 +1,6 @@
 import React, { useState, useEffect , useLayoutEffect,useRef} from 'react';
 import { View, Text, TouchableOpacity, FlatList, ActivityIndicator, ActivityIndicatorBase, TextInput, Button, Image, StyleSheet } from 'react-native'
 import {useRouter} from 'expo-router'
-
 import styles from './nearbyjobs.style'
 import { COLORS, SIZES} from '../../../constants';
 import createClient, { urlFor } from '../../../sanity';
@@ -14,9 +13,9 @@ const Nearbyjobs = ({navigation}) => {
   const isLoading=false;
   const error = false;
 
-const windowWidth = Dimensions.get('window').width;
-const paddingHorizontal = 0;
-const itemWidth = (windowWidth - paddingHorizontal * 2) / 2;
+  const windowWidth = Dimensions.get('window').width;
+  const paddingHorizontal = 0;
+  const itemWidth = (windowWidth - paddingHorizontal * 2) / 2;
 
   const [sellers, setSellers] = useState([])
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -38,111 +37,82 @@ const itemWidth = (windowWidth - paddingHorizontal * 2) / 2;
 
   const flatListRef = useRef(null);
 
-  useEffect(() => {
-    const interval = setInterval(scrollToNextItem, 5000);
+  // useEffect(() => {
+  //   const interval = setInterval(scrollToNextItem, 5000);
 
-    return () => clearInterval(interval);
-  }, []);
+  //   return () => clearInterval(interval);
+  // }, []);
 
-  const scrollToNextItem = () => {
-    if (sellers.length > 0) {
-      const nextIndex = (currentIndex + 1) % sellers.length;
-      flatListRef.current.scrollToIndex({ index: nextIndex, animated: true });
-      setCurrentIndex(nextIndex);
-    }
-  };
+  // const scrollToNextItem = () => {
+  //   if (sellers.length > 0) {
+  //     const nextIndex = (currentIndex + 1) % sellers.length;
+  //     flatListRef.current.scrollToIndex({ index: nextIndex, animated: true });
+  //     setCurrentIndex(nextIndex);
+  //   }
+  // };
   
   return (
-    <View>
+
+    <View style={{flex:1}}>
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Popular supplies</Text>
-          <TouchableOpacity>
-            <Text style={styles.headerBtn} >Show all</Text>
-          </TouchableOpacity>
+        <TouchableOpacity onPress={()=>navigation.navigate('allsuply')}>
+          <Text style={styles.headerBtn} >Show all</Text>
+        </TouchableOpacity>
       </View>
 
       <View style={stylis.container}>
-  {/* <FlatList
-    ref={flatListRef}
-    data={sellers}
-    renderItem={({ item }) => (
-      <TouchableOpacity
-        key={item._id}
-        style={[stylis.item,{width: itemWidth}]}
-        onPress={() => navigation.navigate('supplydetails', {
-          id: item._id,
-          name: item.name,
-          short_description: item.short_description,
-          price: item.price,
-          imgurl: item.image.asset._ref,
-        })}
-      >
-        <Image
-          source={{ uri: urlFor(item.image.asset._ref).url() }}
-          style={stylis.image}
+        <FlatList
+          ref={flatListRef}
+          data={sellers}
+          renderItem={({ item }) => (
+          <TouchableOpacity
+            key={item._id}
+            style={[stylis.item,{width: itemWidth}]}
+            onPress={() => navigation.navigate('supplydetails', {
+              id: item._id,
+              name: item.name,
+              short_description: item.short_description,
+              price: item.price,
+              imgurl: item.image.asset._ref,
+            })}
+          >
+            <Image
+              source={{ uri: urlFor(item.image.asset._ref).url() }}
+              style={stylis.image}
+            />
+            <View style={stylis.textContainer}>
+              <Text style={stylis.trackTitle}>{item.name}</Text>
+              <Text style={stylis.artistName}>{item.short_description}</Text>
+            </View>
+          </TouchableOpacity>
+          )}
+          keyExtractor={(item) => item._id}
+          showsHorizontalScrollIndicator={false}
+          horizontal
+          contentContainerStyle={{ paddingHorizontal, columnGap: 10 }}
         />
-        <View style={stylis.textContainer}>
-          <Text style={stylis.trackTitle}>{item.name}</Text>
-          <Text style={stylis.artistName}>{item.short_description}</Text>
-        </View>
-      </TouchableOpacity>
-    )}
-    keyExtractor={(item) => item.id}
-    showsHorizontalScrollIndicator={false}
-    horizontal
-    contentContainerStyle={{ paddingHorizontal, columnGap:10 }}
-  /> */}
-  <FlatList
-  ref={flatListRef}
-  data={sellers}
-  renderItem={({ item }) => (
-    <TouchableOpacity
-      key={item._id}
-      style={[stylis.item,{width: itemWidth}]}
-      onPress={() => navigation.navigate('supplydetails', {
-        id: item._id,
-        name: item.name,
-        short_description: item.short_description,
-        price: item.price,
-        imgurl: item.image.asset._ref,
-      })}
-    >
-      <Image
-        source={{ uri: urlFor(item.image.asset._ref).url() }}
-        style={stylis.image}
-      />
-      <View style={stylis.textContainer}>
-        <Text style={stylis.trackTitle}>{item.name}</Text>
-        <Text style={stylis.artistName}>{item.short_description}</Text>
       </View>
-    </TouchableOpacity>
-  )}
-  keyExtractor={(item) => item._id} // Use a unique identifier as the key
-  showsHorizontalScrollIndicator={false}
-  horizontal
-  contentContainerStyle={{ paddingHorizontal, columnGap: 10 }}
-/>
-
-
-</View>
     </View>
   );
 };
 
 const stylis = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#f5f5f5',
-    paddingTop: 40,
     overflow: 'hidden',
-    padding:10
+    padding:10,
   },
   item: {
     padding: 16,
     borderRadius: 10,
     backgroundColor: '#fff',
+    // backgroundColor: COLORS.tertiary,
     alignItems: 'center',
-    gap:10
+    gap:10,
+    elevation: 5,
+    marginBottom:10,
+    // shadowColor: COLORS.tertiary,
+
   },
   image: {
     width: 70,

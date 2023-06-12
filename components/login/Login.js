@@ -1,4 +1,4 @@
-import { SafeAreaView, StyleSheet, Text, View ,Image, Dimensions} from 'react-native'
+import { SafeAreaView, StyleSheet, Text, View ,Image, Dimensions, TextInput} from 'react-native'
 import React,{useState, useEffect} from 'react'
 import { ScrollView } from 'react-native'
 import { COLORS, FONT } from '../../constants'
@@ -11,7 +11,7 @@ import { useDispatch } from 'react-redux';
 import { setUser } from '../../features/userSlice';
 import { ANDROID_CLIENT_ID, WEB_CLIENT_ID,EXPO_CLIENT_ID } from '@env';
 import firebase from '../../hook/firebaseConfig';
-
+import auth from '@react-native-firebase/auth';
 
 const {height} = Dimensions.get('window');
 
@@ -69,22 +69,27 @@ const Login = ({navigation}) => {
       }
     }
 
-    const handleSendCode = async () => {
-      try {
-        const confirmation = await firebase.auth().signInWithPhoneNumber(phoneNumber);
-        setVerificationId(confirmation.verificationId);
-      } catch (error) {
-        console.log('Phone authentication error:', error);
-      }
-    };
-    const handleVerifyCode = async () => {
-      try {
-        const credential = firebase.auth.PhoneAuthProvider.credential(verificationId, verificationCode);
-        await firebase.auth().signInWithCredential(credential);
-      } catch (error) {
-        console.log('Verification code error:', error);
-      }
-    };
+    // const handleSendCode = async () => {
+    //   try {
+    //     const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
+    //     setVerificationId(confirmation.verificationId);
+    //   } catch (error) {
+    //     console.log('Phone authentication error:', error);
+    //   }
+    // };
+    const signInWithPhoneNumber = async () =>{
+      const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
+      navigation.navigate('otp')
+      console.log(confirmation);
+    }
+    // const handleVerifyCode = async () => {
+    //   try {
+    //     const credential = firebase.auth.PhoneAuthProvider.credential(verificationId, verificationCode);
+    //     await firebase.auth().signInWithCredential(credential);
+    //   } catch (error) {
+    //     console.log('Verification code error:', error);
+    //   }
+    // };
 
   return (
     <SafeAreaView style={{flex:1,width:'100%'}}>
@@ -93,7 +98,6 @@ const Login = ({navigation}) => {
       style={{width:'100%',zIndex:-1}}
     />
     <ScrollView style={styles.dabba}>
-      <Text>{JSON.stringify(userInfo?.name)}</Text>
               <View style={{flex:1,flexDirection:'row',gap:10,marginTop:110,alignSelf:'center'}}>
             <View style={styles.container}>
             <PhoneInput
@@ -111,6 +115,7 @@ const Login = ({navigation}) => {
             style={[styles.button,{backgroundColor:(phoneNumber.length==13)?COLORS.one:COLORS.gray2}]}
             onPress={()=>
               navigation.navigate('otp')
+              // signInWithPhoneNumber()
             }
             disabled={phoneNumber.length !== 13}
         >
