@@ -9,12 +9,18 @@ const styles = StyleSheet.create({
   userName: {
     fontFamily: FONT.bold,
     fontSize: SIZES.large,
-    color: COLORS.primary,
+    color: COLORS.lightWhite,
   },
   welcomeMessage: {
     fontFamily: FONT.regular,
     fontSize: SIZES.xLarge,
-    color: COLORS.secondary,
+    color: COLORS.lightWhite,
+    marginTop: 2,
+  },
+  addressText:{
+    fontFamily: FONT.regular,
+    fontSize: SIZES.medium,
+    color: COLORS.lightWhite,
     marginTop: 2,
   },
   searchContainer: {
@@ -42,7 +48,7 @@ const styles = StyleSheet.create({
   searchBtn: {
     width: 50,
     height: '100%',
-    backgroundColor: COLORS.tertiary,
+    backgroundColor: COLORS.one,
     borderRadius: SIZES.medium,
     justifyContent: 'center',
     alignItems: 'center',
@@ -59,7 +65,7 @@ const styles = StyleSheet.create({
   tab: (activeJobType, item) => ({
     paddingVertical: 20,
     paddingHorizontal: 20,
-    borderRadius: 5,
+    borderRadius: 10,
     borderWidth: 1,
     borderColor: activeJobType === item ? COLORS.secondary : COLORS.gray2,
   }),

@@ -22,6 +22,7 @@ import Otp from '../components/login/Otp';
 import Allsupplies from '../components/home/nearby/Allsupplies';
 import Orders from '../components/account/orders/Orders';
 import UserDetails from '../components/account/userdetails/UserDetails';
+import ThekedarCard from '../components/thekedar/ThekedarCard';
 
 const Stack = createStackNavigator();
 
@@ -38,7 +39,11 @@ const Stack = createStackNavigator();
 
         <Stack.Screen name="home" component={Home} />
         <Stack.Screen name="cart" component={Cart} options={{ presentation: 'modal', headerShown: false }} />
+
+        {/* Thekedar Screens */}
         <Stack.Screen name="thekedar" component={Thekedar} />
+        <Stack.Screen name="thekedarcard" component={ThekedarCard} options={{headerShown: false, presentation: 'modal'}}/>
+
         <Stack.Screen name="prepare" component={Preparecheckout} options={{ headerShown: false, presentation: 'modal' }} />
         <Stack.Screen name="delivery" component={Delivery} options={{ headerShown: false }} />
         <Stack.Screen name="verification" component={Verification} options={{ headerShown: false }} />

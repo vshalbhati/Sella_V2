@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { View, SafeAreaView, Animated, Text, TouchableOpacity, FlatList, StyleSheet, Easing, ScrollView,Image,ImageBackground } from 'react-native'
-import {COLORS, icons, images, SIZES} from '../../constants';
+import {COLORS, icons, images, SIZES,FONT} from '../../constants';
 import { Stack } from 'expo-router';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import createClient, { urlFor } from '../../sanity';
@@ -31,8 +31,6 @@ const styles = StyleSheet.create({
     selectedIcon: {
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: COLORS.tertiary,
-      height: '120%',
       width: '33%',
       borderTopRightRadius: 10,
       borderTopLeftRadius: 10,
@@ -69,7 +67,11 @@ const styles = StyleSheet.create({
       left:0,
       right:0,
       padding:10
-    }
+    },
+    headerImage:{
+      width:200,
+      height:40
+    },
   });
 
 
@@ -113,6 +115,8 @@ const Movers = ({navigation}) => {
         setVehicle(data);
       });
     },[]);
+
+    const starthogya =false;
     
   return (
     <SafeAreaView style={{ backgroundColor:COLORS.lightWhite,flex:1}}>
@@ -139,18 +143,28 @@ const Movers = ({navigation}) => {
               <Icon name='person' size={36} color={COLORS.gray} />
             </TouchableOpacity>
           ),
-          headerTitle:'CONSTRUCK',
-        }}
+          headerTitle: () => (
+            <Image source={require('../../assets/images/name-removed.png')} style={styles.headerImage} />
+          ), 
+                }}
       />
 
+        {(!starthogya)?(
+          <View style={{flex:1,justifyContent:'center'}}>
+          <Image
+          source={require('../../assets/images/working.png')}
+          style={{width:'100%',height:400}}
+          />
+          <Text style={{textAlign:'center',fontFamily:FONT.regular,fontSize:20}}>Our team is working on this feature!</Text>
+          <Text style={{textAlign:'center',fontFamily:FONT.regular,fontSize:16}}>We'll get back soon</Text>
 
-
-          <View style={{justifyContent:'center',marginVertical: 10,alignItems:'center'}}>
-          <View style={{height: 1.7,backgroundColor: 'black',marginVertical: 5,width:'90%'}}/>
-          <Text style={{position: 'absolute',top: -10,backgroundColor: COLORS.lightWhite, paddingHorizontal: 10,alignSelf:'center',fontSize:20}}>Movers</Text>
-          </View>  
-
-
+          </View>
+        ):(
+      <View>
+      <View style={{justifyContent:'center',marginVertical: 10,alignItems:'center'}}>
+      <View style={{height: 1.7,backgroundColor: 'black',marginVertical: 5,width:'90%'}}/>
+      <Text style={{position: 'absolute',top: -10,backgroundColor: COLORS.lightWhite, paddingHorizontal: 10,alignSelf:'center',fontSize:20}}>Movers</Text>
+      </View>  
 
       <View style={{justifyContent:'center'}}>
       <FlatList
@@ -182,6 +196,9 @@ const Movers = ({navigation}) => {
           )}
         />
         </View>
+        </View>
+        )}
+      
 
     <SafeAreaView style={styles.navla}>
       <TouchableOpacity onPress={() => {setSelected(0), navigation.navigate('home'), setSelected(1)}} style={iconStyles(0)}>
@@ -191,7 +208,7 @@ const Movers = ({navigation}) => {
         <Icon name='people' size={28} color={selected === 1 ? '#fff' : '#444'} />
       </TouchableOpacity>
       <TouchableOpacity onPress={() => {setSelected(2), navigation.navigate('movers'), setSelected(2)}} style={iconStyles(2)}>
-        <Icon name='local-shipping' size={28} color={selected === 2 ? '#fff' : '#444'} />
+        <Icon name='local-shipping' size={28} color={selected === 2 ? COLORS.tertiary : '#444'} />
       </TouchableOpacity>
     </SafeAreaView>    
     </SafeAreaView>

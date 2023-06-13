@@ -2,7 +2,7 @@ import React, { useState, useEffect , useLayoutEffect,useRef} from 'react';
 import { View, Text, TouchableOpacity, FlatList, ActivityIndicator, ActivityIndicatorBase, TextInput, Button, Image, StyleSheet } from 'react-native'
 import {useRouter} from 'expo-router'
 import styles from './nearbyjobs.style'
-import { COLORS, SIZES} from '../../../constants';
+import { COLORS, SIZES, FONT} from '../../../constants';
 import createClient, { urlFor } from '../../../sanity';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { Dimensions } from 'react-native';
@@ -25,9 +25,6 @@ const Nearbyjobs = ({navigation}) => {
     createClient.fetch(
     `*[_type == 'supply']{
       ...,
-        Supplies[]->{
-          ...,
-        }
     }`
     ).then((data)=>{
       setSellers(data);
@@ -68,17 +65,17 @@ const Nearbyjobs = ({navigation}) => {
           renderItem={({ item }) => (
           <TouchableOpacity
             key={item._id}
-            style={[stylis.item,{width: itemWidth}]}
+            style={[stylis.item]}
             onPress={() => navigation.navigate('supplydetails', {
               id: item._id,
               name: item.name,
               short_description: item.short_description,
               price: item.price,
-              imgurl: item.image.asset._ref,
+              imgurl: item.image[0].asset._ref,
             })}
           >
             <Image
-              source={{ uri: urlFor(item.image.asset._ref).url() }}
+              source={{ uri: urlFor(item.image[0].asset._ref).url() }}
               style={stylis.image}
             />
             <View style={stylis.textContainer}>
@@ -106,13 +103,13 @@ const stylis = StyleSheet.create({
     padding: 16,
     borderRadius: 10,
     backgroundColor: '#fff',
-    // backgroundColor: COLORS.tertiary,
     alignItems: 'center',
-    gap:10,
+    gap:5,
     elevation: 5,
     marginBottom:10,
-    // shadowColor: COLORS.tertiary,
-
+    shadowColor: COLORS.tertiary,
+    marginLeft:5,
+    width:170
   },
   image: {
     width: 70,
@@ -127,13 +124,17 @@ const stylis = StyleSheet.create({
   },
   trackTitle: {
     fontSize: 20,
-    fontWeight: 'bold',
     marginBottom: 4,
     color: '#222',
+    fontFamily: FONT.regular,
+
+
   },
   artistName: {
     fontSize: 16,
     color: '#777',
+    fontFamily: FONT.regular,
+
   },
 });
 

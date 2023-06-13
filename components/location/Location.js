@@ -11,40 +11,51 @@ const Locate = ({navigation}) => {
   const dispatch = useDispatch();
   const scaleValue = useRef(new Animated.Value(1)).current;
 
+  const [flat, setFlat] = useState('');
+  const [area, setArea] = useState('');
+  const [landmark, setLandmark] = useState('');
+  const [town, setTown] = useState('');
+
+
+
   const [address, setAddress] = useState('No Location Added');
+
+  const handlePress = () => {
+    const Finaladdress = `${flat}, ${area}, ${landmark}, ${town}`.trim()
+    setAddress(Finaladdress);
+    decideSector(Finaladdress);
+    startAnimation();
+  };
 
   const [sector, setSector] = useState("");
 
-  const decideSector=()=>{
+  const decideSector=(Finaladdress)=>{
+    
     for (let i = 0; i < address.length; i++) {
-      if ((address[i] == 'S' || address[i] == 's') &&
-          address[i + 1] == 'e' &&
-          address[i + 2] == 'c' &&
-          address[i + 3] == 't' &&
-          address[i + 4] == 'o' &&
-          address[i + 5] == 'r' &&
-          (address[i+6]==' ' || ((address[i+6]>='a' && address[i+6]<='z') || (address[i+6]>='A' && address[i+6]<='D')))
+      if ((Finaladdress[i] == 'S' || Finaladdress[i] == 's') &&
+          Finaladdress[i + 1] == 'e' &&
+          Finaladdress[i + 2] == 'c' &&
+          Finaladdress[i + 3] == 't' &&
+          Finaladdress[i + 4] == 'o' &&
+          Finaladdress[i + 5] == 'r' &&
+          (Finaladdress[i+6]==' ' || ((Finaladdress[i+6]>='a' && Finaladdress[i+6]<='z') || (Finaladdress[i+6]>='A' && Finaladdress[i+6]<='D')))
         ){
         let s="";
-          for(let j=0; j<=address.length;j++){
-            if(address[i+7+j] == ',' || address[i+7+j] == ' '){
+          for(let j=0; j<=Finaladdress.length;j++){
+            if(Finaladdress[i+7+j] == ',' || Finaladdress[i+7+j] == ' '){
               break;
             }
             else{
-              s+=address[i+7+j];
+              s+=Finaladdress[i+7+j];
             }
           }
-          console.log(s);
           setSector(s);
         break;
       }
     }
-    dispatch(setLoocation(address));
+    dispatch(setLoocation(Finaladdress));
   }
-  const handlePress = () => {
-    decideSector();
-    startAnimation();
-  };
+
 
   const startAnimation = () => {
     Animated.sequence([
@@ -87,13 +98,32 @@ const Locate = ({navigation}) => {
       <View >
         <Text style={styles.regret}>Regrets we couldn't identify your location correctly!</Text>
         <View style={styles.inputdabba}>
-          <Text style={styles.label}>Please Input your location</Text>
+          <Text style={styles.label}>Flat, House no, Building, Company, Apartment</Text>
+          <TextInput
+            style={styles.input}
+            placeholder=''
+            onChangeText={text => setFlat(text)}
+          />
+          <Text style={styles.label}>Area, Street, Sector, Village</Text>
           <Text style={styles.hint}>(*please mention the sector)</Text>
           <TextInput
             style={styles.input}
-            placeholder='Enter the location'
-            onChangeText={text => setAddress(text)}
+            placeholder=''
+            onChangeText={text => setArea(text)}
           />
+          <Text style={styles.label}>Landmark</Text>
+          <TextInput
+            style={styles.input}
+            placeholder=''
+            onChangeText={text => setLandmark(text)}
+          />
+          <Text style={styles.label}>Town, City</Text>
+          <TextInput
+            style={styles.input}
+            placeholder=''
+            onChangeText={text => setTown(text)}
+          />
+          
           <TouchableOpacity
           style={[styles.submitButton, buttonScale]}
             onPress={handlePress}
@@ -118,16 +148,15 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   container: {
-    flex: 1,
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
   },
   backArrow:{
     height:40,
     width:40, 
     backgroundColor:COLORS.two,
     borderRadius:50, 
-    marginTop:30,
+    marginTop:40,
     marginLeft:10,
     justifyContent:'center',
     alignItems:'center',
@@ -138,10 +167,11 @@ const styles = StyleSheet.create({
   },
   regret: {
     fontSize: 20,
-    fontWeight: 'bold',
     marginTop: 100,
     textAlign: 'center',
-    color:COLORS.two,
+    color:'#FCFCFC',
+    marginBottom: 30,
+
   },
   label: {
     fontSize: 16,
@@ -184,7 +214,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   inputdabba:{
-    backgroundColor: 'rgba(255, 255, 255, 0.8)', // Adjust the opacity as needed
+    backgroundColor: '#FCFCFC',
     borderRadius: 10,
     padding: 20,
     marginBottom: 20,
@@ -192,7 +222,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   locationContainer: {
-    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    backgroundColor: '#FCFCFC',
     borderRadius: 10,
     padding: 20,
     marginTop: 20,

@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, FlatList, ActivityIndicator, ActivityIndi
 import { useRouter } from 'expo-router'
 
 import styles from './welcome.style'
-import { icons, SIZES} from '../../../constants';
+import { COLORS, icons, SIZES} from '../../../constants';
 
 const jobTypes =['Cement','Putti','Bricks','Patthar','Binola'];
 
@@ -39,6 +39,37 @@ const stylis = StyleSheet.create({
     fontSize: 16,
     marginBottom: 10,
   },
+  uparcard:{
+    backgroundColor:COLORS.tertiary,
+    padding:20,
+    borderRadius:10,
+    elevation:5,
+    shadowColor:COLORS.tertiary,
+    overflow:'hidden'
+  },
+  circle1:{
+    height:130,
+    width:130,
+    position:'absolute',
+    backgroundColor:'rgba(255,255,255,0.3)',
+    borderRadius:130,
+    marginRight:300,
+    marginTop:-30,
+    zIndex:-1
+
+  },
+  circle2:{
+    height:40,
+    width:40,
+    position:'absolute',
+    backgroundColor:'rgba(255,255,255,0.6)',
+    borderRadius:50,
+    bottom:0,
+    zIndex:-1,
+    marginBottom:-10,
+    marginRight:-10,
+    right:0
+  }
 });
 
 const Welcome = ({navigation}) => {
@@ -89,38 +120,41 @@ const Welcome = ({navigation}) => {
 
   return (
     <View>
-      <View style={styles.container}>
-        <Text style={styles.userName}>Hello, { userInfo?.name || 'Guest User'}
-        </Text>
-        <TouchableOpacity onPress={()=>getLocation()}>
-        <Text style={styles.welcomeMessage}>
-          Choose location
-        </Text>
-        </TouchableOpacity>
-        {address && (
-        <View style={styles.addressContainer}>
-          <Text style={styles.addressText}>{locationInfo.location}</Text>
-        </View>
-      )}
+      <View style={stylis.uparcard}>
+            <View style={stylis.circle1}></View>
+          <View style={styles.container}>
+            <Text style={styles.userName}>Hello, { userInfo?.name || 'Guest User'}
+            </Text>
+            <TouchableOpacity onPress={()=>getLocation()}>
+            <Text style={styles.welcomeMessage}>
+              Choose location
+            </Text>
+            </TouchableOpacity>
+            {address && (
+            <View style={styles.addressContainer}>
+              <Text style={styles.addressText}>{locationInfo.location}</Text>
+            </View>
+          )}
+          </View>
+          <View style={styles.searchContainer}>
+            <View style={styles.searchWrapper}>
+              <TextInput
+                style={styles.searchInput}
+                onChangeText={text => setQuery(text)}
+                value={query}
+                placeholder='what are you looking for?'
+              />
+            </View>
+            <TouchableOpacity style={styles.searchBtn} onPress={() => navigation.navigate('search',{query:query})}>
+              <Image
+              source={icons.search}
+              resizeMode='contain'
+              style={styles.searchBtnImage}
+              />
+            </TouchableOpacity>
+          </View>
+          <View style={stylis.circle2}></View>
       </View>
-      <View style={styles.searchContainer}>
-        <View style={styles.searchWrapper}>
-          <TextInput
-            style={styles.searchInput}
-            onChangeText={text => setQuery(text)}
-            value={query}
-            placeholder='what are you looking for?'
-          />
-        </View>
-        <TouchableOpacity style={styles.searchBtn} onPress={() => navigation.navigate('search',{query:query})}>
-          <Image
-          source={icons.search}
-          resizeMode='contain'
-          style={styles.searchBtnImage}
-          />
-        </TouchableOpacity>
-      </View>
-
 
       <View style={styles.tabsContainer}>
         <FlatList

@@ -17,7 +17,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: 60,
     with:'100%',
-    backgroundColor: '#fff',
     borderTopWidth: 1,
     borderColor: '#ddd',
     elevation: 5,
@@ -29,15 +28,13 @@ const styles = StyleSheet.create({
   icon: {
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: COLORS.white,
     height: '100%',
     width: '33%',
   },
   selectedIcon: {
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: COLORS.tertiary,
-    height: '120%',
     width: '33%',
     borderTopRightRadius: 10,
     borderTopLeftRadius: 10,
@@ -132,7 +129,11 @@ const styles = StyleSheet.create({
     right:0,
     marginTop:-10,
     marginRight:3
-  }
+  },
+  headerImage:{
+    width:200,
+    height:40
+  },
 });
 
 const Home = ({navigation}) =>{
@@ -193,7 +194,7 @@ const Home = ({navigation}) =>{
           headerTitleAlign: 'center',
           headerTitleStyle: {
             fontSize: 24,
-            color: COLORS.darkGray,
+            color: COLORS.grayray,
             paddingHorizontal: 16,
           },
           headerRight: () => (
@@ -215,11 +216,13 @@ const Home = ({navigation}) =>{
               <Icon name='person' size={36} color={COLORS.gray} />
             </TouchableOpacity>
           ),
-          headerTitle:'CONSTRUCK',
-        }}
+          headerTitle: () => (
+            <Image source={require('../../assets/images/name-removed.png')} style={styles.headerImage} />
+          ), 
+                }}
       />
       <ScrollView showsHorizontalScrollIndicator={false}>
-        <View style={{flex:1,padding: SIZES.medium}}>
+        <View style={{flex:1,padding: SIZES.xSmall}}>
           <Welcome navigation={navigation} />
           <Nearbyjobs navigation={navigation}/>        
         </View>
@@ -229,21 +232,21 @@ const Home = ({navigation}) =>{
         <TouchableOpacity
           style={styles.boticon}
           onPress={() => navigation.navigate('chatbot')}>
-          <Icon name="chat" size={30} color="white"/>
+          <Icon name="chat" size={30} color={COLORS.white}/>
         </TouchableOpacity>
 
       
-    <SafeAreaView style={styles.navla}>
+    <View style={styles.navla}>
       <TouchableOpacity onPress={() => {setSelected(0), navigation.navigate('home')}} style={iconStyles(0)}>
-        <Icon name='build' size={28} color={selected === 0 ? '#fff' : '#444'} />
+        <Icon name='build' size={28} color={selected === 0 ? COLORS.tertiary : COLORS.gray} />
       </TouchableOpacity>
       <TouchableOpacity onPress={() => {setSelected(1), navigation.navigate('thekedar'), setSelected(0)}} style={iconStyles(1)}>
-        <Icon name='people' size={28} color={selected === 1 ? '#fff' : '#444'} />
+        <Icon name='people' size={28} color={selected === 1 ? COLORS.tertiary : COLORS.gray} />
       </TouchableOpacity>
       <TouchableOpacity onPress={() => {setSelected(2), navigation.navigate('movers'), setSelected(0)}} style={iconStyles(2)}>
-        <Icon name='local-shipping' size={28} color={selected === 2 ? '#fff' : '#444'} />
+        <Icon name='local-shipping' size={28} color={selected === 2 ? COLORS.tertiary : COLORS.gray} />
       </TouchableOpacity>
-    </SafeAreaView>
+    </View>
     </SafeAreaView>
   )
 }

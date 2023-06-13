@@ -15,92 +15,16 @@ import {LinearGradient} from 'expo-linear-gradient';
 
 
 
-const styles = StyleSheet.create({
-  backArrow:{
-    height:40,
-    width:40, 
-    backgroundColor:'rgba(255,255,255,0.6)',
-    borderRadius:50, 
-    zIndex:1,
-    marginTop:30,
-    marginLeft:10,
-    justifyContent:'center',
-    alignItems:'center',
-  },
-  gola:{
-    height:40,
-    width:40,
-    borderRadius:50,
-    justifyContent:'center',
-    alignItems:'center',
-  },
-  backgroundImage:{
-    flex:1,
-  },
-  container:{
-    flex:1,
-  },
-  name:{
-    fontSize:22,
-    fontWeight:"400", 
-    textAlign:'center',
-    color:COLORS.lightWhite
-  },
-  name_card:{
-    width:150,
-    height:50,
-    borderRadius:10,
-    backgroundColor:'#EC6170',
-    justifyContent:'center',
-    alignItems:'center',
-  },
-  price:{
-    fontSize:22,
-    color:COLORS.tertiary,
-    textAlign:'center'
-  },
-  price_card:{
-    width:150,
-    height:50,
-    borderRadius:10,
-    backgroundColor:'#EBF1F1',
-    justifyContent:'center',
-    alignItems:'center',
-  },
-  description:{
-    fontSize:22,
-    fontWeight:"200",
-    textAlign:'center'
-  },
-  desc_card:{
-    width:'40%',
-    height:120,
-    borderRadius:10,
-    backgroundColor:'#EBF1F1',
-    justifyContent:'center',
-    alignItems:'center',
-    alignSelf:'center',
-    marginTop:50
-  },
-  quantity:{
-    flex:1,
-    width:'80%',
-    maxHeight:120,
-    borderRadius:10,
-    backgroundColor:'#EC6170',
-    justifyContent:'center',
-    alignItems:'center',
-    alignSelf:'center',
-    marginTop:50,
-  }
 
-});
 
 const Supplydetails = ({navigation}) => {
   const route = useRoute();
   const { id, imgurl, name, short_description ,price} = route.params;
   const dispatch = useDispatch();
   const items = useSelector(state => selectBasketItemsWithId(state, id));
+  const [supplyImages, setSupplyImages] = useState([]);
+  const [selectedImage, setSelectedImage] = useState(null);
+
 
   const addbill=(key)=>{
     dispatch(addToBasket({id, name, short_description, imgurl, price}))
@@ -110,6 +34,20 @@ const Supplydetails = ({navigation}) => {
     if(!items.length >0) return;
     dispatch(removeFromBasket({id}));
   }
+
+  useEffect(()=>{
+    createClient.fetch(
+      `*[_type == 'supply' && _id == '${id}'] {
+        image[]{
+          asset->{
+            ...,
+          }
+        }
+      }`
+    ).then((data)=>{
+      setSupplyImages(data[0].image);
+    });
+  },[]);
 
   useEffect(() => {
     dispatch(
@@ -124,15 +62,8 @@ const Supplydetails = ({navigation}) => {
   },[]);
 
   return (
-    <ImageBackground
-    source={{uri: urlFor(imgurl).url()}}
-    style={styles.backgroundImage}
-    resizeMode="cover"
-    >
     <SafeAreaView style={styles.container}>
-    
-    <LinearGradient colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0.8)','rgba(0,0,0,1)']} style={styles.container}>
-    <View style={styles.backArrow}>
+        <View style={styles.backArrow}>
         <TouchableOpacity>
           <Icon
             name='arrow-back'
@@ -140,32 +71,46 @@ const Supplydetails = ({navigation}) => {
             onPress={() => navigation.goBack()}
           />      
         </TouchableOpacity>
+      </View>      
+
+      <Image
+        source={{ uri: selectedImage || urlFor(imgurl).url() }}
+        style={styles.badimage}
+      />
+
+      <View style={styles.imagesarray}>
+        <FlatList
+          data={supplyImages}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              style={{ padding: 5 }}
+              onPress={() => setSelectedImage(item.asset.url)}
+            >
+              <Image
+                source={{ uri: item.asset.url }}
+                style={{ height: 30, width: 30, borderRadius: 5 }}
+              />
+            </TouchableOpacity>
+          )}
+        />
       </View>
-    <ScrollView>
-      
-      {/* <Image
-      source={{uri: urlFor(imgurl).url()}}
-      style={{height:(600),width:'100%',zIndex:-1}}
-      /> */}
-      <View style={{flex:1,marginTop:200}}>
-        <View style={{flexDirection:'row',gap:20,justifyContent:'center'}}>
-          <View style={{gap:20,marginTop:50,flexDirection:'column'}}>
-            <View style={styles.name_card}>
-              <Text style={styles.name}>{name}</Text>
-            </View>
-            <View style={styles.price_card}>
-              <Text style={styles.price}>₹{price}/pc</Text>
-            </View>
-          </View>
-          <View style={styles.desc_card}>
+
+
+
+      <View style={styles.infocard}>
+        <View style={styles.textcontent}>
+            <Text style={styles.name}>{name}</Text>
             <Text style={styles.description}>{short_description}</Text>
-          </View>
+            <Text style={styles.price}>₹{price}/pc</Text>
+
         </View>
 
         <View style={styles.quantity}>
-          <View style={{justifyContent:'center',alignItems:'center',}}>
-          <Text style={{fontSize:22,textAlign:'center',color:COLORS.lightWhite}}>Choose the quantity</Text>
-          <View style={{flex:1, flexDirection:'row',alignSelf:'center'}}>
+          <View style={{justifyContent:'center',alignItems:'center', flexDirection:'row'}}>
+          <Text style={{fontSize:22,textAlign:'center',color:COLORS.lightWhite,marginLeft:20}}>Tons(s)</Text>
+          <View style={{flex:1, flexDirection:'row',alignSelf:'center',marginLeft:50}}>
           <TouchableOpacity style={[styles.gola,{backgroundColor:COLORS.one}]}>
           <Icon
             name='add'
@@ -174,7 +119,7 @@ const Supplydetails = ({navigation}) => {
             color={'white'}
           />
           </TouchableOpacity>
-              <Text style={{ fontSize:24,fontWeight:'bold',paddingLeft:10,paddingRight:10,color:COLORS.lightWhite}}>{items.length}</Text>
+              <Text style={{ fontSize:24,fontWeight:'bold',paddingLeft:20,paddingRight:20,color:COLORS.lightWhite}}>{items.length}</Text>
           <TouchableOpacity disabled={!items.length} style={[styles.gola,{backgroundColor:(items.length) >0 ? COLORS.one : '#BDC3C7'}]}>
           <Icon
             name='remove'
@@ -188,14 +133,93 @@ const Supplydetails = ({navigation}) => {
 
       </View>
       </View>
-    </ScrollView>
     <Crateicon
     navigation={navigation}
     />
-    </LinearGradient>
     </SafeAreaView>
-    </ImageBackground>
   )
 }
 
 export default Supplydetails
+
+const styles = StyleSheet.create({
+  backArrow:{
+    height:40,
+    width:40, 
+    backgroundColor:'rgba(255,255,255,0.6)',
+    borderRadius:50, 
+    marginTop:40,
+    marginLeft:10,
+    justifyContent:'center',
+    alignItems:'center',
+    position:'absolute',
+    left:0,
+    zIndex:3
+  },
+  gola:{
+    height:40,
+    width:40,
+    borderRadius:50,
+    justifyContent:'center',
+    alignItems:'center',
+  },
+  container:{
+    flex:1,
+  },
+  name:{
+    fontSize:25,
+    fontFamily:FONT.bold,
+    textAlign:'left'
+  },
+  price:{
+    fontSize:20,
+    color:COLORS.tertiary,
+  },
+  description:{
+    fontSize:15,
+    fontFamily:FONT.regular,
+    textAlign:'left'
+  },
+
+  quantity:{
+    flex:1,
+    width:'90%',
+    maxHeight:80,
+    borderRadius:10,
+    backgroundColor:'#EC6170',
+    justifyContent:'center',
+    alignItems:'center',
+    alignSelf:'center',
+    marginTop:50,
+  },
+  imagesarray:{
+    flex:1,
+    position:'absolute',
+    marginBottom:520,
+    bottom:0,
+    width:'100%',
+    alignItems:'center',
+    rowGap:50
+  },
+  badimage:{
+    height:600,
+    width:'100%',
+    zIndex:-1
+  },
+  infocard:{
+    position:'absolute',
+    backgroundColor:COLORS.white,
+    bottom:0,
+    width:'100%',
+    height:500,
+    borderTopLeftRadius:50,
+    borderTopRightRadius:50,
+    elevation:3,
+    padding:30
+  },
+  textcontent:{
+    justifyContent:'center',
+    marginTop:50
+  },
+
+});
