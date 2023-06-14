@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
   },
   input: {
     borderWidth: 1,
-    borderColor: COLORS.lightGray,
+    borderColor: COLORS.gray,
     borderRadius: 5,
     padding: 10,
     marginTop: 10,
@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
     marginTop: 20
   },
   socialBtn: {
-    backgroundColor: COLORS.lightGray,
+    backgroundColor: COLORS.gray,
     height:1,
     borderRadius: 5,
     padding: 10,

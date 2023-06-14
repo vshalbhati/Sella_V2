@@ -12,7 +12,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 const styles = StyleSheet.create({
   container: {
     flex:1,
-    backgroundColor: '#fff',
+    backgroundColor: COLORS.white,
   },
   image: {
     height: 50,
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   continer: {
-    backgroundColor: '#fff',
+    backgroundColor: COLORS.white,
     padding: SIZES.medium,
     marginVertical: SIZES.medium,
     left:0,
@@ -105,7 +105,7 @@ const Account = ({navigation}) => {
         
       <View style={{position: 'relative',justifyContent:'center'}}>
       <View style={{height: 1,backgroundColor: 'black',marginVertical: 10,}} />
-      <Text style={{position: 'absolute',top: -10,backgroundColor: 'white', paddingHorizontal: 10,alignSelf:'center',fontSize:20}}>Profile</Text>
+      <Text style={{position: 'absolute',top: -10,backgroundColor: COLORS.white, paddingHorizontal: 10,alignSelf:'center',fontSize:20}}>Profile</Text>
       </View>
 
       <TouchableOpacity style={styles.item} onPress={()=>navigation.navigate('userdetails')}>
@@ -128,7 +128,7 @@ const Account = ({navigation}) => {
 
       <View style={{position: 'relative',justifyContent:'center',marginVertical: 10,}}>
       <View style={{height: 1,backgroundColor: 'black',marginVertical: 10,}} />
-      <Text style={{position: 'absolute',top: -10,backgroundColor: 'white', paddingHorizontal: 10,alignSelf:'center',fontSize:20}}>Settings</Text>
+      <Text style={{position: 'absolute',top: -10,backgroundColor: COLORS.white, paddingHorizontal: 10,alignSelf:'center',fontSize:20}}>Settings</Text>
       </View>
 
       <View style={styles.item}>

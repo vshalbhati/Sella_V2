@@ -18,7 +18,7 @@ const style = StyleSheet.create({
         flexDirection:'row',
     },
     curr:{
-        color:'white',
+        color:COLORS.white,
         fontSize:24,
         fontWeight:'bold',
         paddingRight:5    

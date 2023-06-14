@@ -76,7 +76,7 @@ const Cart = ({navigation}) => {
         </TouchableOpacity>
       </View>
 
-{sector.length>0 ? (
+      {sector.length>0 ? (
       <View style={styles.dabba}>
         <Text style={{textAlign:'center',color:COLORS.lightWhite}}>
         Delivering to this address
@@ -115,7 +115,7 @@ const Cart = ({navigation}) => {
             <View >
             <Text style={styles.cartItemName}>{items[0]?.name}</Text>
             <Text style={styles.cartItemPrice}>
-              ₹{items[0]?.price}
+              ₹{items[0]?.price} /{items[0]?.measure}
             </Text>
             <View style={{flexDirection:'row', gap:10}}>
             <TouchableOpacity >
@@ -153,14 +153,14 @@ const Cart = ({navigation}) => {
         <View style={{flex:1, flexDirection:'row'}}>
         <Text style={styles.footerText}>Delivery Fee (Free above 1000)</Text>
         <Text style={{fontSize: 16,color:COLORS.gray,right:0,position:'absolute',marginRight:5}}>
-          ₹{(basketTotal == 0 || basketTotal>=1000)? 0: 200}
+          ₹{(basketTotal == 0 || basketTotal>=100000)? 0: 5000}
         </Text>
         </View>
 
         <View style={{flex:1, flexDirection:'row', alignItems:'center', alignContent:'center'}}>
         <Text style={{fontSize: 16,color:COLORS.gray,fontWeight:'bold', marginLeft:5}}>Order Total</Text>
         <Text style={{fontSize: 16,color:COLORS.gray,fontWeight:'bold',right:0,position:'absolute', marginRight:5}}>
-          ₹{basketTotal +((basketTotal == 0 || basketTotal>=1000)? 0: 200)}
+          ₹{basketTotal +((basketTotal == 0 || basketTotal>=100000)? 0: 5000)}
         </Text>
         </View>
 

@@ -9,10 +9,10 @@ import { COLORS } from '../../constants';
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#BDC3C7',
+        backgroundColor: COLORS.gray2,
     },
     textInput: {
-        backgroundColor: 'white',
+        backgroundColor: COLORS.white,
         borderRadius: 8,
         paddingVertical: 8,
         paddingHorizontal: 16,

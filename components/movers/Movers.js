@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       height: 60,
       width:'100%',
-      backgroundColor: '#fff',
+      backgroundColor: COLORS.lightWhite,
       borderTopWidth: 1,
       borderColor: '#ddd',
       elevation: 5,
@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     icon: {
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: '#fff',
+      backgroundColor: COLORS.lightWhite,
       height: '100%',
       width: '33%',
     },

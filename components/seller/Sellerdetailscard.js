@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
       width:'90%',
       marginLeft:20,
       marginBottom:10,
-      backgroundColor:'orange',
+      backgroundColor:COLORS.one,
       position:'absolute',
       bottom:0,
       borderRadius:10,

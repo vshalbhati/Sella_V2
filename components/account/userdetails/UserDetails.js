@@ -27,12 +27,10 @@ const UserDetails = ({navigation}) => {
             style={{height:300,position:'absolute',zIndex:-1}}
             source={require('../../../assets/images/back.jpg')}
             />
-            <View style={{backgroundColor:'rgba(0,0,0,0.7)'}}>
             <Image
             source={{ uri: userInfo?.picture || defaultImageSource }}
             style={styles.image}
             />
-            </View>
             
         </View> 
 
@@ -68,7 +66,7 @@ export default UserDetails
 const styles = StyleSheet.create({
     container: {
         flex:1,
-        backgroundColor: '#FCFCFC',
+        backgroundColor: COLORS.white,
     },
     image: {
         height: 150,

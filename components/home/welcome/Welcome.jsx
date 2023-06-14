@@ -20,7 +20,7 @@ const stylis = StyleSheet.create({
     paddingVertical: 16,
     paddingHorizontal: 8,
     alignItems: 'center',
-    backgroundColor: '#F8F8F8',
+    backgroundColor: COLORS.white,
   },
   image: {
     width: 50,

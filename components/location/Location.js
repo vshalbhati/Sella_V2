@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   inputdabba:{
-    backgroundColor: '#FCFCFC',
+    backgroundColor: COLORS.white,
     borderRadius: 10,
     padding: 20,
     marginBottom: 20,
@@ -222,7 +222,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   locationContainer: {
-    backgroundColor: '#FCFCFC',
+    backgroundColor: COLORS.white,
     borderRadius: 10,
     padding: 20,
     marginTop: 20,

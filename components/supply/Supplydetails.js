@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, FlatList, StyleSheet, Image,ImageBackground ,Dimensions} from 'react-native'
+import { View, Text, ScrollView, FlatList, StyleSheet, Image,ImageBackground ,Dimensions,TextInput} from 'react-native'
 import { useState, useEffect } from 'react';
 import createClient, { urlFor } from '../../sanity';
 import { COLORS, FONT, SIZES } from '../../constants';
@@ -19,15 +19,16 @@ import {LinearGradient} from 'expo-linear-gradient';
 
 const Supplydetails = ({navigation}) => {
   const route = useRoute();
-  const { id, imgurl, name, short_description ,price} = route.params;
+  const { id, imgurl, name, short_description ,price,measure} = route.params;
   const dispatch = useDispatch();
   const items = useSelector(state => selectBasketItemsWithId(state, id));
   const [supplyImages, setSupplyImages] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [quantity, setQuantity]= useState(0);
 
 
   const addbill=(key)=>{
-    dispatch(addToBasket({id, name, short_description, imgurl, price}))
+    dispatch(addToBasket({id, name, short_description, imgurl, price, measure}))
   }
 
   const removebill=(itemId)=>{
@@ -103,13 +104,18 @@ const Supplydetails = ({navigation}) => {
         <View style={styles.textcontent}>
             <Text style={styles.name}>{name}</Text>
             <Text style={styles.description}>{short_description}</Text>
-            <Text style={styles.price}>₹{price}/pc</Text>
-
+            <Text style={styles.price}>₹{price}/{measure}</Text>
         </View>
+
+
+        <View style={styles.quantityheaderbox}>
+        <Text style={styles.quantityheader}>Select the quantity</Text>
+        </View>
+
 
         <View style={styles.quantity}>
           <View style={{justifyContent:'center',alignItems:'center', flexDirection:'row'}}>
-          <Text style={{fontSize:22,textAlign:'center',color:COLORS.lightWhite,marginLeft:20}}>Tons(s)</Text>
+          <Text style={{fontSize:22,textAlign:'center',color:COLORS.lightWhite,marginLeft:20}}>{measure}</Text>
           <View style={{flex:1, flexDirection:'row',alignSelf:'center',marginLeft:50}}>
           <TouchableOpacity style={[styles.gola,{backgroundColor:COLORS.one}]}>
           <Icon
@@ -119,8 +125,13 @@ const Supplydetails = ({navigation}) => {
             color={'white'}
           />
           </TouchableOpacity>
-              <Text style={{ fontSize:24,fontWeight:'bold',paddingLeft:20,paddingRight:20,color:COLORS.lightWhite}}>{items.length}</Text>
-          <TouchableOpacity disabled={!items.length} style={[styles.gola,{backgroundColor:(items.length) >0 ? COLORS.one : '#BDC3C7'}]}>
+              {/* <Text style={{ fontSize:24,fontWeight:'bold',paddingLeft:20,paddingRight:20,color:COLORS.lightWhite}}>{items.length}</Text> */}
+              <TextInput
+                style={styles.itemlength}
+                value={items.length.toString()}
+                onChangeText={txt => setItemsLength(Number(txt))}
+              />
+          <TouchableOpacity disabled={!items.length} style={[styles.gola,{backgroundColor:(items.length) >0 ? COLORS.one : COLORS.gray2}]}>
           <Icon
             name='remove'
             size={28}
@@ -169,28 +180,29 @@ const styles = StyleSheet.create({
   name:{
     fontSize:25,
     fontFamily:FONT.bold,
-    textAlign:'left'
+    textAlign:'left',
   },
   price:{
     fontSize:20,
     color:COLORS.tertiary,
+    marginTop:5,
   },
   description:{
     fontSize:15,
     fontFamily:FONT.regular,
-    textAlign:'left'
+    textAlign:'left',
+    marginTop:5,
   },
 
   quantity:{
     flex:1,
-    width:'90%',
     maxHeight:80,
     borderRadius:10,
-    backgroundColor:'#EC6170',
+    backgroundColor:COLORS.tertiary,
     justifyContent:'center',
     alignItems:'center',
     alignSelf:'center',
-    marginTop:50,
+    marginTop:20,
   },
   imagesarray:{
     flex:1,
@@ -220,6 +232,20 @@ const styles = StyleSheet.create({
   textcontent:{
     justifyContent:'center',
     marginTop:50
+  },
+  quantityheaderbox:{
+    marginTop:30,
+  },
+  quantityheader:{
+    fontFamily:FONT.medium,
+    fontSize:15,
+  },
+  itemlength:{
+    fontSize: 24,
+    fontWeight: 'bold',
+    paddingLeft: 20,
+    paddingRight: 20,
+    color: COLORS.lightWhite,
   },
 
 });

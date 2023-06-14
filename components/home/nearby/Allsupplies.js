@@ -42,19 +42,27 @@ const Allsupplies = ({navigation}) => {
             <FlatList
             data={supplies}
             renderItem={({ item }) => (
-                <View
+                <TouchableOpacity
                 key={item._id}
                 style={styles.item}
+                onPress={() => navigation.navigate('supplydetails', {
+                    id: item._id,
+                    name: item.name,
+                    short_description: item.short_description,
+                    price: item.price,
+                    imgurl: item.image[0].asset._ref,
+                    measure: item.quantity
+                  })}
                 >
                 <Image
-                    source={{ uri: urlFor(item.image.asset._ref).url() }}
+                    source={{ uri: urlFor(item.image[0].asset._ref).url() }}
                     style={styles.image}
                 />
                 <View style={styles.textContainer}>
                     <Text style={styles.trackTitle}>{item.name}</Text>
                     <Text style={styles.artistName}>{item.short_description}</Text>
                 </View>
-                </View>
+                </TouchableOpacity>
             )}
             keyExtractor={(item) => item._id}
             showsHorizontalScrollIndicator={false}
@@ -69,13 +77,13 @@ export default Allsupplies
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#FCFCFC',
+        backgroundColor: COLORS.white,
         padding:10
       },
     item: {
         padding: 16,
         borderRadius: 10,
-        backgroundColor: '#fff',
+        backgroundColor: COLORS.lightWhite,
         gap:10,
         flexDirection:'row'
     },
@@ -114,7 +122,7 @@ const styles = StyleSheet.create({
         zIndex:3
       },
       Textheading:{
-        padding:30,
+        padding:13,
         backgroundColor:COLORS.two,
         justifyContent:'center',
         alignItems:'center',

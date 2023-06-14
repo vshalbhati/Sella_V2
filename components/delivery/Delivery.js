@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     alignItems:'center',
   },
   dropdown:{
-    backgroundColor:'#fff',
+    backgroundColor:COLORS.white,
     width:370,
     zIndex:1,
     position:'absolute',

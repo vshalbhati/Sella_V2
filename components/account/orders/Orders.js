@@ -26,7 +26,7 @@ const Orders = ({navigation}) => {
   });
   
 
-groqQuery += ')] { ... }';
+groqQuery += ')] { ..., }';
 
 useEffect(()=>{
   createClient.fetch(groqQuery).then((data)=>{
@@ -61,12 +61,12 @@ useEffect(()=>{
           renderItem={({ item }) => (
             <View key={item._id} style={{flexDirection:'row',padding:20}}>
               <Image
-                source={{ uri: urlFor(item.image.asset._ref).url() }}
+                source={{ uri: urlFor(item.image[0].asset._ref).url() }}
                 style={styles.cartItemImage}
               />
               <View style={{flexDirection:'column',marginHorizontal:30}}>
                 <Text >{item.name}</Text>
-                <Text >₹{item.price}</Text>
+                <Text >₹{item.price}/{item.quantity}</Text>
               </View>
             </View>
           )}
@@ -83,7 +83,7 @@ export default Orders
 const styles = StyleSheet.create({
   container:{
     flex:1,
-    backgroundColor: '#FCFCFC',
+    backgroundColor: COLORS.white,
   },
   backArrow:{
     height:40,

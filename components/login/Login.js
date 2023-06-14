@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
         bottom:0,
         left:0,
         right:0,
-        backgroundColor: '#FCFCFC',
+        backgroundColor: COLORS.white,
         height:'60%',
         borderTopLeftRadius:70,
     },
@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
         width: '80%',
         height: 60,
         borderRadius: 10,
-        backgroundColor: '#F1F5F5',
+        backgroundColor: COLORS.lightWhite,
         paddingHorizontal: 10,
       },
       inputText: {
@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
         color: '#333333',
       },
       inputTextContainer: {
-        backgroundColor: '#F1F5F5',
+        backgroundColor: COLORS.lightWhite,
         padding: 10,
       },
     button:{
