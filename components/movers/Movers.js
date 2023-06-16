@@ -1,9 +1,13 @@
 import { useState, useRef, useEffect } from 'react';
 import { View, SafeAreaView, Animated, Text, TouchableOpacity, FlatList, StyleSheet, Easing, ScrollView,Image,ImageBackground } from 'react-native'
-import {COLORS, icons, images, SIZES,FONT} from '../../constants';
+import {COLORS, icons, images, SIZES,FONT,Darkmode} from '../../constants';
 import { Stack } from 'expo-router';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import createClient, { urlFor } from '../../sanity';
+import {selectBasketItems} from '../../features/basketSlice';
+import { useDispatch, useSelector } from 'react-redux';
+
+
 
 const styles = StyleSheet.create({
     navla: {
@@ -20,6 +24,18 @@ const styles = StyleSheet.create({
       bottom:0,
       left:0,
       right:0
+    },
+    itemcount:{
+      height:25,
+      width:25,
+      borderRadius:50,
+      position:'absolute',
+      zIndex:1,
+      justifyContent:'center',
+      alignItems:'center',
+      right:0,
+      marginTop:-10,
+      marginRight:3
     },
     icon: {
       justifyContent: 'center',
@@ -77,10 +93,10 @@ const styles = StyleSheet.create({
 
 const Movers = ({navigation}) => {
     const [vehicle, setVehicle] = useState([]);
-
-
+    const items = useSelector(selectBasketItems);
     const [selected, setSelected] = useState(2);
     const animationValues = [1, 1, 1, 1].map(() => new Animated.Value(1));
+    const darkmode = useSelector((state) => state.darkmode.darkmode);
   
     const onPress = (index) => {
       setSelected(index);
@@ -119,10 +135,10 @@ const Movers = ({navigation}) => {
     const starthogya =false;
     
   return (
-    <SafeAreaView style={{ backgroundColor:COLORS.lightWhite,flex:1}}>
+    <SafeAreaView style={{ backgroundColor:darkmode?Darkmode.white:COLORS.lightWhite,flex:1}}>
         <Stack.Screen 
         options={{
-          headerStyle: { backgroundColor: COLORS.lightWhite },
+          headerStyle: { backgroundColor:darkmode?Darkmode.white:COLORS.lightWhite },
           headerShadowVisible: false,
           headerTitleAlign: 'center',
           headerTitleStyle: {
@@ -132,6 +148,12 @@ const Movers = ({navigation}) => {
           },
           headerRight: () => (
             <TouchableOpacity style={styles.iconButton} onPress={()=>navigation.navigate('cart')}>
+              {items.length>0 &&(
+                <View style={[styles.itemcount,{backgroundColor:darkmode?Darkmode.gray2:COLORS.tertiary}]}>
+                <Text style={{textAlign:'center',}}>{items.length}</Text>
+                </View>
+              )}
+              
               <Icon name='shopping-cart' size={32} color={COLORS.gray} />
             </TouchableOpacity>
           ),
@@ -155,8 +177,8 @@ const Movers = ({navigation}) => {
           source={require('../../assets/images/working.png')}
           style={{width:'100%',height:400}}
           />
-          <Text style={{textAlign:'center',fontFamily:FONT.regular,fontSize:20}}>Our team is working on this feature!</Text>
-          <Text style={{textAlign:'center',fontFamily:FONT.regular,fontSize:16}}>We'll get back soon</Text>
+          <Text style={{textAlign:'center',fontFamily:FONT.regular,fontSize:20,color:darkmode?Darkmode.gray2:'black'}}>Our team is working on this feature!</Text>
+          <Text style={{textAlign:'center',fontFamily:FONT.regular,fontSize:16,color:darkmode?Darkmode.gray2:'black'}}>We'll get back soon</Text>
 
           </View>
         ):(

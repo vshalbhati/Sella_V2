@@ -23,6 +23,7 @@ import Allsupplies from '../components/home/nearby/Allsupplies';
 import Orders from '../components/account/orders/Orders';
 import UserDetails from '../components/account/userdetails/UserDetails';
 import ThekedarCard from '../components/thekedar/ThekedarCard';
+import Allfeatured from '../components/home/nearby/Allfeatured';
 
 const Stack = createStackNavigator();
 
@@ -54,6 +55,8 @@ const Stack = createStackNavigator();
         <Stack.Screen name="location" component={Locate} options={{ headerShown: false, presentation: 'modal' }} />
         <Stack.Screen name="moverscard" component={MoverCard} options={{ headerShown: false, presentation: 'modal' }} />
         <Stack.Screen name="allsuply" component={Allsupplies} options={{headerShown: false,  presentation: 'modal' }} />
+        <Stack.Screen name="allfeatured" component={Allfeatured} options={{headerShown: false,  presentation: 'modal' }} />
+
         <Stack.Screen name="movers" component={Movers} />
 
         {/* Account Screens */}

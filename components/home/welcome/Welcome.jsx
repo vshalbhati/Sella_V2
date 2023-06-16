@@ -72,7 +72,7 @@ const stylis = StyleSheet.create({
   }
 });
 
-const Welcome = ({navigation}) => {
+const Welcome = ({navigation,darkmode}) => {
   const locationInfo = useSelector((state) => state.location)
   const router = useRouter();
   const [activeJobType, setActiveJobType] = useState('Cement');
@@ -81,6 +81,7 @@ const Welcome = ({navigation}) => {
   const [address, setAddress] = useState('No Location Added');
 
   const dispatch = useDispatch();
+
 
 
 
@@ -161,13 +162,13 @@ const Welcome = ({navigation}) => {
         data={jobTypes}
         renderItem={({ item}) =>(
           <TouchableOpacity
-          style={styles.tab(activeJobType, item)} 
+          style={styles.tab(activeJobType, item,darkmode)} 
           onPress={()=>{
             setActiveJobType(item);
             navigation.navigate('search',{query:item})
           }}
           >
-            <Text style={styles.tabText(activeJobType, item)}>{item}</Text>
+            <Text style={styles.tabText(activeJobType, item,darkmode)}>{item}</Text>
           </TouchableOpacity>
         )}
         keyExtractor={item => item}

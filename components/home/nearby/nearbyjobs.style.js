@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import { COLORS, FONT, SIZES } from '../../../constants';
+import { COLORS, FONT, SIZES,Darkmode } from '../../../constants';
 
 const styles = StyleSheet.create({
   container: {
@@ -12,16 +12,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: SIZES.small,
   },
-  headerTitle: {
+  headerTitle:(darkmode)=>( {
     fontSize: SIZES.large,
     fontFamily: FONT.medium,
-    color: COLORS.primary,
-  },
-  headerBtn: {
+    color:darkmode? Darkmode.gray2:COLORS.primary,
+  }),
+  headerBtn:(darkmode)=>( {
     fontSize: SIZES.medium,
     fontFamily: FONT.medium,
-    color: COLORS.gray,
-  },
+    color:darkmode? Darkmode.gray2:COLORS.primary,
+  }),
   cardsContainer: {
     marginTop: SIZES.xxLarge,
     marginBottom: SIZES.xxLarge,

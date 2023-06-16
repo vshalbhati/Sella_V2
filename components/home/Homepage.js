@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { View, ScrollView, SafeAreaView, Animated, Text, TouchableOpacity, FlatList, ActivityIndicator, ActivityIndicatorBase, TextInput, Button, Image, StyleSheet, Easing } from 'react-native'
-import {COLORS, icons, images, SIZES, FONT} from '../../constants';
+import {COLORS, icons, images, SIZES, FONT,Darkmode} from '../../constants';
 import { Nearbyjobs, ScreenHeaderBtn, Welcome} from '..';
 import { Stack, useRouter } from 'expo-router';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -10,20 +10,22 @@ import { useDispatch, useSelector } from 'react-redux';
 
 
 
+
 const styles = StyleSheet.create({
   navla: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
+    width:'100%',
     height: 60,
-    with:'100%',
+    backgroundColor: COLORS.lightWhite,
     borderTopWidth: 1,
     borderColor: '#ddd',
     elevation: 5,
     position:'absolute',
     bottom:0,
     left:0,
-    right:0,
+    right:0
   },
   icon: {
     justifyContent: 'center',
@@ -36,8 +38,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width: '33%',
-    borderTopRightRadius: 10,
-    borderTopLeftRadius: 10,
     elevation: 3,
   },
   iconButton: {
@@ -120,7 +120,6 @@ const styles = StyleSheet.create({
   itemcount:{
     height:25,
     width:25,
-    backgroundColor:COLORS.tertiary,
     borderRadius:50,
     position:'absolute',
     zIndex:1,
@@ -143,7 +142,7 @@ const Home = ({navigation}) =>{
   const animationValues = [1, 1, 1, 1].map(() => new Animated.Value(1));
   const items = useSelector(selectBasketItems);
 
-
+  const darkmode = useSelector((state) => state.darkmode.darkmode);
 
   const onPress = (index) => {
     setSelected(index);
@@ -170,26 +169,12 @@ const Home = ({navigation}) =>{
     },
   ];
 
-  // useEffect(()=>{
-  //   createClient.fetch(
-  //   `*[_type == 'featured']{
-  //     ...,
-
-  //       Supplies[]->{
-  //         ...,
-  //       }
-  //   }`).then((data)=>{
-  //     setFeaturedcategories(data);
-  //   });
-  // },[]);
-
-
   return (
 
-    <SafeAreaView style={{flex:1, backgroundColor:COLORS.lightWhite}}>
+    <SafeAreaView style={{flex:1, backgroundColor:darkmode?Darkmode.white:COLORS.lightWhite}}>
       <Stack.Screen 
         options={{
-          headerStyle: { backgroundColor: COLORS.lightWhite },
+          headerStyle: { backgroundColor:darkmode?Darkmode.white:COLORS.lightWhite },
           headerShadowVisible: false,
           headerTitleAlign: 'center',
           headerTitleStyle: {
@@ -200,7 +185,7 @@ const Home = ({navigation}) =>{
           headerRight: () => (
             <TouchableOpacity style={styles.iconButton} onPress={()=>navigation.navigate('cart')}>
               {items.length>0 &&(
-                <View style={styles.itemcount}>
+                <View style={[styles.itemcount,{backgroundColor:darkmode?Darkmode.gray2:COLORS.tertiary}]}>
                 <Text style={{textAlign:'center',}}>{items.length}</Text>
                 </View>
               )}
@@ -223,8 +208,8 @@ const Home = ({navigation}) =>{
       />
       <ScrollView showsHorizontalScrollIndicator={false}>
         <View style={{flex:1,padding: SIZES.xSmall}}>
-          <Welcome navigation={navigation} />
-          <Nearbyjobs navigation={navigation}/>        
+          <Welcome navigation={navigation} darkmode={darkmode}/>
+          <Nearbyjobs navigation={navigation} darkmode={darkmode}/>        
         </View>
       </ScrollView>
 

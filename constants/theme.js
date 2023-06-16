@@ -4,14 +4,22 @@ const COLORS = {
   tertiary: "#F54768",
   one:"#FF9677",
   two:"#974063",
-
   gray: "#83829A",
   gray2: "#C1C0C8",
-
   white: "#F3F4F8",
   lightWhite: "#FAFAFC",
 };
-
+const Darkmode = {
+  primary: "#FFFFFF",
+  secondary: "#EAEAEA",
+  tertiary: "#C54768",
+  one: "#FF0000",
+  two: "#00FF00",
+  gray: "#F3F4F8",
+  gray2: "#FAFAFC",
+  white: "#252525",
+  lightWhite: "#83829A",
+};
 const FONT = {
   regular: "DMRegular",
   medium: "DMMedium",
@@ -50,4 +58,4 @@ const SHADOWS = {
   },
 };
 
-export { COLORS, FONT, SIZES, SHADOWS };
+export { COLORS, Darkmode, FONT, SIZES, SHADOWS };

@@ -24,7 +24,7 @@ const Supplydetails = ({navigation}) => {
   const items = useSelector(state => selectBasketItemsWithId(state, id));
   const [supplyImages, setSupplyImages] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
-  const [quantity, setQuantity]= useState(0);
+  const [itemquantity, setItemQuantity]= useState(items.length);
 
 
   const addbill=(key)=>{
@@ -125,12 +125,17 @@ const Supplydetails = ({navigation}) => {
             color={'white'}
           />
           </TouchableOpacity>
-              {/* <Text style={{ fontSize:24,fontWeight:'bold',paddingLeft:20,paddingRight:20,color:COLORS.lightWhite}}>{items.length}</Text> */}
-              <TextInput
+              <Text style={{ fontSize:24,fontWeight:'bold',paddingLeft:20,paddingRight:20,color:COLORS.lightWhite}}>{items.length}</Text>
+              {/* <TextInput
                 style={styles.itemlength}
-                value={items.length.toString()}
-                onChangeText={txt => setItemsLength(Number(txt))}
-              />
+                value={itemquantity.toString()}
+                onChangeText={txt => {
+                  const parsedValue = parseInt(txt, 10);
+                    if (!isNaN(parsedValue)) {
+                    setItemQuantity(parsedValue);
+                  }
+                }}
+              /> */}
           <TouchableOpacity disabled={!items.length} style={[styles.gola,{backgroundColor:(items.length) >0 ? COLORS.one : COLORS.gray2}]}>
           <Icon
             name='remove'

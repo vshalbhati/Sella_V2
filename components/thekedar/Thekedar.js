@@ -1,9 +1,13 @@
 import { useState, useEffect } from 'react';
 import { View, ScrollView, SafeAreaView, Animated, Text, TouchableOpacity, FlatList, Image, StyleSheet, Easing } from 'react-native'
-import {COLORS, icons, images, SIZES,FONT} from '../../constants';
+import {COLORS, icons, images, SIZES,FONT,Darkmode} from '../../constants';
 import { Stack, useRouter } from 'expo-router';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import createClient, { urlFor } from '../../sanity';
+import { useDispatch, useSelector } from 'react-redux';
+import {selectBasketItems} from '../../features/basketSlice';
+
+
 
 const styles = StyleSheet.create({
     navla: {
@@ -21,6 +25,18 @@ const styles = StyleSheet.create({
       left:0,
       right:0
     },
+    itemcount:{
+      height:25,
+      width:25,
+      borderRadius:50,
+      position:'absolute',
+      zIndex:1,
+      justifyContent:'center',
+      alignItems:'center',
+      right:0,
+      marginTop:-10,
+      marginRight:3
+    },
     icon: {
       justifyContent: 'center',
       alignItems: 'center',
@@ -32,8 +48,6 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       alignItems: 'center',
       width: '33%',
-      borderTopRightRadius: 10,
-      borderTopLeftRadius: 10,
       elevation: 3,
     },
     iconButton: {
@@ -77,7 +91,7 @@ const styles = StyleSheet.create({
       height: 70,
       width: 8,
       backgroundColor: COLORS.lightWhite,
-      marginTop: -40,
+      marginTop: -45,
       marginLeft: -90,
       borderTopLeftRadius: 4,
       borderTopRightRadius: 4,
@@ -146,6 +160,10 @@ const Thekedar = ({navigation}) => {
     const [selectedText, setSelectedText] = useState(0);
     const [dealers, setDealers] = useState(0);
     const [liked, setLiked] = useState(false);
+    const darkmode = useSelector((state) => state.darkmode.darkmode);
+    const items = useSelector(selectBasketItems);
+
+
 
 
     const onPress = (index) => {
@@ -222,10 +240,10 @@ const Thekedar = ({navigation}) => {
     };
   
   return (
-    <SafeAreaView style={{ backgroundColor:COLORS.lightWhite,flex:1}}>
+    <SafeAreaView style={{ backgroundColor:darkmode?Darkmode.white:COLORS.lightWhite,flex:1}}>
         <Stack.Screen 
         options={{
-          headerStyle: { backgroundColor: COLORS.lightWhite },
+          headerStyle: { backgroundColor:darkmode?Darkmode.white:COLORS.lightWhite},
           headerShadowVisible: false,
           headerTitleAlign: 'center',
           headerTitleStyle: {
@@ -235,6 +253,12 @@ const Thekedar = ({navigation}) => {
           },
           headerRight: () => (
             <TouchableOpacity style={styles.iconButton} onPress={()=>navigation.navigate('cart')}>
+              {items.length>0 &&(
+                <View style={[styles.itemcount,{backgroundColor:darkmode?Darkmode.gray2:COLORS.tertiary}]}>
+                <Text style={{textAlign:'center',}}>{items.length}</Text>
+                </View>
+              )}
+              
               <Icon name='shopping-cart' size={32} color={COLORS.gray} />
             </TouchableOpacity>
           ),

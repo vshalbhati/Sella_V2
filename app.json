@@ -6,6 +6,7 @@
     },
     "plugins": ["@react-native-firebase/app", "@react-native-firebase/auth"],
     "name": "sella",
+    "icon": "./assets/images/logo.png",
     "slug": "sella",
     "extra": {
       "eas": {
@@ -15,9 +16,7 @@
     "android": {
       "googleServicesFile": "./google-services.json",
       "package": "com.vshalbhati_294.sella",
-      "config": {
-
-      }
+      "config": {}
     },
     "ios": {
       "bundleIdentifier": "host.exp.exponent"
