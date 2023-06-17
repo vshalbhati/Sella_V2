@@ -184,7 +184,7 @@ const stylis = StyleSheet.create({
     marginTop:10,
     shadowColor: COLORS.tertiary,
     marginLeft:5,
-    width:170,
+    width:110,
     overflow:'hidden',
   },
   image: {
@@ -202,9 +202,9 @@ const stylis = StyleSheet.create({
     backgroundColor:'rgba(255,255,255,0.7)',
     flex: 1,
     justifyContent:'flex-end',
-    height:100,
+    height:80,
     width:'100%',
-    padding:10
+    padding:5
   },
   trackTitle: {
     fontSize: 20,
@@ -213,13 +213,13 @@ const stylis = StyleSheet.create({
     fontFamily: FONT.regular,
   },
   featuredtrackTitle:{
-    fontSize: 20,
+    fontSize: 18,
     marginBottom: 4,
     color: '#222',
     fontFamily: FONT.regular,
   },
   featuredartistName:{
-    fontSize: 16,
+    fontSize: 14,
     color: '#222',
     fontFamily: FONT.regular,
   },

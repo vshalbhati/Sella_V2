@@ -1,17 +1,15 @@
 import { SafeAreaView, StyleSheet, Text, View ,Image, Dimensions, TextInput} from 'react-native'
-import React,{useState, useEffect} from 'react'
+import React,{useState} from 'react'
 import { ScrollView } from 'react-native'
 import { COLORS, FONT } from '../../constants'
 import { TouchableOpacity } from 'react-native'
-import PhoneInput from 'react-native-phone-number-input';
 import * as Google from "expo-auth-session/providers/google"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as WebBrowser from 'expo-web-browser';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../../features/userSlice';
 import { ANDROID_CLIENT_ID, WEB_CLIENT_ID,EXPO_CLIENT_ID } from '@env';
-import firebase from '../../hook/firebaseConfig';
-import auth from '@react-native-firebase/auth';
+import PhoneInput from 'react-native-phone-number-input';
 
 const {height} = Dimensions.get('window');
 
@@ -68,29 +66,6 @@ const Login = ({navigation}) => {
         console.log(error);
       }
     }
-
-    // const handleSendCode = async () => {
-    //   try {
-    //     const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
-    //     setVerificationId(confirmation.verificationId);
-    //   } catch (error) {
-    //     console.log('Phone authentication error:', error);
-    //   }
-    // };
-    const signInWithPhoneNumber = async () =>{
-      const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
-      navigation.navigate('otp')
-      console.log(confirmation);
-    }
-    // const handleVerifyCode = async () => {
-    //   try {
-    //     const credential = firebase.auth.PhoneAuthProvider.credential(verificationId, verificationCode);
-    //     await firebase.auth().signInWithCredential(credential);
-    //   } catch (error) {
-    //     console.log('Verification code error:', error);
-    //   }
-    // };
-
   return (
     <SafeAreaView style={{flex:1,width:'100%'}}>
     <Image
@@ -98,7 +73,7 @@ const Login = ({navigation}) => {
       style={{width:'100%',zIndex:-1}}
     />
     <ScrollView style={styles.dabba}>
-              <View style={{flex:1,flexDirection:'row',gap:10,marginTop:110,alignSelf:'center'}}>
+          <View style={{flex:1,flexDirection:'row',gap:10,marginTop:110,alignSelf:'center'}}>
             <View style={styles.container}>
             <PhoneInput
                 defaultCode='IN'
@@ -115,7 +90,6 @@ const Login = ({navigation}) => {
             style={[styles.button,{backgroundColor:(phoneNumber.length==13)?COLORS.one:COLORS.gray2}]}
             onPress={()=>
               navigation.navigate('otp')
-              // signInWithPhoneNumber()
             }
             disabled={phoneNumber.length !== 13}
         >
@@ -124,7 +98,7 @@ const Login = ({navigation}) => {
 
         <View style={{position: 'relative',justifyContent:'center',marginVertical: 50}}>
       <View style={{height: 1,backgroundColor: 'black',marginVertical: 10,width:'80%',alignSelf:'center'}} />
-      <Text style={{position: 'absolute',top: -5,backgroundColor: COLORS.lightWhite, paddingHorizontal: 10,alignSelf:'center',fontSize:20}}>or</Text>
+      <Text style={{position: 'absolute',top: -5,backgroundColor: COLORS.white, paddingHorizontal: 10,alignSelf:'center',fontSize:20}}>or</Text>
       </View>
 
         <View style={{ flexDirection:'row',gap:55,marginLeft:'22%'}}>
@@ -168,6 +142,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
+        flexDirection:'row'
       },
     inputContainer: {
         width: '80%',
@@ -192,7 +167,6 @@ const styles = StyleSheet.create({
         borderRadius:10,      
         height:45,
         justifyContent: 'center',
-
     },
     socialBtn:{
         height:40,

@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     width:'100%',
-    height: 60,
+    height: 50,
     backgroundColor: COLORS.lightWhite,
     borderTopWidth: 1,
     borderColor: '#ddd',
@@ -39,6 +39,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '33%',
     elevation: 3,
+    borderTopColor:COLORS.tertiary,
+    borderTopWidth:3
   },
   iconButton: {
     paddingHorizontal: 16,

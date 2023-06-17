@@ -4,17 +4,15 @@
     "web": {
       "bundler": "metro"
     },
-    "plugins": ["@react-native-firebase/app", "@react-native-firebase/auth"],
-    "name": "sella",
+    "name": "construck",
     "icon": "./assets/images/logo.png",
-    "slug": "sella",
+    "slug": "construck",
     "extra": {
       "eas": {
         "projectId": "f762d4a1-f69f-4aee-9647-d9b98bfa6ce0"
       }
     },
     "android": {
-      "googleServicesFile": "./google-services.json",
       "package": "com.vshalbhati_294.sella",
       "config": {}
     },

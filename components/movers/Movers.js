@@ -12,18 +12,18 @@ import { useDispatch, useSelector } from 'react-redux';
 const styles = StyleSheet.create({
     navla: {
       flexDirection: 'row',
-      justifyContent: 'space-around',
-      alignItems: 'center',
-      height: 60,
-      width:'100%',
-      backgroundColor: COLORS.lightWhite,
-      borderTopWidth: 1,
-      borderColor: '#ddd',
-      elevation: 5,
-      position:'absolute',
-      bottom:0,
-      left:0,
-      right:0
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    width:'100%',
+    height: 50,
+    backgroundColor: COLORS.lightWhite,
+    borderTopWidth: 1,
+    borderColor: '#ddd',
+    elevation: 5,
+    position:'absolute',
+    bottom:0,
+    left:0,
+    right:0
     },
     itemcount:{
       height:25,
@@ -48,9 +48,9 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       alignItems: 'center',
       width: '33%',
-      borderTopRightRadius: 10,
-      borderTopLeftRadius: 10,
       elevation: 3,
+      borderTopColor:COLORS.tertiary,
+      borderTopWidth:3
     },
     iconButton: {
         paddingHorizontal: 16,

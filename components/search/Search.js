@@ -3,12 +3,16 @@ import React,{useEffect, useState} from 'react'
 import { useRoute } from '@react-navigation/native'
 import createClient, { urlFor } from '../../sanity';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {COLORS, FONT} from '../../constants';
+import {COLORS, icons, images, SIZES, FONT,Darkmode} from '../../constants';
+import { useDispatch, useSelector } from 'react-redux';
+
 
 const Search = ({navigation}) => {
   const route = useRoute();
   const { query } = route.params;
-  const [results, setResults] = useState([])
+  const [results, setResults] = useState([]);
+  const darkmode = useSelector((state) => state.darkmode.darkmode);
+
 
   useEffect(()=>{
     createClient.fetch(
@@ -20,7 +24,7 @@ const Search = ({navigation}) => {
     });
   },[]);
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{flex:1, backgroundColor:darkmode?Darkmode.white:COLORS.white}}>
       <View style={styles.backArrow}>
         <TouchableOpacity>
           <Icon
@@ -63,7 +67,7 @@ const Search = ({navigation}) => {
           source={require('../../assets/images/wrong.png')}
           style={{width:'100%',height:400}}
           />
-          <Text style={{textAlign:'center',fontFamily:FONT.regular,fontSize:20}}>
+          <Text style={{textAlign:'center',fontFamily:FONT.regular,fontSize:20,color:darkmode?Darkmode.gray2:'black'}}>
             Could not find the searched item!
           </Text>
         </View>

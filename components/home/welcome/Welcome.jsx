@@ -104,7 +104,7 @@ const Welcome = ({navigation,darkmode}) => {
 
   const getAddressFromCoordinates = async (latitude, longitude) => {
         try {
-          const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${28.98}&lon=${78.22}`;
+          const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
           const response = await axios.get(url);
           const data = response.data;
 
@@ -126,14 +126,24 @@ const Welcome = ({navigation,darkmode}) => {
           <View style={styles.container}>
             <Text style={styles.userName}>Hello, { userInfo?.name || 'Guest User'}
             </Text>
-            <TouchableOpacity onPress={()=>getLocation()}>
-            <Text style={styles.welcomeMessage}>
-              Choose location
-            </Text>
-            </TouchableOpacity>
+            {locationInfo.location.length>0?(
+              <TouchableOpacity onPress={()=>getLocation()}>
+              <Text style={styles.welcomeMessage}>
+                Change location
+              </Text>
+              </TouchableOpacity>
+            ):(
+              <TouchableOpacity onPress={()=>getLocation()}>
+              <Text style={styles.welcomeMessage}>
+                Choose location
+              </Text>
+              </TouchableOpacity>
+            )}
             {address && (
             <View style={styles.addressContainer}>
-              <Text style={styles.addressText}>{locationInfo.location}</Text>
+              <Text style={styles.addressText} numberOfLines={1} ellipsizeMode="tail">
+                {locationInfo.location}
+              </Text>
             </View>
           )}
           </View>
@@ -146,7 +156,7 @@ const Welcome = ({navigation,darkmode}) => {
                 placeholder='what are you looking for?'
               />
             </View>
-            <TouchableOpacity style={styles.searchBtn} onPress={() => navigation.navigate('search',{query:query})}>
+            <TouchableOpacity style={styles.searchBtn} disabled={query.length==0} onPress={() => navigation.navigate('search',{query:query})}>
               <Image
               source={icons.search}
               resizeMode='contain'

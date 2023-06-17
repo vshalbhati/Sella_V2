@@ -12,18 +12,18 @@ import {selectBasketItems} from '../../features/basketSlice';
 const styles = StyleSheet.create({
     navla: {
       flexDirection: 'row',
-      justifyContent: 'space-around',
-      alignItems: 'center',
-      width:'100%',
-      height: 60,
-      backgroundColor: COLORS.lightWhite,
-      borderTopWidth: 1,
-      borderColor: '#ddd',
-      elevation: 5,
-      position:'absolute',
-      bottom:0,
-      left:0,
-      right:0
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    width:'100%',
+    height: 50,
+    backgroundColor: COLORS.lightWhite,
+    borderTopWidth: 1,
+    borderColor: '#ddd',
+    elevation: 5,
+    position:'absolute',
+    bottom:0,
+    left:0,
+    right:0
     },
     itemcount:{
       height:25,
@@ -49,6 +49,8 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       width: '33%',
       elevation: 3,
+      borderTopColor:COLORS.tertiary,
+      borderTopWidth:3
     },
     iconButton: {
         paddingHorizontal: 16,
@@ -66,11 +68,11 @@ const styles = StyleSheet.create({
       backgroundColor: COLORS.two,
       position: 'absolute',
       bottom: 0,
-      marginBottom: 60,
+      marginBottom: 50,
       borderTopLeftRadius: 30,
       borderTopRightRadius: 30,
       overflow: 'hidden',
-      zIndex:3
+      zIndex:1
     },
     textcontainer: {
       width: 150,
@@ -78,7 +80,6 @@ const styles = StyleSheet.create({
       alignItems:'center',
       marginLeft: 20,
       backgroundColor:COLORS.two,
-      position:'relative',
       flex:1
     },
     selectedtext: {
