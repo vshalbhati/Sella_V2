@@ -6,12 +6,13 @@ import styles from './welcome.style'
 import { COLORS, icons, SIZES} from '../../../constants';
 
 const jobTypes =['Cement','Putti','Bricks','Patthar','Binola'];
+const zones =[[30,31,32,33],[20,21,22,23],[10,11,12,13],[40,41,43,44]];
 
 import { useSelector, useDispatch } from 'react-redux';
 import * as Location from 'expo-location'
 import axios from 'axios';
 import { setLoocation } from '../../../features/locationSlice';
-
+import { setZone } from '../../../features/zoneSlice';
 
 
 const stylis = StyleSheet.create({
@@ -73,16 +74,16 @@ const stylis = StyleSheet.create({
 });
 
 const Welcome = ({navigation,darkmode}) => {
-  const locationInfo = useSelector((state) => state.location)
+  const locationInfo = useSelector((state) => state.location);
+
   const router = useRouter();
   const [activeJobType, setActiveJobType] = useState('Cement');
   const [query, setQuery] = useState('');
   const [location, setLocation] = useState();
   const [address, setAddress] = useState('No Location Added');
+  const [sector, setSector] = useState("");
 
   const dispatch = useDispatch();
-
-
 
 
   const getLocation = async () => {
@@ -92,7 +93,6 @@ const Welcome = ({navigation,darkmode}) => {
         const { coords } = await Location.getCurrentPositionAsync({});
         const { latitude, longitude } = coords;
         setLocation({ latitude, longitude });
-        console.log(location)
         getAddressFromCoordinates(latitude, longitude);
       } else {
         console.log('Location permission not granted');
@@ -104,7 +104,7 @@ const Welcome = ({navigation,darkmode}) => {
 
   const getAddressFromCoordinates = async (latitude, longitude) => {
         try {
-          const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
+          const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${28.444032}&lon=${77.319494}`;
           const response = await axios.get(url);
           const data = response.data;
 
@@ -112,6 +112,41 @@ const Welcome = ({navigation,darkmode}) => {
             const address = data.display_name;
             setAddress(address);
             dispatch(setLoocation(address));
+
+            const sectorno = () =>{
+              for (let i = 0; i < address.length; i++) {
+                if ((address[i] == 'S' || address[i] == 's') &&
+                (address[i + 1] == 'e' || address[i + 1] == 'E') &&
+                (address[i + 2] == 'c' || address[i + 2] == 'C') &&
+                (address[i + 3] == 't' || address[i + 3] == 'T') &&
+                (address[i + 4] == 'o' || address[i + 4] == 'O') &&
+                (address[i + 5] == 'r' || address[i + 5] == 'R') &&
+                (address[i+6]==' ' || ((address[i+6]>='a' && address[i+6]<='z') || (address[i+6]>='A' && address[i+6]<='D')))
+              ) {
+                  let s="";
+                    for(let j=0; j<=address.length;j++){
+                      if(address[i+7+j] == ',' || address[i+7+j] == ' '){
+                        break;
+                      }
+                      else{
+                        s+=address[i+7+j];
+                      }
+                    }
+                    setSector(s);
+                  break;
+                }
+              }
+            }
+            sectorno()
+            for (let i = 0; i < zones.length; i++) {
+              const zone = zones[i];
+              const sectorIndex = zone.indexOf(parseInt(sector, 10));
+          
+              if (sectorIndex !== -1) {
+                dispatch(setZone(i));
+                break;
+              }
+            }
           }
         } catch (error) {
           console.log('Error getting address', error);

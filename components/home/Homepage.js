@@ -135,6 +135,14 @@ const styles = StyleSheet.create({
     width:200,
     height:40
   },
+  deliverypop:{
+    height:30,
+    width:'100%',
+    backgroundColor:COLORS.tertiary,
+    position:'absolute',
+    bottom:0,
+    marginBottom:50
+  }
 });
 
 const Home = ({navigation}) =>{
@@ -143,6 +151,8 @@ const Home = ({navigation}) =>{
   const [featuredCategories, setFeaturedcategories] = useState();
   const animationValues = [1, 1, 1, 1].map(() => new Animated.Value(1));
   const items = useSelector(selectBasketItems);
+
+  const [delivered, setDelivered] = useState(false);
 
   const darkmode = useSelector((state) => state.darkmode.darkmode);
 
@@ -221,6 +231,13 @@ const Home = ({navigation}) =>{
           onPress={() => navigation.navigate('chatbot')}>
           <Icon name="chat" size={30} color={COLORS.white}/>
         </TouchableOpacity>
+
+        {delivered && (
+        <View style={styles.deliverypop}>
+          <Text>This is the popup for delivery</Text>
+        </View>
+        )}
+        
 
       
     <View style={styles.navla}>

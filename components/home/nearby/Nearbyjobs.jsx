@@ -6,6 +6,8 @@ import { COLORS, SIZES, FONT} from '../../../constants';
 import createClient, { urlFor } from '../../../sanity';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { Dimensions } from 'react-native';
+import { useSelector } from 'react-redux';
+
 
 
 const Nearbyjobs = ({navigation,darkmode}) => {
@@ -20,6 +22,8 @@ const Nearbyjobs = ({navigation,darkmode}) => {
   const [sellers, setSellers] = useState([])
   const [currentIndex, setCurrentIndex] = useState(0);
   const [featured, setFeatured] = useState([])
+  const zoneNo = useSelector(state => state.zone);
+
 
 
   useEffect(()=>{
@@ -32,7 +36,7 @@ const Nearbyjobs = ({navigation,darkmode}) => {
   useEffect(() => {
     setIsLoading(true);
     createClient
-      .fetch(`*[_type == 'supply']{...}`)
+      .fetch(`*[_type == 'supply' && zone=='${zoneNo+1}']{...}`)
       .then((data) => {
         setSellers(data);
         setIsLoading(false);

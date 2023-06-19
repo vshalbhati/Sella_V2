@@ -9,7 +9,6 @@ const locationSlice = createSlice({
         const isLocationExists = state.location.includes(newLocation);
       
         if (!isLocationExists) {
-          // state.location = [...state.location, newLocation];
           state.location = newLocation;
         }      
       },

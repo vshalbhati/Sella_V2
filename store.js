@@ -7,6 +7,7 @@ import thunkMiddleware from 'redux-thunk';
 import locationReducer from "./features/locationSlice";
 import orderSlice from "./features/orderSlice";
 import darkmodeSlice from "./features/darkmodeSlice";
+import zoneReducer from "./features/zoneSlice";
 
 
 export const store = configureStore({
@@ -17,5 +18,6 @@ export const store = configureStore({
         location: locationReducer,
         order: orderSlice,
         darkmode: darkmodeSlice,
+        zone: zoneReducer,
     },
 },applyMiddleware(thunkMiddleware));
