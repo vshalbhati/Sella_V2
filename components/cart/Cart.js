@@ -12,8 +12,9 @@ import { useState } from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { urlFor } from '../../sanity';
 import { addToOrder, removeFromOrder } from '../../features/orderSlice';
+import {firebase} from '../../config/firebase'
 
-
+const db = getFirestore(firebase);
 
 const Cart = ({navigation}) => {
     const router = useRouter();
@@ -66,18 +67,7 @@ const Cart = ({navigation}) => {
     }, [address])
 
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyCHxBUcWC06_wWxKLmj5_wrCwZ9U9CrfwQ",
-      authDomain: "sella-386306.firebaseapp.com",
-      projectId: "sella-386306",
-      storageBucket: "sella-386306.appspot.com",
-      messagingSenderId: "679645096836",
-      appId: "1:679645096836:web:21e2f64345ba96b6960bd1",
-      measurementId: "G-4V2GHCT9J8"
-    };
-    
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+
 
   return (
     <SafeAreaView style={styles.container}>
@@ -93,22 +83,24 @@ const Cart = ({navigation}) => {
       </View>
 
       {sector.length>0 ? (
-      <View style={styles.dabba}>
-        <Text style={{textAlign:'center',color:COLORS.lightWhite}}>
-        Delivering to this address
-        </Text>
-        <Text style={{textAlign:'center',color:COLORS.lightWhite,fontSize:20}}>
+      <View style={styles.dabbafter}>
+        <View style={{flexDirection:'row'}}>
+          <Text style={{fontSize:16,color:COLORS.lightWhite}}>Delivering to this address</Text>
+          <TouchableOpacity style={styles.changeLocationButton} onPress={() => navigation.navigate('location')}>
+            <Text style={{textAlign:'center',color:COLORS.lightWhite}}>Change </Text>
+          </TouchableOpacity>
+        </View>
+        
+        <Text style={{color:COLORS.lightWhite,fontSize:16}}>
           {locationInfo.location}
         </Text>
         </View>
     ):(
         <View style={styles.dabba}>
-        <Text style={{textAlign:'center',color:COLORS.lightWhite}}>Regrets that we couldn't detect your location correctly</Text>
-        <TouchableOpacity style={styles.selectLocationButton} onPress={() => navigation.navigate('location')}>
-        <Text style={{textAlign:'center'}}>
-        Select location
-        </Text>
-        </TouchableOpacity>
+          <Text style={{textAlign:'center',color:COLORS.lightWhite}}>Regrets that we couldn't detect your location correctly</Text>
+          <TouchableOpacity style={styles.selectLocationButton} onPress={() => navigation.navigate('location')}>
+            <Text style={{textAlign:'center'}}>Select location</Text>
+          </TouchableOpacity>
         </View>
 )
 }
@@ -241,8 +233,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   cartItemImage: {
-    width: 70,
-    height: 70,
+    width: 80,
+    height: 80,
     marginRight: 10,
     borderRadius: 10,
   },
@@ -251,13 +243,15 @@ const styles = StyleSheet.create({
   },
   cartItemName: {
     fontSize: SIZES.medium,
-    fontWeight: 'bold',
-    color: COLORS.gray2,
+    color: COLORS.gray,
     marginBottom: 5,
   },
   cartItemPrice: {
     fontSize: SIZES.medium,
     color: COLORS.gray,
+    marginBottom: 5,
+    fontWeight: 'bold',
+
   },
   footer: {
     flexDirection: 'row',
@@ -304,13 +298,38 @@ const styles = StyleSheet.create({
       margin:10,
       height:30
     },
+    changeLocationButton:{
+      borderRadius: 5,
+      width:100,
+      justifyContent:'center',
+      alignSelf:'center',
+      height:30,
+      borderColor:COLORS.one,
+      borderWidth:1,
+      marginLeft:40,
+    },
     dabba:{
       height:180,
       backgroundColor:COLORS.two,
       position:'absolute',
       width:'100%',
       zIndex:-1,
-      padding:50,
+      padding:55,
+      borderBottomWidth: 2,
+      borderColor: 'rgba(0,0,0,0.1)',
+      elevation: 5,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 5 },
+      shadowOpacity: 0.65,
+    },
+    dabbafter:{
+      height:180,
+      backgroundColor:COLORS.two,
+      position:'absolute',
+      width:'100%',
+      zIndex:-1,
+      paddingTop:40,
+      paddingLeft:55,
       borderBottomWidth: 2,
       borderColor: 'rgba(0,0,0,0.1)',
       elevation: 5,

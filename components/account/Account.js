@@ -8,6 +8,8 @@ import { clearUser } from '../../features/userSlice';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useState } from 'react';
 import { setdarkmode } from '../../features/darkmodeSlice';
+import firebase from '../../config/firebase'; // Assuming you named the file 'firebase.js'
+
 
 
 const styles = StyleSheet.create({

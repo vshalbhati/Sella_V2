@@ -2,26 +2,47 @@ import { View, Text, TouchableOpacity, TextInput, Alert, StyleSheet, SafeAreaVie
 import React, { useState,useRef } from 'react';
 import { COLORS, FONT } from '../../constants';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { useRoute } from '@react-navigation/native';
+import { getAuth, signInWithCredential, signInWithPhoneNumber } from 'firebase/auth';
+import { initializeApp } from 'firebase/app';
 
+const firebaseConfig = {
+  apiKey: "AIzaSyCHxBUcWC06_wWxKLmj5_wrCwZ9U9CrfwQ",
+    databaseURL: 'https://sella-386306.firebaseio.com',
+    authDomain: "sella-386306.firebaseapp.com",
+    projectId: "sella-386306",
+    storageBucket: "sella-386306.appspot.com",
+    messagingSenderId: "679645096836",
+    appId: "1:679645096836:web:21e2f64345ba96b6960bd1",
+    measurementId: "G-4V2GHCT9J8"
+  };
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 
 const Otp = ({navigation}) => {
+  const route = useRoute();
+const { verificationId } = route.params;
+console.log(verificationId);
+
 
   const [code, setCode] = useState('');
   const codeInputRefs = useRef([]);
 
 
-    const handleVerification = () => {
-        if (code.length === 6) {
-        if (code === '123456') {
-            Alert.alert('Verification Successful');
-            navigation.navigate('home')
-        } else {
-            Alert.alert('Verification Failed');
-        }
-        } else {
-        Alert.alert('Please enter a 6-digit code');
-        }
-    };
+  const handleVerification = async () => {
+    try {
+      const credential = await signInWithPhoneNumber(auth, verificationId, code);
+      const userCredential = await signInWithCredential(auth, credential);
+      const user = userCredential.user;
+      console.log('User signed in:', user);
+      navigation.navigate('home');
+    } catch (error) {
+      console.log('Error verifying OTP', error);
+      Alert.alert('Verification Failed');
+    }
+  };
+  
 
     const handleCodeChange = (index, value) => {
       const updatedCode = code.split('');
