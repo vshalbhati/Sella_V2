@@ -1,5 +1,5 @@
-import { SafeAreaView, StyleSheet, Text, View, Image, Dimensions } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import { SafeAreaView, StyleSheet, Text, View, Image, Dimensions, TextInput,Alert } from 'react-native';
+import React, { useState, useEffect,useRef } from 'react';
 import { ScrollView, TouchableOpacity } from 'react-native';
 import { COLORS, FONT } from '../../constants';
 import { useDispatch } from 'react-redux';
@@ -9,8 +9,7 @@ import * as WebBrowser from 'expo-web-browser';
 import { setUser } from '../../features/userSlice';
 import { ANDROID_CLIENT_ID, WEB_CLIENT_ID, EXPO_CLIENT_ID } from '@env';
 import PhoneInput from 'react-native-phone-number-input';
-import {getAuth,PhoneAuthProvider} from 'firebase/auth';
-import { initializeApp } from 'firebase/app';
+import { getAuth, PhoneAuthProvider, signInWithCredential, signInWithPhoneNumber, PhoneAuthState } from 'firebase/auth';import { initializeApp } from 'firebase/app';
 import { FirebaseRecaptchaVerifierModal } from 'expo-firebase-recaptcha';
 import firebase from '../../config/firebase';
 
@@ -24,9 +23,9 @@ const Login = ({ navigation }) => {
   const dispatch = useDispatch();
   const [phoneNumber, setPhoneNumber] = useState('');
   const [verificationId, setVerificationId] = useState('');
-  const [verificationCode, setVerificationCode] = useState('');
   const recaptchaVerifier = React.useRef(null);
-
+  const [code, setCode] = useState('');
+  const codeInputRefs = useRef([]);
 
   const handlePhoneInputChange = (text) => {
     setPhoneNumber(text);
@@ -81,19 +80,37 @@ const Login = ({ navigation }) => {
       setVerificationId(verificationId);
       console.log('OTP sent on ',phoneNumber);
       navigation.navigate('otp', { verificationId });
-
     } catch (error) {
       console.log('Error sending OTP', error);
     }
   };
+
+
+
+  const handleCodeChange = (index, value) => {
+    const updatedCode = code.split('');
+    updatedCode[index] = value;
+    setCode(updatedCode.join(''));
+
+    if (value === '' && index > 0) {
+      for (let i = index - 1; i >= 0; i--) {
+        if (code[i]) {
+          codeInputRefs.current[i].focus();
+          break;
+        }
+      }
+    } else if (value !== '' && index < codeInputRefs.current.length - 1) {
+      codeInputRefs.current[index + 1].focus();
+    }
+  };
+
   return (
     <SafeAreaView style={{ flex: 1, width: '100%' }}>
       <Image source={require('../../assets/images/back.jpg')} style={{ width: '100%', zIndex: -1 }} />
       <ScrollView style={styles.dabba}>
 
 
-        
-        <View>
+          <View>
         <View style={{ flex: 1, flexDirection: 'row', gap: 10, marginTop: 110, alignSelf: 'center' }}>
           <View style={styles.container}>
             <PhoneInput
@@ -116,14 +133,12 @@ const Login = ({ navigation }) => {
         </TouchableOpacity>
         </View>
 
-
-
-        <View style={{ position: 'relative', justifyContent: 'center', marginVertical: 50 }}>
+        <View style={{ position: 'relative', justifyContent: 'center', marginTop: 60 }}>
           <View style={{ height: 1, backgroundColor: 'black', marginVertical: 10, width: '80%', alignSelf: 'center' }} />
           <Text style={{ position: 'absolute', top: -5, backgroundColor: COLORS.white, paddingHorizontal: 10, alignSelf: 'center', fontSize: 20 }}>or</Text>
         </View>
 
-        <View style={{ flexDirection: 'row', gap: 55, marginLeft: '22%' }}>
+        <View style={{ flexDirection: 'row', gap: 55, marginLeft: '22%', marginTop: 60 }}>
           <TouchableOpacity onPress={() => promptAsync()}>
             <Image style={styles.socialBtn} source={require('../../assets/icons/google.png')} />
           </TouchableOpacity>

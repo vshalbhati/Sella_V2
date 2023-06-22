@@ -1,8 +1,5 @@
 import { initializeApp } from 'firebase/app';
 import 'firebase/auth';
-import {getAuth,PhoneAuthProvider} from 'firebase/auth';
-import { FirebaseRecaptchaVerifierModal } from 'expo-firebase-recaptcha';
-
 
 const firebaseConfig = {
   apiKey: "AIzaSyCHxBUcWC06_wWxKLmj5_wrCwZ9U9CrfwQ",

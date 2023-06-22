@@ -3,7 +3,7 @@ import React, { useState,useRef } from 'react';
 import { COLORS, FONT } from '../../constants';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useRoute } from '@react-navigation/native';
-import { getAuth, signInWithCredential, signInWithPhoneNumber } from 'firebase/auth';
+import { getAuth, PhoneAuthProvider, signInWithCredential, signInWithPhoneNumber, PhoneAuthState } from 'firebase/auth';
 import { initializeApp } from 'firebase/app';
 
 const firebaseConfig = {
@@ -23,19 +23,14 @@ const auth = getAuth(app);
 const Otp = ({navigation}) => {
   const route = useRoute();
 const { verificationId } = route.params;
-console.log(verificationId);
-
 
   const [code, setCode] = useState('');
   const codeInputRefs = useRef([]);
 
-
   const handleVerification = async () => {
     try {
-      const credential = await signInWithPhoneNumber(auth, verificationId, code);
+      const credential = PhoneAuthProvider.credential(verificationId, code);
       const userCredential = await signInWithCredential(auth, credential);
-      const user = userCredential.user;
-      console.log('User signed in:', user);
       navigation.navigate('home');
     } catch (error) {
       console.log('Error verifying OTP', error);
