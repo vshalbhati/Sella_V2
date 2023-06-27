@@ -4,6 +4,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setLoocation } from '../../features/locationSlice';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {COLORS, icons, images, SIZES} from '../../constants';
+const zones =[
+  [67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89],
+  [6,7,8,9,10,'11B','11C','11D','11E',12,13,14,15,'15A',16,'16A',17,18,19,28,29,30,31,32,33,34,35,36,37],
+  [38,39,41,42,43],
+  [27,'27A',45,46,47,48,49,'21A','21B','21C','21D'],
+  [22,23,24,25,50,51,52,53,54,55,56,'56A'],
+];
+import { setZone } from '../../features/zoneSlice';
+
 
 
 const Locate = ({navigation}) => {
@@ -15,7 +24,6 @@ const Locate = ({navigation}) => {
   const [area, setArea] = useState('');
   const [landmark, setLandmark] = useState('');
   const [town, setTown] = useState('');
-
 
 
   const [address, setAddress] = useState('No Location Added');
@@ -54,6 +62,15 @@ const Locate = ({navigation}) => {
       }
     }
     dispatch(setLoocation(Finaladdress));
+    for (let i = 0; i < zones.length; i++) {
+      const zone = zones[i];
+      const sectorIndex = zone.findIndex(zoneSector => String(zoneSector) === sector);
+      if (sectorIndex !== -1) {
+        dispatch(setZone(i));
+        break;
+      }
+    }
+    
   }
 
 

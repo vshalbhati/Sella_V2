@@ -79,12 +79,11 @@ const Login = ({ navigation }) => {
       );
       setVerificationId(verificationId);
       console.log('OTP sent on ',phoneNumber);
-      navigation.navigate('otp', { verificationId });
+      navigation.navigate('otp', { verificationId,phoneNumber });
     } catch (error) {
       console.log('Error sending OTP', error);
     }
   };
-
 
 
   const handleCodeChange = (index, value) => {
@@ -142,22 +141,15 @@ const Login = ({ navigation }) => {
           <TouchableOpacity onPress={() => promptAsync()}>
             <Image style={styles.socialBtn} source={require('../../assets/icons/google.png')} />
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={()=>navigation.navigate('home')}>
             <Image style={styles.socialBtn} source={require('../../assets/icons/microsoft.png')} />
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={()=>navigation.navigate('otp')}>
             <Image style={styles.socialBtn} source={require('../../assets/icons/apple.png')} />
           </TouchableOpacity>
         </View>
 
-        <View style={{ flexDirection: 'row', gap: 10, marginLeft: '20%', marginTop: '10%' }}>
-          <Text style={{ textAlign: 'center' }} onPress={() => console.log('bhai')}>
-            Not registered yet?
-          </Text>
-          <Text style={{ textAlign: 'center', fontWeight: 'bold' }} onPress={() => console.log('bhai')}>
-            Create Account
-          </Text>
-        </View>
+
       </ScrollView>
       <FirebaseRecaptchaVerifierModal
         ref={recaptchaVerifier}

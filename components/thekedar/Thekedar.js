@@ -72,7 +72,8 @@ const styles = StyleSheet.create({
       borderTopLeftRadius: 30,
       borderTopRightRadius: 30,
       overflow: 'hidden',
-      zIndex:1
+      zIndex:1,
+      elevation: 5,
     },
     textcontainer: {
       width: 150,
@@ -148,8 +149,13 @@ const styles = StyleSheet.create({
       width:200,
       height:40
     },
+    heading:{
+      fontFamily:FONT.bold,
+      fontSize:SIZES.xxLarge,
+      color:COLORS.two
+    },
     dealerscontainer:{
-      
+      flex:1
     }
   });
 
@@ -278,13 +284,16 @@ const Thekedar = ({navigation}) => {
       />
 
 
+      <View style={{marginLeft:20}}>
+        <Text style={styles.heading}>Dealers</Text>
+      </View>
+
 
       <View style={styles.seek}>
         {renderText('Personal', 0)}
         {renderText('Commercial', 1)}
         {renderText('Appartment', 2)}
       </View>
-
 
 
         <View style={styles.dealerscontainer}>

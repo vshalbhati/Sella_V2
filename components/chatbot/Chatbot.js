@@ -84,7 +84,7 @@ const Chatbot = ({navigation}) => {
       data={data}
       keyExtractor={(item,index) => index.toString()}
       renderItem={({item}) => (
-        <View sstyle={{
+        <View style={{
             flexDirection: 'row',
             padding: 10,
             marginBottom: 10,

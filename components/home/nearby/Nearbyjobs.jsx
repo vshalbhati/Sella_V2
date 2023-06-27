@@ -24,8 +24,6 @@ const Nearbyjobs = ({navigation,darkmode}) => {
   const [featured, setFeatured] = useState([])
   const zoneNo = useSelector(state => state.zone);
 
-
-
   useEffect(()=>{
     createClient.fetch(`*[_type == 'featured']{...,}`)
     .then((data)=>{
@@ -36,8 +34,10 @@ const Nearbyjobs = ({navigation,darkmode}) => {
   useEffect(() => {
     setIsLoading(true);
     createClient
-      .fetch(`*[_type == 'supply' && zone=='${zoneNo+1}']{...}`)
+      .fetch(`*[_type == 'supply' && zone=='${1+1}']{...}`)
       .then((data) => {
+        if(data.length==0){setError(true)}
+        else{setError(false)}
         setSellers(data);
         setIsLoading(false);
       })

@@ -1,15 +1,11 @@
 import { useState, useEffect } from 'react';
 import { View, ScrollView, SafeAreaView, Animated, Text, TouchableOpacity, FlatList, ActivityIndicator, ActivityIndicatorBase, TextInput, Button, Image, StyleSheet, Easing } from 'react-native'
 import {COLORS, icons, images, SIZES, FONT,Darkmode} from '../../constants';
-import { Nearbyjobs, ScreenHeaderBtn, Welcome} from '..';
+import { Nearbyjobs, Welcome} from '..';
 import { Stack, useRouter } from 'expo-router';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import createClient, { urlFor } from '../../sanity';
 import {selectBasketItems} from '../../features/basketSlice';
 import { useDispatch, useSelector } from 'react-redux';
-
-
-
 
 const styles = StyleSheet.create({
   navla: {
@@ -142,6 +138,30 @@ const styles = StyleSheet.create({
     position:'absolute',
     bottom:0,
     marginBottom:50
+  },
+  userpop:{
+    flex:1,
+    height:400,
+    width:'80%',
+    position:'absolute',
+    left:0,
+    backgroundColor:COLORS.lightWhite,
+    zIndex:2,
+    borderRadius:20,
+    justifyContent:'center',
+    marginLeft:40,
+    marginTop:120,
+  },
+  userpopupbuttons:{
+    width:'100%',
+    height:50,
+    position:'absolute',
+    bottom:0,
+    backgroundColor:COLORS.tertiary,
+    flexDirection:'row',
+    gap:70,
+    borderBottomEndRadius:20,
+    borderBottomStartRadius:20
   }
 });
 
@@ -155,6 +175,7 @@ const Home = ({navigation}) =>{
   const [delivered, setDelivered] = useState(false);
 
   const darkmode = useSelector((state) => state.darkmode.darkmode);
+  const userInfo = useSelector((state) => state.user);
 
   const onPress = (index) => {
     setSelected(index);
@@ -181,6 +202,7 @@ const Home = ({navigation}) =>{
     },
   ];
 
+
   return (
 
     <SafeAreaView style={{flex:1, backgroundColor:darkmode?Darkmode.white:COLORS.lightWhite}}>
@@ -201,7 +223,6 @@ const Home = ({navigation}) =>{
                 <Text style={{textAlign:'center',}}>{items.length}</Text>
                 </View>
               )}
-              
               <Icon name='shopping-cart' size={32} color={COLORS.gray} />
             </TouchableOpacity>
           ),
@@ -210,14 +231,15 @@ const Home = ({navigation}) =>{
               style={styles.iconButton}
               onPress={()=> navigation.navigate('account')}
             >
-              <Icon name='person' size={36} color={COLORS.gray} />
+              <Icon name='menu' size={36} color={COLORS.gray} />
             </TouchableOpacity>
           ),
           headerTitle: () => (
             <Image source={require('../../assets/images/name-removed.png')} style={styles.headerImage} />
           ), 
-                }}
+        }}
       />
+
       <ScrollView showsHorizontalScrollIndicator={false}>
         <View style={{flex:1,padding: SIZES.xSmall}}>
           <Welcome navigation={navigation} darkmode={darkmode}/>
@@ -231,12 +253,6 @@ const Home = ({navigation}) =>{
           onPress={() => navigation.navigate('chatbot')}>
           <Icon name="chat" size={30} color={COLORS.white}/>
         </TouchableOpacity>
-
-        {delivered && (
-        <View style={styles.deliverypop}>
-          <Text>This is the popup for delivery</Text>
-        </View>
-        )}
         
 
       

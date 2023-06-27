@@ -24,6 +24,9 @@ import Orders from '../components/account/orders/Orders';
 import UserDetails from '../components/account/userdetails/UserDetails';
 import ThekedarCard from '../components/thekedar/ThekedarCard';
 import Allfeatured from '../components/home/nearby/Allfeatured';
+import Welcomeinfo from '../components/welcomeScreen/Welcomeinfo';
+import Nameinfo from '../components/welcomeScreen/Nameinfo';
+import EditUser from '../components/account/userdetails/EditUser';
 
 const Stack = createStackNavigator();
 
@@ -37,16 +40,26 @@ const Stack = createStackNavigator();
       <Stack.Screen name="login" component={Login} options={{ headerShown: false }} />
     ) : (
       <> */}
+              <Stack.Screen name="delivery" component={Delivery} options={{ headerShown: false }} />
 
-        <Stack.Screen name="home" component={Home} />
+              <Stack.Screen name="home" component={Home} />
+              <Stack.Screen name="edituser" component={EditUser} options={{ presentation: 'modal', headerShown: false }}/>
+
+
+        <Stack.Screen name="userdetails" component={UserDetails} options={{ presentation: 'modal', headerShown: false }}/>
+        <Stack.Screen name="nameinfo" component={Nameinfo} options={{  headerShown: false }}/>
+
+
+        
+        <Stack.Screen name="appinfo" component={Welcomeinfo} options={{  headerShown: false }}/>
         <Stack.Screen name="cart" component={Cart} options={{ presentation: 'modal', headerShown: false }} />
+
 
         {/* Thekedar Screens */}
         <Stack.Screen name="thekedar" component={Thekedar} />
         <Stack.Screen name="thekedarcard" component={ThekedarCard} options={{headerShown: false, presentation: 'modal'}}/>
 
         <Stack.Screen name="prepare" component={Preparecheckout} options={{ headerShown: false, presentation: 'modal' }} />
-        <Stack.Screen name="delivery" component={Delivery} options={{ headerShown: false }} />
         <Stack.Screen name="verification" component={Verification} options={{ headerShown: false }} />
         <Stack.Screen name="sellerdetails" component={Sellerdetails} options={{ headerShown: false }} />
         <Stack.Screen name="supplydetails" component={Supplydetails} options={{ headerShown: false }} />
@@ -62,7 +75,6 @@ const Stack = createStackNavigator();
         {/* Account Screens */}
         <Stack.Screen name="account" component={Account} options={{ presentation: 'modal', headerShown: false }} />
         <Stack.Screen name="orders" component={Orders} options={{ presentation: 'modal', headerShown: false }}/>
-        <Stack.Screen name="userdetails" component={UserDetails} options={{ presentation: 'modal', headerShown: false }}/>
 
         {/* Login Screens */}
         <Stack.Screen name="login" component={Login} options={{ headerShown: false }} />

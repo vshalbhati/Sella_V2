@@ -4,25 +4,14 @@ import { COLORS, FONT } from '../../constants';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useRoute } from '@react-navigation/native';
 import { getAuth, PhoneAuthProvider, signInWithCredential, signInWithPhoneNumber, PhoneAuthState } from 'firebase/auth';
-import { initializeApp } from 'firebase/app';
+import { useDispatch, useSelector } from 'react-redux';
+import firebase from '../../config/firebase';
 
-const firebaseConfig = {
-  apiKey: "AIzaSyCHxBUcWC06_wWxKLmj5_wrCwZ9U9CrfwQ",
-    databaseURL: 'https://sella-386306.firebaseio.com',
-    authDomain: "sella-386306.firebaseapp.com",
-    projectId: "sella-386306",
-    storageBucket: "sella-386306.appspot.com",
-    messagingSenderId: "679645096836",
-    appId: "1:679645096836:web:21e2f64345ba96b6960bd1",
-    measurementId: "G-4V2GHCT9J8"
-  };
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+const auth = getAuth(firebase);
 
 const Otp = ({navigation}) => {
   const route = useRoute();
-const { verificationId } = route.params;
+const { verificationId, phoneNumber } = route.params;
 
   const [code, setCode] = useState('');
   const codeInputRefs = useRef([]);
@@ -31,7 +20,7 @@ const { verificationId } = route.params;
     try {
       const credential = PhoneAuthProvider.credential(verificationId, code);
       const userCredential = await signInWithCredential(auth, credential);
-      navigation.navigate('home');
+      navigation.navigate('nameinfo',{phoneNumber});
     } catch (error) {
       console.log('Error verifying OTP', error);
       Alert.alert('Verification Failed');

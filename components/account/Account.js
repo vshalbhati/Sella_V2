@@ -21,8 +21,7 @@ const styles = StyleSheet.create({
     width:50,
     resizeMode: 'cover',
     borderRadius: 50,
-    borderWidth: 2,
-    borderColor: '#000',
+
   },
   backArrow:{
     height:40,
@@ -47,8 +46,6 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     margin: 20,
     height: 90,
-    borderWidth: 1,
-    borderColor: 'black',
     alignItems: 'center',
     elevation: 5,
     shadowColor: '#000',
@@ -99,6 +96,8 @@ const Account = ({navigation}) => {
         console.log('Error removing user info from AsyncStorage:', error);
       }
     };
+    const phoneUserInfo = useSelector((state) =>state.phoneUser)
+          // console.log(phoneUserInfo.user?.name)
 
   return (
     <SafeAreaView style={[styles.container,{backgroundColor: darkmood?Darkmode.white:COLORS.white,}]}>
@@ -114,7 +113,7 @@ const Account = ({navigation}) => {
         </TouchableOpacity>
       </View>
 
-      <View style={[styles.modeButton,{backgroundColor:darkmood?Darkmode.lightWhite:COLORS.two}]}>
+      <View style={[styles.modeButton,{backgroundColor:darkmood?Darkmode.lightWhite:COLORS.tertiary}]}>
         {darkmood?(
           <TouchableOpacity style={{marginLeft:50}} onPress={toggleDarkModeHandler}>
             <Icon name="brightness-2" size={24} color={COLORS.white} />
@@ -141,8 +140,8 @@ const Account = ({navigation}) => {
             style={styles.image}
           />
         <View style={{flexDirection:'column'}}>
-        <Text style={styles.text}>{ userInfo?.name || 'Guest User'}</Text>
-        <Text style={styles.text}>8572862193</Text>
+        <Text style={styles.text}>{ userInfo?.name || phoneUserInfo.user?.name || 'Guest User'}</Text>
+        <Text style={styles.text}>{phoneUserInfo.user?.phoneNumber || 'Add phone number'}</Text>
         </View>
       </TouchableOpacity>
 

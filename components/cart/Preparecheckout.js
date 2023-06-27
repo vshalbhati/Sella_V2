@@ -7,10 +7,9 @@ import * as Progress from 'react-native-progress';
 const {height} = Dimensions.get('window');
 
 const Preparecheckout = ({navigation,route }) => {
-    const { sector } = route.params;
     useEffect(() => {
         setTimeout(() => {
-            navigation.navigate('delivery',{ sector: sector });
+            navigation.navigate('delivery');
         }, 3000);
     },[]);
   return (

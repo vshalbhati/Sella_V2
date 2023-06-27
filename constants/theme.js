@@ -2,11 +2,11 @@ const COLORS = {
   primary: "#312651",
   secondary: "#444262",
   tertiary: "#F54768",
-  one:"#FF9677",
+  one:"#FFA451",
   two:"#974063",
   gray: "#83829A",
   gray2: "#C1C0C8",
-  white: "#F3F4F8",
+  white: "#ECF3F9",
   lightWhite: "#FAFAFC",
 };
 const Darkmode = {

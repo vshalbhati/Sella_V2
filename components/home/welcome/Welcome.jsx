@@ -6,13 +6,22 @@ import styles from './welcome.style'
 import { COLORS, icons, SIZES} from '../../../constants';
 
 const jobTypes =['Cement','Putti','Bricks','Patthar','Binola'];
-const zones =[[30,31,32,33],[20,21,22,23],[10,11,12,13],[40,41,43,44]];
+const zones =[
+  [67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89],
+  [6,7,8,9,10,'11B','11C','11D','11E',12,13,14,15,'15A',16,'16A',17,18,19,28,29,30,31,32,33,34,35,36,37],
+  [38,39,41,42,43],
+  [27,'27A',45,46,47,48,49,'21A','21B','21C','21D'],
+  [22,23,24,25,50,51,52,53,54,55,56,'56A'],
+];
 
 import { useSelector, useDispatch } from 'react-redux';
 import * as Location from 'expo-location'
 import axios from 'axios';
 import { setLoocation } from '../../../features/locationSlice';
 import { setZone } from '../../../features/zoneSlice';
+import { getDistance } from 'geolib';
+import { setDistance } from '../../../features/distanceSlice';
+
 
 
 const stylis = StyleSheet.create({
@@ -140,8 +149,7 @@ const Welcome = ({navigation,darkmode}) => {
             sectorno()
             for (let i = 0; i < zones.length; i++) {
               const zone = zones[i];
-              const sectorIndex = zone.indexOf(parseInt(sector, 10));
-          
+              const sectorIndex = zone.findIndex(zoneSector => String(zoneSector) === sector);
               if (sectorIndex !== -1) {
                 dispatch(setZone(i));
                 break;
@@ -152,14 +160,23 @@ const Welcome = ({navigation,darkmode}) => {
           console.log('Error getting address', error);
         }
   };
-  const userInfo = useSelector((state) => state.user);
+          const userInfo = useSelector((state) => state.user);
+          const phoneUserInfo = useSelector((state) =>state.phoneUser)
 
+        const dealerLocation = {
+          latitude: 37.7749,
+          longitude: -122.4194,
+        };
+        if(location){
+        const distanceInMeters = getDistance(dealerLocation, location);
+        dispatch(setDistance(distanceInMeters/1000))
+      }
   return (
     <View>
       <View style={stylis.uparcard}>
             <View style={stylis.circle1}></View>
           <View style={styles.container}>
-            <Text style={styles.userName}>Hello, { userInfo?.name || 'Guest User'}
+            <Text style={styles.userName}>Hello, { userInfo.user?.name || phoneUserInfo.user?.name || 'Guest User' }
             </Text>
             {locationInfo.location.length>0?(
               <TouchableOpacity onPress={()=>getLocation()}>

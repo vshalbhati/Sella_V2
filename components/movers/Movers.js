@@ -174,12 +174,11 @@ const Movers = ({navigation}) => {
         {(!starthogya)?(
           <View style={{flex:1,justifyContent:'center'}}>
           <Image
-          source={require('../../assets/images/working.png')}
+          source={require('../../assets/images/maintenance.png')}
           style={{width:'100%',height:400}}
           />
           <Text style={{textAlign:'center',fontFamily:FONT.regular,fontSize:20,color:darkmode?Darkmode.gray2:'black'}}>Our team is working on this feature!</Text>
           <Text style={{textAlign:'center',fontFamily:FONT.regular,fontSize:16,color:darkmode?Darkmode.gray2:'black'}}>We'll get back soon</Text>
-
           </View>
         ):(
       <View>

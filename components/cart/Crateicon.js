@@ -9,7 +9,7 @@ const style = StyleSheet.create({
     container:{
         flex: 1,
         width:'90%',
-        marginBottom:10,
+        marginBottom:80,
         backgroundColor:COLORS.one,
         position:'absolute',
         bottom:0,
@@ -36,7 +36,7 @@ const Crateicon = ({navigation}) => {
          onPress={() => navigation.navigate('cart')}
         >
         <Text style={{color:COLORS.lightWhite, fontWeight:'bold', fontSize:24, paddingLeft:5}}>{items.length}</Text>
-        <Text style={{flex:1, color:COLORS.lightWhite, textAlign:'center'}}>View Crate</Text>
+        <Text style={{flex:1, color:COLORS.lightWhite, textAlign:'center',fontFamily:FONT.bold,}}>View Cart</Text>
         <Text style={style.curr}>
             ₹{basketTotal}
         </Text>
