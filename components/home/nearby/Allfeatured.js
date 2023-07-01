@@ -1,6 +1,6 @@
 import React, { useState, useEffect , useLayoutEffect,useRef} from 'react';
 import { View, Text, TouchableOpacity, FlatList, Image, StyleSheet, SafeAreaView, ScrollView } from 'react-native'
-import { COLORS, SIZES} from '../../../constants';
+import { COLORS, FONT, SIZES} from '../../../constants';
 import createClient, { urlFor } from '../../../sanity';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useRoute } from '@react-navigation/native';
@@ -24,19 +24,19 @@ const Allfeatured = ({navigation}) => {
     //   },[]);
 
   return (
-    <SafeAreaView style={{flex:1}}>
+    <SafeAreaView style={styles.container}>
         <View style={styles.backArrow}>
             <TouchableOpacity>
                 <Icon
                     name='arrow-back'
                     size={28}
-                    color={COLORS.lightWhite}
+                    color={COLORS.gray}
                     onPress={() => navigation.goBack()}
                 />      
             </TouchableOpacity>
         </View>
         <View style={styles.Textheading}>
-            <Text style={{textAlign:'center',color:COLORS.lightWhite,fontSize:25,paddingTop:30,}}> {name}</Text>
+            <Text style={{textAlign:'center',color: COLORS.lightWhite,fontSize:SIZES.xLarge,fontFamily:FONT.bold,paddingTop:30,}}> {name}</Text>
         </View>
 
         <Image
@@ -55,40 +55,27 @@ export default Allfeatured
 const styles = StyleSheet.create({
     container: {
         backgroundColor: COLORS.white,
-        padding:10
+        flex:1
       },
-    item: {
-        padding: 16,
-        borderRadius: 10,
-        backgroundColor: COLORS.lightWhite,
-        gap:10,
-        flexDirection:'row'
-    },
     image: {
-        width: 70,
-        height: 70,
-        marginRight: 16,
-        borderRadius: 8,
+        width: '100%',
+        height: 300,
+        position:'absolute',
+        top:0,
+        zIndex:-1
     },
     textContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        textAlign: 'center',
-    },
-    trackTitle: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        marginBottom: 4,
-        color: '#222',
+        marginTop:220,
+        padding: 16,
     },
     artistName: {
-        fontSize: 16,
+        fontSize: SIZES.large,
         color: '#777',
     },
     backArrow:{
         height:40,
         width:40, 
-        backgroundColor:'rgba(255,255,255,0.6)',
+        backgroundColor:COLORS.lightWhite,
         borderRadius:50, 
         marginTop:40,
         marginLeft:10,
@@ -96,17 +83,12 @@ const styles = StyleSheet.create({
         alignItems:'center',
         position:'absolute',
         left:0,
-        zIndex:3
+        zIndex:1,
+        elevation:4
       },
       Textheading:{
         padding:13,
-        backgroundColor:COLORS.two,
         justifyContent:'center',
         alignItems:'center',
-        elevation: 5,
-        shadowColor: COLORS.two,
-        shadowOffset: { width: 0, height: 5 },
-        shadowOpacity: 0.65,
-        shadowRadius: 3.84,
       }
 })

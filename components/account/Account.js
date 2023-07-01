@@ -5,6 +5,7 @@ import {COLORS, icons, images, SIZES, Darkmode} from '../../constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useSelector, useDispatch } from 'react-redux';
 import { clearUser } from '../../features/userSlice';
+import { clearPhoneUser } from '../../features/phoneUserSlice';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useState } from 'react';
 import { setdarkmode } from '../../features/darkmodeSlice';
@@ -91,13 +92,13 @@ const Account = ({navigation}) => {
         await AsyncStorage.removeItem('userInfo');
         await AsyncStorage.removeItem('@user');
         dispatch(clearUser()); 
+        dispatch(clearPhoneUser()); 
         navigation.navigate('login'); 
       } catch (error) {
         console.log('Error removing user info from AsyncStorage:', error);
       }
     };
     const phoneUserInfo = useSelector((state) =>state.phoneUser)
-          // console.log(phoneUserInfo.user?.name)
 
   return (
     <SafeAreaView style={[styles.container,{backgroundColor: darkmood?Darkmode.white:COLORS.white,}]}>
@@ -179,7 +180,7 @@ const Account = ({navigation}) => {
     <Text 
     style={{color: 'red', paddingHorizontal: 10,alignSelf:'center',fontSize:25,paddingVertical: 10}}
     onPress={()=> handleRemoveUser()}>
-      LogOut?
+      Log out
     </Text>
     </SafeAreaView>
   )

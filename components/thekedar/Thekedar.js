@@ -12,18 +12,18 @@ import {selectBasketItems} from '../../features/basketSlice';
 const styles = StyleSheet.create({
     navla: {
       flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    width:'100%',
-    height: 50,
-    backgroundColor: COLORS.lightWhite,
-    borderTopWidth: 1,
-    borderColor: '#ddd',
-    elevation: 5,
-    position:'absolute',
-    bottom:0,
-    left:0,
-    right:0
+      justifyContent: 'space-around',
+      alignItems: 'center',
+      width:'100%',
+      height: 50,
+      backgroundColor: COLORS.lightWhite,
+      borderTopWidth: 1,
+      borderColor: '#ddd',
+      elevation: 5,
+      position:'absolute',
+      bottom:0,
+      left:0,
+      right:0
     },
     itemcount:{
       height:25,

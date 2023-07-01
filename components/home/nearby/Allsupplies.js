@@ -3,16 +3,19 @@ import { View, Text, TouchableOpacity, FlatList, Image, StyleSheet, SafeAreaView
 import { COLORS, SIZES} from '../../../constants';
 import createClient, { urlFor } from '../../../sanity';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { useDispatch, useSelector } from 'react-redux';
 
 
 const Allsupplies = ({navigation}) => {
 
     const [supplies, setSupplies] = useState([])
+    const zoneNo = useSelector(state => state.zone);
+
 
 
     useEffect(()=>{
         createClient.fetch(
-        `*[_type == 'supply']{
+        `*[_type == 'supply' && zone=='${zoneNo+1}']{
           ...,
             Supplies[]->{
               ...,

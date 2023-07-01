@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
     infocontainer:{
         width:'90%',
         alignSelf:'center',
-        height:280,
+        height:300,
         backgroundColor:COLORS.lightWhite,
         elevation:5,
         borderRadius:20,

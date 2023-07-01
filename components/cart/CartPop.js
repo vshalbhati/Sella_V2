@@ -11,4 +11,6 @@ const CartPop = () => {
 
 export default CartPop
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  
+})

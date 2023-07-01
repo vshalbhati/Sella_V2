@@ -14,15 +14,24 @@ const EditUser = ({navigation}) => {
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [phoneNumber, setphoneNumber] = useState('');
+  const phoneUserInfo = useSelector((state) =>state.phoneUser);
+  const userInfo = useSelector((state) => state.user);
+
 
   const handlePress=()=>{
     if(!name || !email){
         Alert.alert('Please fill all the fields!')
     }else{
-        dispatch(setPhoneUser({ name:name, email:email}));
+      if(phoneUserInfo.user?.phoneNumber){
+        dispatch(setPhoneUser({ name:name, email:email,phoneNumber:phoneUserInfo.user?.phoneNumber}));
+      }
+      else{
+        dispatch(setPhoneUser({ name:name, email:email, phoneNumber:phoneNumber}));
+      }
         navigation.goBack();
     }
-}
+  }
 
   return (
     <SafeAreaView>
@@ -39,7 +48,7 @@ const EditUser = ({navigation}) => {
         <View style={{marginTop:90}}>
             <Text style={styles.text}>Your name</Text>
             <TextInput
-                placeholder='your name'
+                placeholder={ userInfo?.name|| phoneUserInfo.user?.name || 'Guest User'}
                 style={styles.inputContainer}
                 onChangeText={(text) =>{setName(text)}}
             />
@@ -48,9 +57,19 @@ const EditUser = ({navigation}) => {
         <View>
             <Text style={styles.text}>Your email</Text>
             <TextInput
-                placeholder='your email'
+                placeholder={ userInfo?.email || phoneUserInfo.user?.email || 'guest@construck.com'}
                 style={styles.inputContainer}
                 onChangeText={(text) =>{setEmail(text)}}
+            />
+        </View>
+
+        <View>
+            <Text style={styles.text}>Your phone number</Text>
+            <TextInput
+                placeholder={phoneUserInfo.user?.phoneNumber || 'Add phone number'}
+                style={styles.inputContainer}
+                onChangeText={(text) =>{setphoneNumber(text)}}
+                editable={!phoneUserInfo.user?.phoneNumber}
             />
         </View>
 

@@ -1,19 +1,19 @@
 {
   "expo": {
-    "scheme": "acme",
+    "scheme": "sella",
     "web": {
       "bundler": "metro"
     },
     "name": "construck",
     "icon": "./assets/images/logo.png",
-    "slug": "construck",
+    "slug": "sella",
     "extra": {
       "eas": {
         "projectId": "f762d4a1-f69f-4aee-9647-d9b98bfa6ce0"
       }
     },
     "android": {
-      "package": "com.vshalbhati_294.sella",
+      "package": "com.expo.sella",
       "config": {}
     },
     "ios": {

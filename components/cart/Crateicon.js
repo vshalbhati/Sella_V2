@@ -9,13 +9,14 @@ const style = StyleSheet.create({
     container:{
         flex: 1,
         width:'90%',
-        marginBottom:80,
+        marginBottom:20,
         backgroundColor:COLORS.one,
         position:'absolute',
         bottom:0,
         borderRadius:10,
         alignSelf:'center',
         flexDirection:'row',
+        height:50,
     },
     curr:{
         color:COLORS.white,
@@ -29,6 +30,8 @@ const Crateicon = ({navigation}) => {
     const basketTotal = useSelector(selectBasketTotal);
 
     if(items.length === 0) return null;
+
+
   return (
     <View style={[style.container, {display:items.length>0 ?'flex': 'none'}]}>
         <TouchableOpacity

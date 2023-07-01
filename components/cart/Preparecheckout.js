@@ -6,7 +6,7 @@ import { COLORS } from '../../constants'
 import * as Progress from 'react-native-progress';
 const {height} = Dimensions.get('window');
 
-const Preparecheckout = ({navigation,route }) => {
+const Preparecheckout = ({navigation }) => {
     useEffect(() => {
         setTimeout(() => {
             navigation.navigate('delivery');

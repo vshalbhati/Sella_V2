@@ -1,10 +1,36 @@
-import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, ScrollView,Image } from 'react-native'
+import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, ScrollView,Image,Alert } from 'react-native'
 import React, { useEffect, useState, useMemo } from 'react'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { COLORS, FONT, SIZES } from '../../constants';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { selectBasketItems, selectBasketTotal,  } from '../../features/basketSlice';
 import { urlFor } from '../../sanity';
+import {setDelivery} from '../../features/deliverySlice';
+import {firebase} from '../../config/firebase'
+import { getFirestore, collection, deleteDoc, doc } from 'firebase/firestore';
+import * as Notifications from 'expo-notifications';
+import * as Device from 'expo-device';
+
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: true,
+  }),
+});
+
+async function schedulePushNotification() {
+  await Notifications.scheduleNotificationAsync({
+    content: {
+      title: "Order has been cancelled!",
+      body: 'Your refund will be initiated soon.',
+      data: { data: 'goes here' },
+    },
+    trigger: null,
+  });
+}
+
 
 const styles = StyleSheet.create({
   backArrow:{
@@ -55,13 +81,13 @@ const styles = StyleSheet.create({
     alignItems:'center',
     justifyContent:'center',
     alignSelf:'center',
-    marginBottom:20,
-    marginTop:20,
+    marginBottom:10,
+    marginTop:5,
   },
   instructionsContainer:{
     width:'90%',
     flexDirection:'row',
-    gap:30,
+    gap:20,
     marginTop:20,
     justifyContent:'center',
     alignSelf:'center',
@@ -69,8 +95,8 @@ const styles = StyleSheet.create({
 
   },
   instructions:{
-    height:100,
-    width:80,
+    height:110,
+    width:90,
     borderRadius:10,
     elevation:5,
     padding:10,
@@ -120,15 +146,54 @@ const styles = StyleSheet.create({
     alignSelf:'center',
     borderRadius:10,
     marginBottom:10,
+  },
+  userpop:{
+    flex:1,
+    height:400,
+    width:'80%',
+    position:'absolute',
+    left:0,
+    backgroundColor:'rgba(255,255,255,1)',
+    zIndex:2,
+    borderRadius:20,
+    justifyContent:'center',
+    alignItems: 'center',
+    marginLeft:40,
+    marginTop:220,
+    elevation:5,
+
+  },
+  userpopupbuttons:{
+    width:'100%',
+    height:50,
+    position:'absolute',
+    bottom:0,
+    backgroundColor:COLORS.one,
+    flexDirection:'row',
+    gap:70,
+    borderBottomEndRadius:20,
+    borderBottomStartRadius:20,
+    justifyContent:'center',
+    alignItems: 'center',
+  },
+  warningicon:{
+    alignSelf:'center'
+  },
+  buttontext:{
+    color:COLORS.lightWhite
   }
 });
 
-const Delivery = ({navigation,route}) => {
+const Delivery = ({navigation}) => {
+  const db = getFirestore(firebase);
+  const dispatch = useDispatch();
   const locationInfo = useSelector((state) => state.location);
   const distance = useSelector((state) => state.distance.distance);
   const items = useSelector(selectBasketItems);
-  const basketTotal = useSelector(selectBasketTotal)
+  const basketTotal = useSelector(selectBasketTotal);
+  const documentID = useSelector(state => state.documentId)
   const [groupedItemsInBasket, setGroupedItemsInBasket] = useState([]);
+  const [showMessage, setShowMessage] = useState(false);
 
   useMemo(() => {
     const groupedItems = items.reduce((results, item) => {
@@ -137,6 +202,21 @@ const Delivery = ({navigation,route}) => {
     }, {});
     setGroupedItemsInBasket(groupedItems);
   },[items]);
+
+  const cancelOrder= async()=>{
+      // try {
+      //   const collectionRef = collection(db, 'basketItems');
+      //   await deleteDoc(doc(collectionRef, documentID));
+      // } catch (error) {
+      //   console.error('Error deleting document:', error);
+      // }
+
+      await schedulePushNotification()
+
+      dispatch(setDelivery(true))
+      setShowMessage(!showMessage)
+      // navigation.navigate('home')
+  }
 
   return (
     <SafeAreaView style={{flex:1, backgroundColor:COLORS.white}}>
@@ -152,7 +232,7 @@ const Delivery = ({navigation,route}) => {
       </View>
 
 
-    <ScrollView style={{height:100}}>
+    <ScrollView>
 
       <View style={styles.container}>
           <Text>Delivering to this address</Text>
@@ -163,7 +243,7 @@ const Delivery = ({navigation,route}) => {
 
       <View style={styles.container}>
           <Text>Your delivery is on the way!</Text>
-          <Text style={styles.text}>The estimated time of delivery is <Text style={{fontFamily:FONT.bold}}>{distance*2} mins</Text> </Text>
+          <Text style={styles.text}>The estimated time of delivery is <Text style={{fontFamily:FONT.bold}}>{Math.floor(distance*3)} mins</Text> </Text>
       </View>
       
       <View style={styles.containerheading}>
@@ -187,8 +267,6 @@ const Delivery = ({navigation,route}) => {
                 <Text>{items.length}</Text>
                 <Text>₹{(items.length)*(items[0]?.price)}</Text>
               </View>
-              
-
             </View>
           ))}
       </ScrollView>
@@ -250,10 +328,24 @@ const Delivery = ({navigation,route}) => {
       </ScrollView>
 
       <View>
-        <TouchableOpacity style={styles.cartbutton}>
+        <TouchableOpacity style={styles.cartbutton} onPress={()=>setShowMessage(!showMessage)}>
           <Text style={styles.checkoutButtonText}>Cancel Order</Text>
         </TouchableOpacity>
       </View>
+
+      {showMessage && (
+        <View style={styles.userpop}>
+          <View>
+            <Icon name="error" size={120} color={COLORS.one} style={styles.warningicon}/>
+            <Text style={{textAlign:'center',fontFamily:FONT.bold,fontSize:SIZES.large,}}>Cancel the order?</Text>
+            <Text style={{textAlign:'center',fontFamily:FONT.medium,fontSize:SIZES.medium,padding:20}}>Delivery charges are non-refundable! Do you still want to cancel?</Text>          
+          </View>
+          <View style={styles.userpopupbuttons}>
+            <Text style={styles.buttontext} onPress={()=>setShowMessage(false)}>NO, EXIT</Text>
+            <Text style={styles.buttontext} onPress={cancelOrder}>YES, CANCEL</Text>
+          </View>
+        </View>
+      )}
 
 
     </SafeAreaView>

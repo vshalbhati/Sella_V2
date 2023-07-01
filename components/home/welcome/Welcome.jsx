@@ -55,7 +55,9 @@ const stylis = StyleSheet.create({
     borderRadius:10,
     elevation:5,
     shadowColor:COLORS.tertiary,
-    overflow:'hidden'
+    overflow:'hidden',
+    elevation: 5,
+
   },
   circle1:{
     height:130,
@@ -113,7 +115,7 @@ const Welcome = ({navigation,darkmode}) => {
 
   const getAddressFromCoordinates = async (latitude, longitude) => {
         try {
-          const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${28.444032}&lon=${77.319494}`;
+          const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
           const response = await axios.get(url);
           const data = response.data;
 
@@ -164,8 +166,8 @@ const Welcome = ({navigation,darkmode}) => {
           const phoneUserInfo = useSelector((state) =>state.phoneUser)
 
         const dealerLocation = {
-          latitude: 37.7749,
-          longitude: -122.4194,
+          latitude: 28.134284,
+          longitude: 77.324066,
         };
         if(location){
         const distanceInMeters = getDistance(dealerLocation, location);
@@ -176,7 +178,7 @@ const Welcome = ({navigation,darkmode}) => {
       <View style={stylis.uparcard}>
             <View style={stylis.circle1}></View>
           <View style={styles.container}>
-            <Text style={styles.userName}>Hello, { userInfo.user?.name || phoneUserInfo.user?.name || 'Guest User' }
+            <Text style={styles.userName}>Hello, { userInfo?.name || phoneUserInfo.user?.name || 'Guest User' }
             </Text>
             {locationInfo.location.length>0?(
               <TouchableOpacity onPress={()=>getLocation()}>

@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const deliverySlice = createSlice({
     name: 'delivery',
-    initialState: {delivery: false},
+    initialState: {delivery: true},
     reducers: {
       setDelivery: (state, action) => {
         state.delivery = action.payload;

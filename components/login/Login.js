@@ -36,6 +36,9 @@ const Login = ({ navigation }) => {
     androidClientId: ANDROID_CLIENT_ID,
     webClientId: WEB_CLIENT_ID,
     expoClientId: EXPO_CLIENT_ID,
+    // redirectUri: makeRedirectUri({
+    //          scheme: 'sella'
+    //           }),
   });
 
   useEffect(() => {

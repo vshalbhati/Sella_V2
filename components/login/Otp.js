@@ -64,7 +64,7 @@ const { verificationId, phoneNumber } = route.params;
     <View style={styles.container}>
       <View style={styles.textContainer}>
       <Text style={styles.otpText}>Enter OTP</Text>
-      <Text>We have sent a 6-digit code to your phone number</Text>
+      <Text>We have sent a 6-digit code to {phoneNumber}</Text>
 
       </View>
     <View style={styles.codeContainer}>

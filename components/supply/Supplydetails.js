@@ -26,6 +26,9 @@ const Supplydetails = ({navigation}) => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [itemquantity, setItemQuantity]= useState(items.length);
   const [trucks, setTrucks] = useState(null)
+  const [liked, setLiked] = useState(false)
+  const [showMessage, setShowMessage] = useState(true);
+
 
   const calculateTrucks =()=>{
     setTrucks(Math.ceil(itemquantity /3 ));
@@ -65,6 +68,14 @@ const Supplydetails = ({navigation}) => {
     )
   },[]);
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowMessage(false);
+    }, 4000);
+
+    return () => clearTimeout(timer); 
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
         <View style={styles.backArrow}>
@@ -75,7 +86,17 @@ const Supplydetails = ({navigation}) => {
             onPress={() => navigation.goBack()}
           />      
         </TouchableOpacity>
-      </View>      
+      </View>     
+
+      <TouchableOpacity style={styles.heartcontainer} onPress={()=>setLiked(!liked)}>
+        <Icon name="favorite" color={liked?COLORS.tertiary:COLORS.gray2} size={24} />
+      </TouchableOpacity> 
+      {liked && showMessage &&(
+        <View style={{position:'absolute',top:0,marginTop:80,width:'80%',height:30,backgroundColor:COLORS.gray,borderRadius:20,justifyContent:'center',alignSelf:'center'}}>
+          <Text style={{color:COLORS.white,textAlign:'center'}}>{name} has been added to wishlist</Text>
+        </View>
+      )}
+      
 
       <Image
         source={{ uri: selectedImage || urlFor(imgurl).url() }}
@@ -153,7 +174,7 @@ const Supplydetails = ({navigation}) => {
     navigation={navigation}
     />
 
-    <View style={styles.footer}>
+    {/* <View style={styles.footer}>
       <View style={styles.heartcontainer}>
         <Image
           source={require('../../assets/icons/heart-ol.png')}
@@ -163,7 +184,7 @@ const Supplydetails = ({navigation}) => {
         <TouchableOpacity style={styles.cartbutton}>
           <Text style={styles.checkoutButtonText}>View in cart</Text>
         </TouchableOpacity>
-    </View>
+    </View> */}
     </SafeAreaView>
   )
 }
@@ -186,24 +207,28 @@ const styles = StyleSheet.create({
     marginLeft:50
   },
   heartcontainer:{
-    height:50,
-    width:50,
-    backgroundColor:'rgb(255, 222, 173)',
+    height:40,
+    width:40,
+    backgroundColor:COLORS.lightWhite,
     borderRadius:50,
     justifyContent:'center',
     alignItems:'center',
-    marginLeft:30
+    marginTop:40,
+    marginRight:10,
+    position:'absolute',
+    right:0,
+    elevation:5
   },
   footer:{
     position:'absolute',
     bottom:0,
-    marginBottom:20,
+    marginBottom:10,
     flexDirection:'row'
   },
   backArrow:{
     height:40,
     width:40, 
-    backgroundColor:'rgba(255,255,255,0.6)',
+    backgroundColor:COLORS.white,
     borderRadius:50, 
     marginTop:40,
     marginLeft:10,
@@ -211,7 +236,9 @@ const styles = StyleSheet.create({
     alignItems:'center',
     position:'absolute',
     left:0,
-    zIndex:3
+    zIndex:1,
+    elevation:5
+
   },
   gola:{
     height:40,
@@ -254,7 +281,7 @@ const styles = StyleSheet.create({
   imagesarray:{
     flex:1,
     position:'absolute',
-    marginBottom:520,
+    marginBottom:505,
     bottom:0,
     width:'100%',
     alignItems:'center',

@@ -1,4 +1,4 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore } from '@reduxjs/toolkit';
 import basketReducer from "./features/basketSlice";
 import supplyReducer from "./features/supplyslice";
 import userReducer from "./features/userSlice";
@@ -10,9 +10,11 @@ import darkmodeSlice from "./features/darkmodeSlice";
 import zoneReducer from "./features/zoneSlice";
 import phoneUserSlice from "./features/phoneUserSlice";
 import distanceSlice from "./features/distanceSlice";
+import deliverySlice from './features/deliverySlice';
+import firestoreidSlice from './features/firestoreidSlice';
 
 
-export const store = configureStore({
+ export const store = configureStore({
     reducer:{
         basket: basketReducer,
         supply: supplyReducer,  
@@ -23,5 +25,7 @@ export const store = configureStore({
         zone: zoneReducer,
         phoneUser: phoneUserSlice,
         distance: distanceSlice,
+        delivery: deliverySlice,
+        documentId: firestoreidSlice,
     },
 },applyMiddleware(thunkMiddleware));

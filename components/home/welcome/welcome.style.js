@@ -63,8 +63,8 @@ const styles = StyleSheet.create({
     marginTop: SIZES.medium,
   },
   tab: (activeJobType, item,darkmode) => ({
-    paddingVertical: 20,
-    paddingHorizontal: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 10,
     borderRadius: 10,
     borderWidth: 1,
     borderColor: activeJobType === item ?(darkmode?(Darkmode.gray2):(COLORS.secondary) ): COLORS.gray,

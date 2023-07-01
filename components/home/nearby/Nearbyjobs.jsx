@@ -34,7 +34,7 @@ const Nearbyjobs = ({navigation,darkmode}) => {
   useEffect(() => {
     setIsLoading(true);
     createClient
-      .fetch(`*[_type == 'supply' && zone=='${1+1}']{...}`)
+      .fetch(`*[_type == 'supply' && zone=='${zoneNo+1}']{...}`)
       .then((data) => {
         if(data.length==0){setError(true)}
         else{setError(false)}
@@ -163,7 +163,6 @@ const Nearbyjobs = ({navigation,darkmode}) => {
 const stylis = StyleSheet.create({
   container: {
     overflow: 'hidden',
-    padding:10,
   },
   item: {
     padding: 16,
@@ -217,13 +216,12 @@ const stylis = StyleSheet.create({
     fontFamily: FONT.regular,
   },
   featuredtrackTitle:{
-    fontSize: 18,
-    marginBottom: 4,
+    fontSize: 16,
     color: '#222',
     fontFamily: FONT.regular,
   },
   featuredartistName:{
-    fontSize: 14,
+    fontSize: 13,
     color: '#222',
     fontFamily: FONT.regular,
   },

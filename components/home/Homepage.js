@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect,useRef } from 'react';
 import { View, ScrollView, SafeAreaView, Animated, Text, TouchableOpacity, FlatList, ActivityIndicator, ActivityIndicatorBase, TextInput, Button, Image, StyleSheet, Easing } from 'react-native'
 import {COLORS, icons, images, SIZES, FONT,Darkmode} from '../../constants';
 import { Nearbyjobs, Welcome} from '..';
@@ -112,8 +112,8 @@ const styles = StyleSheet.create({
     bottom:0,
     right:0,
     zIndex:1,
-    marginBottom:70,
     marginRight:10,
+    elevation: 3,
   },
   itemcount:{
     height:25,
@@ -132,12 +132,28 @@ const styles = StyleSheet.create({
     height:40
   },
   deliverypop:{
-    height:30,
-    width:'100%',
+    height:50,
+    width:'95%',
     backgroundColor:COLORS.tertiary,
     position:'absolute',
     bottom:0,
-    marginBottom:50
+    marginBottom:55,
+    flexDirection:'row',
+    gap:20,
+    alignItems:'center',
+    elevation: 5,
+    alignSelf:'center',
+    borderRadius:5,
+    overflow:'hidden'
+  },
+  deliverybutton:{
+    width:60,
+    height:30,
+    justifyContent:'center',
+    alignSelf:'center',
+    borderRadius:5,
+    backgroundColor:COLORS.lightWhite,
+    elevation: 3,
   },
   userpop:{
     flex:1,
@@ -172,10 +188,11 @@ const Home = ({navigation}) =>{
   const animationValues = [1, 1, 1, 1].map(() => new Animated.Value(1));
   const items = useSelector(selectBasketItems);
 
-  const [delivered, setDelivered] = useState(false);
-
   const darkmode = useSelector((state) => state.darkmode.darkmode);
   const userInfo = useSelector((state) => state.user);
+  const isdelivered = useSelector((state)=> state.delivery.delivery);
+  const distance = useSelector((state) => state.distance.distance);
+
 
   const onPress = (index) => {
     setSelected(index);
@@ -201,6 +218,34 @@ const Home = ({navigation}) =>{
       transform: [{ scale: animationValues[index] }],
     },
   ];
+
+  const position = useRef(new Animated.Value(-100)).current;
+  useEffect(() => {
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(position, {
+          toValue: 300, 
+          duration: 4000, 
+          useNativeDriver: true,
+        }),
+        Animated.timing(position, {
+          toValue: 0, 
+          duration: 4000, 
+          useNativeDriver: true,
+        }),
+      ])
+    ).start();
+  }, []);
+
+  const interpolateOpacity = position.interpolate({
+    inputRange: [0, 50, 90, 300],
+    outputRange: [0, 1, 1, 0],
+  });
+
+  const interpolateX = position.interpolate({
+    inputRange: [-100, 100],
+    outputRange: [-100, 100],
+  });
 
 
   return (
@@ -248,8 +293,22 @@ const Home = ({navigation}) =>{
       </ScrollView>
 
 
+        {!isdelivered &&(
+          <View style={styles.deliverypop}>
+            <View style={{marginLeft:10,width:290}}>
+              <Text style={{color:'#fff'}}>Your order is on the way!</Text>
+              <Animated.View style={{ opacity: interpolateOpacity, transform: [{ translateX: interpolateX }] }}>
+                <Text style={{color:'#fff'}}>The estimated time of delivery is <Text style={{fontFamily:FONT.bold}}>{Math.floor(distance*3)} mins</Text> </Text>
+              </Animated.View>
+            </View>
+            <TouchableOpacity style={styles.deliverybutton} onPress={()=>navigation.navigate('delivery')}>
+              <Text style={{color:COLORS.tertiary,textAlign:'center'}}>Check</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+
         <TouchableOpacity
-          style={styles.boticon}
+          style={[styles.boticon,{marginBottom: !isdelivered ? 110 :70}]}
           onPress={() => navigation.navigate('chatbot')}>
           <Icon name="chat" size={30} color={COLORS.white}/>
         </TouchableOpacity>
