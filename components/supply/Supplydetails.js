@@ -1,7 +1,7 @@
 import { View, Text, ScrollView, FlatList, StyleSheet, Image,ImageBackground ,Dimensions,TextInput} from 'react-native'
 import { useState, useEffect } from 'react';
 import createClient, { urlFor } from '../../sanity';
-import { COLORS, FONT, SIZES } from '../../constants';
+import { COLORS, FONT, SIZES, Darkmode } from '../../constants';
 import { useRoute } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { TouchableOpacity } from 'react-native';
@@ -11,7 +11,6 @@ import Crateicon from '../cart/Crateicon';
 import { setSupply } from '../../features/supplyslice';
 import { SafeAreaView } from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
-// import ImageColors from 'react-native-image-colors';
 
 
 
@@ -28,6 +27,7 @@ const Supplydetails = ({navigation}) => {
   const [trucks, setTrucks] = useState(null)
   const [liked, setLiked] = useState(false)
   const [showMessage, setShowMessage] = useState(true);
+  const darkmode = useSelector((state) => state.darkmode.darkmode);
 
 
   const calculateTrucks =()=>{
@@ -124,23 +124,23 @@ const Supplydetails = ({navigation}) => {
 
 
 
-      <View style={styles.infocard}>
+      <View style={[styles.infocard,{backgroundColor:darkmode?Darkmode.white:COLORS.lightWhite,}]}>
         <View style={styles.textcontent}>
-            <Text style={styles.name}>{name}</Text>
-            <Text style={styles.description}>{short_description} Bhai tera india me rap kare hindi wala tu samjhe eminem hi rapgod hai. Surya teri zubaan bhot chalti hai, mere hath zada chalte hein</Text>
+            <Text style={[styles.name,{color:darkmode&&COLORS.one}]}>{name}</Text>
+            <Text style={[styles.description,{color:darkmode&&COLORS.gray2}]}>{short_description} Bhai tera india me rap kare hindi wala tu samjhe eminem hi rapgod hai. Surya teri zubaan bhot chalti hai, mere hath zada chalte hein</Text>
             <Text style={styles.price}>₹{price} <Text style={{fontSize:SIZES.medium,fontFamily:FONT.medium}}>/{measure}</Text></Text>
         </View>
 
 
         <View style={styles.quantityheaderbox}>
-          <Text style={styles.quantityheader}>Select the quantity</Text>
+          <Text style={[styles.quantityheader,{color:darkmode&&COLORS.gray2}]}>Select the quantity</Text>
           <View style={{height:3,width:175,backgroundColor:COLORS.one,marginTop:5}}/>
         </View>
 
 
         <View style={styles.quantity}>
           <View style={{justifyContent:'center',alignItems:'center', flexDirection:'row'}}>
-            <Text style={{fontSize:22,textAlign:'center',color:COLORS.primary,marginLeft:20}}>{measure}</Text>
+            <Text style={{fontSize:22,textAlign:'center',color:darkmode?COLORS.gray2:COLORS.primary,marginLeft:20}}>{measure}</Text>
             <View style={{ flexDirection:'row',alignSelf:'center',marginLeft:100}}>
               <TouchableOpacity style={[styles.gola,{backgroundColor:COLORS.one}]}>
               <Icon
@@ -150,7 +150,7 @@ const Supplydetails = ({navigation}) => {
                 color={'white'}
               />
               </TouchableOpacity>
-                  <Text style={{ fontSize:24,fontWeight:'bold',paddingLeft:20,paddingRight:20,color:COLORS.primary}}>{items.length}</Text>
+                  <Text style={{ fontSize:24,fontWeight:'bold',paddingLeft:20,paddingRight:20,color:darkmode?COLORS.gray2:COLORS.primary}}>{items.length}</Text>
               <TouchableOpacity disabled={!items.length} style={[styles.gola,{backgroundColor:(items.length) >0 ? COLORS.one : COLORS.gray2}]}>
               <Icon
                 name='remove'
@@ -161,15 +161,15 @@ const Supplydetails = ({navigation}) => {
               </TouchableOpacity>
             </View>
           </View>
+        </View>
+
+        <View style={{flexDirection:'row',margin:10}}>
+          <Icon name='local-shipping' size={24} color={COLORS.gray}/>
+          <Text style={{ fontSize:16,fontWeight:'bold',color:darkmode?COLORS.gray2:COLORS.primary}}> x {Math.floor(items.length /3 )}</Text>
+        </View>
       </View>
 
-      <View style={{flexDirection:'row',margin:10}}>
-        <Icon name='local-shipping' size={21} color={COLORS.gray}/>
-        <Text> x {Math.floor(items.length /3 )}</Text>
-      </View>
 
-
-      </View>
     <Crateicon
     navigation={navigation}
     />
@@ -257,8 +257,8 @@ const styles = StyleSheet.create({
   price:{
     fontSize:SIZES.large,
     fontFamily:FONT.bold,
-    color:COLORS.one,
     marginTop:10,
+    color:COLORS.one
   },
   description:{
     fontSize:15,

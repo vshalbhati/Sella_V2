@@ -6,17 +6,17 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
   },
-  userName: {
+  userName:(darkmode)=> ({
     fontFamily: FONT.bold,
     fontSize: SIZES.large,
-    color: COLORS.lightWhite,
-  },
-  welcomeMessage: {
+    color:darkmode?'rgba(255,255,255,0.5)': COLORS.lightWhite,
+  }),
+  welcomeMessage:(darkmode)=> ({
     fontFamily: FONT.regular,
     fontSize: SIZES.xLarge,
-    color: COLORS.lightWhite,
+    color: darkmode?'rgba(255,255,255,0.5)': COLORS.lightWhite,
     marginTop: 2,
-  },
+  }),
   addressText:{
     fontFamily: FONT.regular,
     fontSize: SIZES.medium,
@@ -45,14 +45,14 @@ const styles = StyleSheet.create({
     height: '100%',
     paddingHorizontal: SIZES.medium,
   },
-  searchBtn: {
+  searchBtn:(darkmode)=> ({
     width: 50,
     height: '100%',
-    backgroundColor: COLORS.one,
+    backgroundColor:darkmode?COLORS.primary: COLORS.one,
     borderRadius: SIZES.medium,
     justifyContent: 'center',
     alignItems: 'center',
-  },
+  }),
   searchBtnImage: {
     width: '50%',
     height: '50%',

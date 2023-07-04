@@ -7,7 +7,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Google from 'expo-auth-session/providers/google';
 import * as WebBrowser from 'expo-web-browser';
 import { setUser } from '../../features/userSlice';
-import { ANDROID_CLIENT_ID, WEB_CLIENT_ID, EXPO_CLIENT_ID } from '@env';
 import PhoneInput from 'react-native-phone-number-input';
 import { getAuth, PhoneAuthProvider, signInWithCredential, signInWithPhoneNumber, PhoneAuthState } from 'firebase/auth';import { initializeApp } from 'firebase/app';
 import { FirebaseRecaptchaVerifierModal } from 'expo-firebase-recaptcha';
@@ -33,12 +32,9 @@ const Login = ({ navigation }) => {
 
   const [userInfo, setUserInfo] = useState(null);
   const [request, response, promptAsync] = Google.useAuthRequest({
-    androidClientId: ANDROID_CLIENT_ID,
-    webClientId: WEB_CLIENT_ID,
-    expoClientId: EXPO_CLIENT_ID,
-    // redirectUri: makeRedirectUri({
-    //          scheme: 'sella'
-    //           }),
+    androidClientId: '679645096836-hk12ep2qpaorsnseoqa2vh0hq8htv318.apps.googleusercontent.com',
+    webClientId: '679645096836-775l66pkib93nmrlgf8thqpokgmig79d.apps.googleusercontent.com',
+    expoClientId: '679645096836-mahgotb3027r33k3jthcsnji64jomakg.apps.googleusercontent.com',
   });
 
   useEffect(() => {

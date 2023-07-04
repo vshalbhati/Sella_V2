@@ -1,4 +1,3 @@
-import { OPEN_AI_API_KEY } from '@env';
 import { View, Text, FlatList, TextInput, TouchableOpacity, StyleSheet } from 'react-native'
 import React,{useState} from 'react'
 import axios from 'axios';
@@ -47,7 +46,7 @@ const styles = StyleSheet.create({
 
 const Chatbot = ({navigation}) => {
     const [data, setData] = useState([]);
-    const apiKey = OPEN_AI_API_KEY;
+    const apiKey = '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';
     const apiUrl = 'https://api.openai.com/v1/engines/text-davinci-002/completions'
     const [textInput, setTextInput] = useState('');
 

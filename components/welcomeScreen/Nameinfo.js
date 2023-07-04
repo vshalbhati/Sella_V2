@@ -4,6 +4,8 @@ import { useRoute } from '@react-navigation/native';
 import { COLORS, FONT, SIZES } from '../../constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPhoneUser } from '../../features/phoneUserSlice';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const Nameinfo = ({navigation}) => {
     const route = useRoute();
@@ -14,11 +16,23 @@ const Nameinfo = ({navigation}) => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
 
-    const handlePress=()=>{
+    const handlePress = async () => {
         if(!name || !email){
             Alert.alert('Please fill all the fields!')
         }else{
-            dispatch(setPhoneUser({ name,phoneNumber, email}));
+            try {
+                // Dispatch the action to update the Redux store
+                dispatch(setPhoneUser({ name, phoneNumber, email }));
+        
+                // Serialize the data
+                const data = JSON.stringify({ name, phoneNumber, email });
+        
+                // Store the serialized data in AsyncStorage
+                await AsyncStorage.setItem('phoneUser', data);
+                console.log('Data saved successfully.');
+              } catch (error) {
+                console.log('Error occurred while saving data:', error);
+              }            
             navigation.navigate('home')
         }
     }

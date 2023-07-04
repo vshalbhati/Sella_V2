@@ -1,7 +1,7 @@
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
 import { View, Text, SafeAreaView, Image, TouchableOpacity, StyleSheet, ScrollView,Alert } from 'react-native'
 import React, { useMemo ,useEffect, useRef} from 'react';
-import {COLORS, FONT, icons, images, SIZES} from '../../constants';
+import {COLORS, Darkmode, FONT, icons, images, SIZES} from '../../constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectSupply } from '../../features/supplyslice';
 import { selectBasketItems, basketTotal, removeFromBasket, selectBasketTotal, addToBasket } from '../../features/basketSlice';
@@ -76,6 +76,7 @@ const Cart = ({navigation}) => {
     const supply = useSelector(selectSupply);
     const items = useSelector(selectBasketItems);
     const basketTotal = useSelector(selectBasketTotal)
+    const darkmode = useSelector((state) => state.darkmode.darkmode);
     const [groupedItemsInBasket, setGroupedItemsInBasket] = useState([]);
     const [address, setAddress] = useState(locationInfo.location);
     const [sector, setSector] = useState("");
@@ -206,7 +207,7 @@ const Cart = ({navigation}) => {
     }, []);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container,{backgroundColor:darkmode?Darkmode.white: COLORS.white,}]}>
 
       <View style={styles.backArrow}>
         <TouchableOpacity>
@@ -222,14 +223,14 @@ const Cart = ({navigation}) => {
 
       <ScrollView style={{height:100,marginBottom:60}}>
 
-      <View style={styles.deliverytimecontainer}>
+      <View style={[styles.deliverytimecontainer,{backgroundColor:darkmode?COLORS.secondary:COLORS.lightWhite,}]}>
         <View></View>
           <Icon
-            name='person'
+            name='local-shipping'
             size={28}
             color={COLORS.gray}
           /> 
-          <Text>Delivery in <Text style={{fontFamily:FONT.medium}}>{Math.floor(distance*3)}-{Math.floor(distance*5)} min</Text></Text>
+          <Text style={{color:darkmode?COLORS.lightWhite:COLORS.gray}}>Delivery in <Text style={{fontFamily:FONT.medium}}>{Math.floor(distance*3)}-{Math.floor(distance*5)} min</Text></Text>
       </View>
 
       <View style={styles.containerheading}>
@@ -330,27 +331,29 @@ const Cart = ({navigation}) => {
 
 
       {sector.length>0 ? (
-      <View style={styles.dabba}>
-        <Image
-          source={require('../../assets/icons/location.png')}
-          style={{height:40, width:40,margin:5}}
-        />
+      <View style={[styles.dabba,{backgroundColor:darkmode?COLORS.secondary:COLORS.lightWhite,}]}>
+        <Icon
+            name='location-on'
+            size={45}
+            color={COLORS.gray}
+            style={{marginTop:4}}
+          /> 
         <View style={{justifyContent:'center'}}>
           <View style={{flexDirection:'row'}}>
-            <Text style={{color:COLORS.secondary,width:'75%'}}>Delivering to this address</Text>
+            <Text style={{color:darkmode?COLORS.lightWhite:COLORS.secondary,width:'75%'}}>Delivering to this address</Text>
             <TouchableOpacity style={styles.selectLocationButton} onPress={() => navigation.navigate('locations')}>
-              <Text>Change </Text>
+              <Text style={{color:darkmode?COLORS.lightWhite:COLORS.secondary}}>Change </Text>
             </TouchableOpacity>
           </View>
-          <Text style={{fontSize:16,textAlign:'left'}} numberOfLines={1} ellipsizeMode="tail">{locationInfo.location}</Text>
+          <Text style={{color:darkmode?COLORS.lightWhite:COLORS.secondary,fontSize:16,textAlign:'left'}} numberOfLines={1} ellipsizeMode="tail">{locationInfo.location}</Text>
         </View>
       </View>
     ):(
-        <View style={styles.dabba}>
+        <View style={[styles.dabba,{backgroundColor:darkmode?COLORS.secondary:COLORS.lightWhite,}]}>
           <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
-            <Text style={{color:COLORS.secondary,margin:10,width:'75%'}}>we couldn't get your location</Text>
+            <Text style={{color:darkmode?COLORS.lightWhite:COLORS.secondary,margin:10,width:'75%'}}>we couldn't get your location</Text>
             <TouchableOpacity style={styles.selectLocationButton} onPress={() => navigation.navigate('locations')}>
-              <Text>CHANGE</Text>
+              <Text style={{color:darkmode?COLORS.lightWhite:COLORS.secondary}}>CHANGE</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -445,7 +448,6 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: COLORS.white,
   },
   backArrow:{
     height:40,
@@ -517,12 +519,13 @@ const styles = StyleSheet.create({
     checkoutButton: {
       height:50,
       width:'60%',
-      marginBottom:10,
+      marginBottom:5,
       borderRadius:10,
       alignSelf:'center',
       justifyContent:'center',
       marginRight:10,
-      marginLeft:20,
+      marginLeft:30,
+      marginTop:5,
     },
     checkoutButtonText: {
       color: '#fff',
@@ -546,7 +549,7 @@ const styles = StyleSheet.create({
       backgroundColor:COLORS.lightWhite,
       position:'absolute',
       bottom:0,
-      marginBottom:62,
+      marginBottom:60,
       width:'100%',
       zIndex:1,
       borderBottomWidth: 2,
@@ -570,7 +573,6 @@ const styles = StyleSheet.create({
     },
     deliverytimecontainer:{
       flexDirection:'row',
-      backgroundColor:COLORS.lightWhite,
       borderRadius:10,
       gap:20,
       width:'90%',

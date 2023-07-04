@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, FlatList, ActivityIndicator, ActivityIndi
 import { useRouter } from 'expo-router'
 
 import styles from './welcome.style'
-import { COLORS, icons, SIZES} from '../../../constants';
+import { COLORS, icons, SIZES, Darkmode} from '../../../constants';
 
 const jobTypes =['Cement','Putti','Bricks','Patthar','Binola'];
 const zones =[
@@ -50,11 +50,9 @@ const stylis = StyleSheet.create({
     marginBottom: 10,
   },
   uparcard:{
-    backgroundColor:COLORS.tertiary,
     padding:20,
     borderRadius:10,
     elevation:5,
-    shadowColor:COLORS.tertiary,
     overflow:'hidden',
     elevation: 5,
 
@@ -163,7 +161,8 @@ const Welcome = ({navigation,darkmode}) => {
         }
   };
           const userInfo = useSelector((state) => state.user);
-          const phoneUserInfo = useSelector((state) =>state.phoneUser)
+          const phoneUserInfo = useSelector((state) =>state.phoneUser);
+
 
         const dealerLocation = {
           latitude: 28.134284,
@@ -175,20 +174,20 @@ const Welcome = ({navigation,darkmode}) => {
       }
   return (
     <View>
-      <View style={stylis.uparcard}>
+      <View style={[stylis.uparcard,{backgroundColor: darkmode?Darkmode.white:COLORS.tertiary,shadowColor:darkmode?Darkmode.gray:COLORS.tertiary,}]}>
             <View style={stylis.circle1}></View>
           <View style={styles.container}>
-            <Text style={styles.userName}>Hello, { userInfo?.name || phoneUserInfo.user?.name || 'Guest User' }
+            <Text style={styles.userName(darkmode)}>Hello, { userInfo?.name || phoneUserInfo.user?.name || 'Guest User' }
             </Text>
             {locationInfo.location.length>0?(
               <TouchableOpacity onPress={()=>getLocation()}>
-              <Text style={styles.welcomeMessage}>
+              <Text style={styles.welcomeMessage(darkmode)}>
                 Change location
               </Text>
               </TouchableOpacity>
             ):(
               <TouchableOpacity onPress={()=>getLocation()}>
-              <Text style={styles.welcomeMessage}>
+              <Text style={styles.welcomeMessage(darkmode)}>
                 Choose location
               </Text>
               </TouchableOpacity>
@@ -210,7 +209,7 @@ const Welcome = ({navigation,darkmode}) => {
                 placeholder='what are you looking for?'
               />
             </View>
-            <TouchableOpacity style={styles.searchBtn} disabled={query.length==0} onPress={() => navigation.navigate('search',{query:query})}>
+            <TouchableOpacity style={styles.searchBtn(darkmode)} disabled={query.length==0} onPress={() => navigation.navigate('search',{query:query})}>
               <Image
               source={icons.search}
               resizeMode='contain'

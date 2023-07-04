@@ -6,6 +6,7 @@ import { Stack, useRouter } from 'expo-router';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {selectBasketItems} from '../../features/basketSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const styles = StyleSheet.create({
   navla: {
@@ -104,7 +105,6 @@ const styles = StyleSheet.create({
   boticon:{
     width: 50,
     height: 50,
-    backgroundColor:COLORS.tertiary,
     justifyContent:'center',
     alignItems:'center',
     borderRadius:50,
@@ -192,7 +192,25 @@ const Home = ({navigation}) =>{
   const userInfo = useSelector((state) => state.user);
   const isdelivered = useSelector((state)=> state.delivery.delivery);
   const distance = useSelector((state) => state.distance.distance);
+  
+  const [asyncuserInfo, setAsyncUserInfo] = useState(null);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await AsyncStorage.getItem('phoneUser');
+
+        if (data) {
+          const { name, phoneNumber, email } = JSON.parse(data);
+          console.log('Retrieved data:', name);
+          setAsyncUserInfo(name);
+        }
+      } catch (error) {
+        console.log('Error occurred while fetching data:', error);
+      }
+    };
+    fetchData();
+  }, []);
 
   const onPress = (index) => {
     setSelected(index);
@@ -246,6 +264,10 @@ const Home = ({navigation}) =>{
     inputRange: [-100, 100],
     outputRange: [-100, 100],
   });
+
+
+
+
 
 
   return (
@@ -308,7 +330,7 @@ const Home = ({navigation}) =>{
         )}
 
         <TouchableOpacity
-          style={[styles.boticon,{marginBottom: !isdelivered ? 110 :70}]}
+          style={[styles.boticon,{marginBottom: !isdelivered ? 110 :70,backgroundColor:darkmode?COLORS.secondary:COLORS.tertiary,}]}
           onPress={() => navigation.navigate('chatbot')}>
           <Icon name="chat" size={30} color={COLORS.white}/>
         </TouchableOpacity>

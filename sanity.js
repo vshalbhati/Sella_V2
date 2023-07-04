@@ -1,13 +1,12 @@
 import {createClient} from '@sanity/client';
 import imageUrlBuilder from "@sanity/image-url";
-import { SANITY_PROJECT_ID,SANITY_DATASET,SANITY_API_VERSION } from '@env';
 
 
 const client = createClient({
-    projectId: SANITY_PROJECT_ID,
-    dataset: SANITY_DATASET,
+    projectId: 'q0smnh3q',
+    dataset: 'production',
     useCdn: true,
-    apiVersion:SANITY_API_VERSION
+    apiVersion:'2021-10-21'
 });
 
 const builder = imageUrlBuilder(client);

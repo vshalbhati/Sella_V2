@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, ScrollView,Image,Alert } from 'react-native'
+import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, ScrollView,Image,Alert,Linking } from 'react-native'
 import React, { useEffect, useState, useMemo } from 'react'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { COLORS, FONT, SIZES } from '../../constants';
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
   },
   instructions:{
     height:110,
-    width:90,
+    width:110,
     borderRadius:10,
     elevation:5,
     padding:10,
@@ -194,6 +194,10 @@ const Delivery = ({navigation}) => {
   const documentID = useSelector(state => state.documentId)
   const [groupedItemsInBasket, setGroupedItemsInBasket] = useState([]);
   const [showMessage, setShowMessage] = useState(false);
+  const [showRate, setShowRate] = useState(false);
+  const [rating, setRating] = useState(0);
+
+
 
   useMemo(() => {
     const groupedItems = items.reduce((results, item) => {
@@ -204,19 +208,30 @@ const Delivery = ({navigation}) => {
   },[items]);
 
   const cancelOrder= async()=>{
-      // try {
-      //   const collectionRef = collection(db, 'basketItems');
-      //   await deleteDoc(doc(collectionRef, documentID));
-      // } catch (error) {
-      //   console.error('Error deleting document:', error);
-      // }
+      try {
+        const collectionRef = collection(db, 'basketItems');
+        await deleteDoc(doc(collectionRef, documentID));
+      } catch (error) {
+        console.error('Error deleting document:', error);
+      }
 
       await schedulePushNotification()
 
       dispatch(setDelivery(true))
       setShowMessage(!showMessage)
-      // navigation.navigate('home')
+      navigation.navigate('home')
   }
+  const handlePhoneCall = () => {
+    const phoneNumber = '1234567890'; 
+    const phoneUrl = `tel:${phoneNumber}`;
+    Linking.openURL(phoneUrl);
+  };
+  const handleInstructionsButtonPress = () => {
+    const phoneNumber = '1234567890'; 
+    const smsUrl = `sms:${phoneNumber}`;
+    Linking.openURL(smsUrl);
+  };
+  
 
   return (
     <SafeAreaView style={{flex:1, backgroundColor:COLORS.white}}>
@@ -272,30 +287,30 @@ const Delivery = ({navigation}) => {
       </ScrollView>
 
       <View style={styles.instructionsContainer}>
-        <View style={styles.instructions}>
+        <TouchableOpacity style={styles.instructions} onPress={handlePhoneCall}>
           <Icon
             name='phone'
             size={28}
             color={COLORS.gray2}
           /> 
             <Text style={{marginTop:10,fontFamily:FONT.medium}}>Call the agent</Text>
-        </View>
-        <View style={styles.instructions}>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.instructions} onPress={handleInstructionsButtonPress}>
           <Icon
             name='note'
             size={28}
             color={COLORS.gray2}
           /> 
           <Text style={{marginTop:10,fontFamily:FONT.medium}}>Give Instructions</Text>
-        </View>
-        <View style={styles.instructions}>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.instructions} onPress={()=>setShowRate(true)}>
           <Icon
-            name='favorite'
+            name='star'
             size={28}
             color={COLORS.gray2}
           /> 
-          <Text style={{marginTop:10,fontFamily:FONT.medium}}>Tip the agent</Text>
-        </View>
+          <Text style={{marginTop:10,fontFamily:FONT.medium}}>Rate the agent</Text>
+        </TouchableOpacity>
       </View>
 
       <View style={styles.containerheading}>
@@ -344,6 +359,55 @@ const Delivery = ({navigation}) => {
             <Text style={styles.buttontext} onPress={()=>setShowMessage(false)}>NO, EXIT</Text>
             <Text style={styles.buttontext} onPress={cancelOrder}>YES, CANCEL</Text>
           </View>
+        </View>
+      )}
+
+      {showRate && (
+        <View style={styles.userpop}>
+          <View>
+            <Icon name="star" size={120} color={COLORS.one} style={styles.warningicon}/>
+            <Text style={{textAlign:'center',fontFamily:FONT.bold,fontSize:SIZES.large,}}>Rate the agent</Text>
+            <Text style={{textAlign:'center',fontFamily:FONT.medium,fontSize:SIZES.medium,padding:20}}>Your small effort can mean the world to them!</Text>          
+          </View>
+          <View style={{flexDirection:'row',gap:20}}>
+          <Icon
+            name='star'
+            size={28}
+            color={rating >= 1 ? COLORS.one : COLORS.gray2}
+            onPress={() => setRating(1)}          
+          /> 
+          <Icon
+            name='star'
+            size={28}
+            color={rating >= 2 ? COLORS.one : COLORS.gray2}
+            onPress={() => setRating(2)}          
+          /> 
+          <Icon
+            name='star'
+            size={28}
+            color={rating >= 3 ? COLORS.one : COLORS.gray2}
+            onPress={() => setRating(3)}          
+          /> 
+          <Icon
+            name='star'
+            size={28}
+            color={rating >= 4 ? COLORS.one : COLORS.gray2}
+            onPress={() => setRating(4)}          
+          /> 
+          <Icon
+            name='star'
+            size={28}
+            color={rating >= 5 ? COLORS.one : COLORS.gray2}
+            onPress={() => setRating(5)}          
+          /> 
+          </View>
+          {rating>0 &&(
+            <View style={styles.userpopupbuttons}>
+            <Text style={styles.buttontext} onPress={()=>setShowRate(false)}>Submit</Text>
+          </View>
+          )}
+          
+          
         </View>
       )}
 

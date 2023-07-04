@@ -1,5 +1,10 @@
 {
   "expo": {
+    "splash": {
+      "image": "./assets/images/splash_image.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#000000"
+    },
     "scheme": "sella",
     "web": {
       "bundler": "metro"
@@ -13,7 +18,7 @@
       }
     },
     "android": {
-      "package": "com.expo.sella",
+      "package": "com.construck.construck",
       "config": {}
     },
     "ios": {
