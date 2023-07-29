@@ -275,11 +275,11 @@ const Delivery = ({navigation}) => {
               <View style={{width:'55%'}}>
                 <Text style={styles.cartItemName}>{items[0]?.name}</Text>
                 <Text style={styles.cartItemPrice}>
-                  ₹{items[0]?.price} /{items[0]?.measure}
+                  ₹{items[0]?.price} /{items[0]?.minimum} {items[0]?.measure}
                 </Text>
               </View>
               <View>
-                <Text>{items.length}</Text>
+                <Text>{items.length*items[0]?.minimum}</Text>
                 <Text>₹{(items.length)*(items[0]?.price)}</Text>
               </View>
             </View>

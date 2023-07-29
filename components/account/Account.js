@@ -1,5 +1,5 @@
-import {Text, View, SafeAreaView, ScrollView, ActivityIndicator, RefreshControl, Image, StyleSheet} from 'react-native';
-import {Stack, useRouter, useSearchParams} from 'expo-router';
+import {Text, View, SafeAreaView, Image, StyleSheet} from 'react-native';
+import { useRouter } from 'expo-router';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {COLORS, icons, images, SIZES, Darkmode} from '../../constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -7,10 +7,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { clearUser } from '../../features/userSlice';
 import { clearPhoneUser } from '../../features/phoneUserSlice';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { setdarkmode } from '../../features/darkmodeSlice';
-import firebase from '../../config/firebase'; // Assuming you named the file 'firebase.js'
-
 
 
 const styles = StyleSheet.create({
@@ -90,6 +88,7 @@ const Account = ({navigation}) => {
     const handleRemoveUser = async () => {
       try {
         await AsyncStorage.removeItem('userInfo');
+        await AsyncStorage.removeItem('phoneUser');
         await AsyncStorage.removeItem('@user');
         dispatch(clearUser()); 
         dispatch(clearPhoneUser()); 
@@ -98,7 +97,43 @@ const Account = ({navigation}) => {
         console.log('Error removing user info from AsyncStorage:', error);
       }
     };
-    const phoneUserInfo = useSelector((state) =>state.phoneUser)
+    const phoneUserInfo = useSelector((state) =>(state).phoneUser);
+
+    const [asyncusername, setAsyncUserName] = useState(null);
+    const [asyncusernumber, setAsyncUserNumber] = useState(null);
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await AsyncStorage.getItem('phoneUser');
+
+        if (data) {
+          const { name, phoneNumber } = JSON.parse(data);
+          setAsyncUserName(name);
+          setAsyncUserNumber(phoneNumber);
+        }
+      } catch (error) {
+        console.log('Error occurred while fetching data:', error);
+      }
+    };
+    fetchData();
+    retrieveImageURI();
+
+  }, []);
+
+  const [selectedImageURI, setSelectedImageURI] = useState(null);
+
+  const retrieveImageURI = async () => {
+    try {
+      const imageURI = await AsyncStorage.getItem('selectedImageURI');
+      if (imageURI !== null) {
+        setSelectedImageURI(imageURI);
+      }
+    } catch (error) {
+      console.log('Error retrieving image URI from AsyncStorage:', error);
+    }
+  };
 
   return (
     <SafeAreaView style={[styles.container,{backgroundColor: darkmood?Darkmode.white:COLORS.white,}]}>
@@ -137,12 +172,12 @@ const Account = ({navigation}) => {
 
       <TouchableOpacity onPress={()=>navigation.navigate('userdetails')} style={[styles.item,{backgroundColor:darkmood?Darkmode.lightWhite:COLORS.lightWhite,}]}>
         <Image
-            source={{ uri: userInfo?.picture || defaultImageSource }}
+            source={{ uri: userInfo?.picture || defaultImageSource || selectedImageURI}}
             style={styles.image}
           />
         <View style={{flexDirection:'column'}}>
-        <Text style={styles.text}>{ userInfo?.name || phoneUserInfo.user?.name || 'Guest User'}</Text>
-        <Text style={styles.text}>{phoneUserInfo.user?.phoneNumber || 'Add phone number'}</Text>
+        <Text style={styles.text}>{ userInfo?.name || phoneUserInfo.user?.name ||asyncusername || 'Guest User'}</Text>
+        <Text style={styles.text}>{phoneUserInfo.user?.phoneNumber || asyncusernumber || 'Add phone number'}</Text>
         </View>
       </TouchableOpacity>
 
@@ -193,3 +228,4 @@ export default Account
 
 // https://auth.expo.io
 // https://auth.expo.io/@vshalbhati_294/sella
+// sbp_3f0546e388faefadd40936ec87be344760455222 -- vercel backend access token

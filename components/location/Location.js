@@ -12,6 +12,7 @@ const zones =[
   [22,23,24,25,50,51,52,53,54,55,56,'56A'],
 ];
 import { setZone } from '../../features/zoneSlice';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
@@ -37,7 +38,7 @@ const Locate = ({navigation}) => {
 
   const [sector, setSector] = useState("");
 
-  const decideSector=(Finaladdress)=>{
+  const decideSector=async(Finaladdress)=>{
     
     for (let i = 0; i < address.length; i++) {
       if ((Finaladdress[i] == 'S' || Finaladdress[i] == 's') &&
@@ -62,6 +63,31 @@ const Locate = ({navigation}) => {
       }
     }
     dispatch(setLoocation(Finaladdress));
+    const fetchArrayFromStorage = async () => {
+      try {
+        const serializedArray = await AsyncStorage.getItem('arrayKey');
+        if (serializedArray !== null) {
+          const array = JSON.parse(serializedArray);
+          return array;
+        } else {
+          return [];
+        }
+      } catch (error) {
+        console.log('Error fetching array:', error);
+        return [];
+      }
+    };
+
+    const existingArray = await fetchArrayFromStorage();
+    const addressExists = existingArray.includes(Finaladdress);
+
+    if (!addressExists) {
+      existingArray.push(Finaladdress);
+      await AsyncStorage.setItem('arrayKey', JSON.stringify(existingArray));
+      console.log('Address added to the array and stored successfully.');
+    } else {
+      console.log('Address already exists in the array.');
+    }
     for (let i = 0; i < zones.length; i++) {
       const zone = zones[i];
       const sectorIndex = zone.findIndex(zoneSector => String(zoneSector) === sector);
@@ -70,8 +96,8 @@ const Locate = ({navigation}) => {
         break;
       }
     }
-    
   }
+  
 
 
   const startAnimation = () => {
@@ -237,6 +263,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     marginTop: 10,
     elevation: 5,
+    marginHorizontal:10
   },
   locationContainer: {
     backgroundColor: COLORS.white,

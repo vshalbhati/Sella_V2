@@ -34,7 +34,7 @@ const Nearbyjobs = ({navigation,darkmode}) => {
   useEffect(() => {
     setIsLoading(true);
     createClient
-      .fetch(`*[_type == 'supply' && zone=='${zoneNo+1}']{...}`)
+      .fetch(`*[_type == 'supply']{...}`)
       .then((data) => {
         if(data.length==0){setError(true)}
         else{setError(false)}
@@ -136,7 +136,9 @@ const Nearbyjobs = ({navigation,darkmode}) => {
               short_description: item.short_description,
               price: item.price,
               imgurl: item.image[0].asset._ref,
-              measure: item.quantity
+              measure: item.quantity,
+              minimum: item.minimum,
+              zone: item.zone
             })}
           >
             <Image
@@ -145,7 +147,7 @@ const Nearbyjobs = ({navigation,darkmode}) => {
             />
             <View style={stylis.textContainer}>
               <Text style={stylis.trackTitle}>{item.name}</Text>
-              <Text style={stylis.artistName}>{item.short_description}</Text>
+              <Text numberOfLines={2} ellipsizeMode="tail" style={stylis.artistName}>{item.short_description}</Text>
             </View>
           </TouchableOpacity>
           )}

@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, FlatList, ActivityIndicator, ActivityIndi
 import { useRouter } from 'expo-router'
 
 import styles from './welcome.style'
-import { COLORS, icons, SIZES, Darkmode} from '../../../constants';
+import { COLORS, icons, SIZES, Darkmode, FONT} from '../../../constants';
 
 const jobTypes =['Cement','Putti','Bricks','Patthar','Binola'];
 const zones =[
@@ -21,6 +21,7 @@ import { setLoocation } from '../../../features/locationSlice';
 import { setZone } from '../../../features/zoneSlice';
 import { getDistance } from 'geolib';
 import { setDistance } from '../../../features/distanceSlice';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
@@ -82,9 +83,8 @@ const stylis = StyleSheet.create({
   }
 });
 
-const Welcome = ({navigation,darkmode}) => {
+const Welcome = ({navigation,darkmode,name}) => {
   const locationInfo = useSelector((state) => state.location);
-
   const router = useRouter();
   const [activeJobType, setActiveJobType] = useState('Cement');
   const [query, setQuery] = useState('');
@@ -121,7 +121,31 @@ const Welcome = ({navigation,darkmode}) => {
             const address = data.display_name;
             setAddress(address);
             dispatch(setLoocation(address));
+            const fetchArrayFromStorage = async () => {
+              try {
+                const serializedArray = await AsyncStorage.getItem('arrayKey');
+                if (serializedArray !== null) {
+                  const array = JSON.parse(serializedArray);
+                  return array;
+                } else {
+                  return [];
+                }
+              } catch (error) {
+                console.log('Error fetching array:', error);
+                return [];
+              }
+            };
+        
+            const existingArray = await fetchArrayFromStorage();
+            const addressExists = existingArray.includes(address);
 
+            if (!addressExists) {
+              existingArray.push(address);
+              await AsyncStorage.setItem('arrayKey', JSON.stringify(existingArray));
+              console.log('Address added to the array and stored successfully.');
+            } else {
+              console.log('Address already exists in the array.');
+            }
             const sectorno = () =>{
               for (let i = 0; i < address.length; i++) {
                 if ((address[i] == 'S' || address[i] == 's') &&
@@ -177,7 +201,7 @@ const Welcome = ({navigation,darkmode}) => {
       <View style={[stylis.uparcard,{backgroundColor: darkmode?Darkmode.white:COLORS.tertiary,shadowColor:darkmode?Darkmode.gray:COLORS.tertiary,}]}>
             <View style={stylis.circle1}></View>
           <View style={styles.container}>
-            <Text style={styles.userName(darkmode)}>Hello, { userInfo?.name || phoneUserInfo.user?.name || 'Guest User' }
+            <Text style={styles.userName(darkmode)}>Hello, { userInfo?.name || phoneUserInfo.user?.name || name || 'Guest User' }
             </Text>
             {locationInfo.location.length>0?(
               <TouchableOpacity onPress={()=>getLocation()}>
@@ -221,6 +245,7 @@ const Welcome = ({navigation,darkmode}) => {
       </View>
 
       <View style={styles.tabsContainer}>
+        <Text style={[styles.addressText,{marginBottom:10,fontSize: SIZES.large,fontFamily: FONT.medium,color:darkmode? Darkmode.gray2:COLORS.primary}]}>Popular searches</Text>
         <FlatList
         data={jobTypes}
         renderItem={({ item}) =>(

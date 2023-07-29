@@ -18,7 +18,7 @@ import {LinearGradient} from 'expo-linear-gradient';
 
 const Supplydetails = ({navigation}) => {
   const route = useRoute();
-  const { id, imgurl, name, short_description ,price,measure} = route.params;
+  const { id, imgurl, name, short_description ,price,measure,minimum,zone} = route.params;
   const dispatch = useDispatch();
   const items = useSelector(state => selectBasketItemsWithId(state, id));
   const [supplyImages, setSupplyImages] = useState([]);
@@ -34,7 +34,7 @@ const Supplydetails = ({navigation}) => {
     setTrucks(Math.ceil(itemquantity /3 ));
   }
   const addbill=(key)=>{
-    dispatch(addToBasket({id, name, short_description, imgurl, price, measure}))
+    dispatch(addToBasket({id, name, short_description, imgurl, price, measure,minimum,zone}))
   }
 
   const removebill=(itemId)=>{
@@ -127,8 +127,8 @@ const Supplydetails = ({navigation}) => {
       <View style={[styles.infocard,{backgroundColor:darkmode?Darkmode.white:COLORS.lightWhite,}]}>
         <View style={styles.textcontent}>
             <Text style={[styles.name,{color:darkmode&&COLORS.one}]}>{name}</Text>
-            <Text style={[styles.description,{color:darkmode&&COLORS.gray2}]}>{short_description} Bhai tera india me rap kare hindi wala tu samjhe eminem hi rapgod hai. Surya teri zubaan bhot chalti hai, mere hath zada chalte hein</Text>
-            <Text style={styles.price}>₹{price} <Text style={{fontSize:SIZES.medium,fontFamily:FONT.medium}}>/{measure}</Text></Text>
+            <Text style={[styles.description,{color:darkmode&&COLORS.gray2}]}>{short_description}</Text>
+            <Text style={styles.price}>₹{price} <Text style={{fontSize:SIZES.medium,fontFamily:FONT.medium}}>/{minimum}{measure}</Text></Text>
         </View>
 
 
@@ -140,7 +140,7 @@ const Supplydetails = ({navigation}) => {
 
         <View style={styles.quantity}>
           <View style={{justifyContent:'center',alignItems:'center', flexDirection:'row'}}>
-            <Text style={{fontSize:22,textAlign:'center',color:darkmode?COLORS.gray2:COLORS.primary,marginLeft:20}}>{measure}</Text>
+            <Text style={{fontSize:22,textAlign:'center',color:darkmode?COLORS.gray2:COLORS.primary,marginLeft:20}}>{measure}(s)</Text>
             <View style={{ flexDirection:'row',alignSelf:'center',marginLeft:100}}>
               <TouchableOpacity style={[styles.gola,{backgroundColor:COLORS.one}]}>
               <Icon
@@ -150,7 +150,7 @@ const Supplydetails = ({navigation}) => {
                 color={'white'}
               />
               </TouchableOpacity>
-                  <Text style={{ fontSize:24,fontWeight:'bold',paddingLeft:20,paddingRight:20,color:darkmode?COLORS.gray2:COLORS.primary}}>{items.length}</Text>
+                  <Text style={{ fontSize:24,fontWeight:'bold',paddingLeft:20,paddingRight:20,color:darkmode?COLORS.gray2:COLORS.primary}}>{items.length*minimum}</Text>
               <TouchableOpacity disabled={!items.length} style={[styles.gola,{backgroundColor:(items.length) >0 ? COLORS.one : COLORS.gray2}]}>
               <Icon
                 name='remove'
@@ -165,7 +165,7 @@ const Supplydetails = ({navigation}) => {
 
         <View style={{flexDirection:'row',margin:10}}>
           <Icon name='local-shipping' size={24} color={COLORS.gray}/>
-          <Text style={{ fontSize:16,fontWeight:'bold',color:darkmode?COLORS.gray2:COLORS.primary}}> x {Math.floor(items.length /3 )}</Text>
+          <Text style={{ fontSize:16,fontWeight:'bold',color:darkmode?COLORS.gray2:COLORS.primary}}> x {Math.floor(items.length /2 )} {items.length%2!=0 && (<Text> (One truck will be half loaded)</Text>)}</Text>
         </View>
       </View>
 

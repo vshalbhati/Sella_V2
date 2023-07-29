@@ -68,7 +68,10 @@ const Search = ({navigation}) => {
           style={{width:'100%',height:400}}
           />
           <Text style={{textAlign:'center',fontFamily:FONT.regular,fontSize:20,color:darkmode?Darkmode.gray2:'black'}}>
-            Could not find the searched item!
+            Could not find the item {query}!
+          </Text>
+          <Text style={{textAlign:'center',fontFamily:FONT.regular,fontSize:18,color:darkmode?Darkmode.gray2:'black'}}>
+            Try checking the spelling
           </Text>
         </View>
       )}

@@ -36,13 +36,12 @@ const Stack = createStackNavigator();
 
   useEffect(() => {
     const fetchUserInfo = async () => {
-      const storedUserInfo = await AsyncStorage.getItem('userInfo');
+      const storedUserInfo = await AsyncStorage.getItem('phoneUser');
       if (storedUserInfo) {
         setUserInfo(JSON.parse(storedUserInfo));
       }
     };
     fetchUserInfo();
-    console.log(userInfo)
   }, []);
 
   return (

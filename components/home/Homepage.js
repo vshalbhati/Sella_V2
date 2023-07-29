@@ -192,7 +192,7 @@ const Home = ({navigation}) =>{
   const userInfo = useSelector((state) => state.user);
   const isdelivered = useSelector((state)=> state.delivery.delivery);
   const distance = useSelector((state) => state.distance.distance);
-  
+
   const [asyncuserInfo, setAsyncUserInfo] = useState(null);
 
   useEffect(() => {
@@ -202,7 +202,6 @@ const Home = ({navigation}) =>{
 
         if (data) {
           const { name, phoneNumber, email } = JSON.parse(data);
-          console.log('Retrieved data:', name);
           setAsyncUserInfo(name);
         }
       } catch (error) {
@@ -309,7 +308,7 @@ const Home = ({navigation}) =>{
 
       <ScrollView showsHorizontalScrollIndicator={false}>
         <View style={{flex:1,padding: SIZES.xSmall}}>
-          <Welcome navigation={navigation} darkmode={darkmode}/>
+          <Welcome navigation={navigation} darkmode={darkmode} name={asyncuserInfo}/>
           <Nearbyjobs navigation={navigation} darkmode={darkmode}/>        
         </View>
       </ScrollView>

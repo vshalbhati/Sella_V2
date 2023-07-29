@@ -1,19 +1,18 @@
 import { StyleSheet, Text, View, SafeAreaView, Image, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React,{useState, useEffect} from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import { COLORS, FONT, SIZES } from '../../../constants';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import * as ImagePicker from 'expo-image-picker';
 import { setUser } from '../../../features/userSlice';
 import * as Progress from 'react-native-progress';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const UserDetails = ({navigation}) => {
     const userInfo = useSelector((state) => state.user);
     const phoneUserInfo = useSelector((state) =>state.phoneUser);
     const locationInfo = useSelector((state) => state.location);
-
     const textRef = React.useRef(null);
     const defaultImageSource = 'https://cdn.landesa.org/wp-content/uploads/default-user-image.png';
     const dispatch = useDispatch();
@@ -31,9 +30,35 @@ const UserDetails = ({navigation}) => {
         const result = await ImagePicker.launchImageLibraryAsync();
         if (!result.canceled) {
             const selectedImage = result.uri;
+            await AsyncStorage.setItem('selectedImageURI', selectedImage);
             dispatch(setUser({ picture: selectedImage }));        
         }
     };
+
+    const [asyncusername, setAsyncUserName] = useState(null);
+    const [asyncusernumber, setAsyncUserNumber] = useState(null);
+    const [asyncuserEmail, setAsyncUserEmail] = useState(null);
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await AsyncStorage.getItem('phoneUser');
+
+        if (data) {
+          const { name, phoneNumber, email } = JSON.parse(data);
+          setAsyncUserName(name);
+          setAsyncUserNumber(phoneNumber);
+          setAsyncUserEmail(email);
+        }
+      } catch (error) {
+        console.log('Error occurred while fetching data:', error);
+      }
+    };
+    fetchData();
+  }, []);
+
+      
 
   return (
     <SafeAreaView style={styles.container}>
@@ -81,21 +106,21 @@ const UserDetails = ({navigation}) => {
                 <View>
                     <Text >Name</Text>
                     <Text style={styles.text}>
-                        { userInfo?.name|| phoneUserInfo.user?.name || 'Guest User'}
+                        { userInfo?.name|| phoneUserInfo.user?.name || asyncusername || 'Guest User'}
                     </Text>
                 </View>
                 
                 <View>
                     <Text >Contact Number</Text>
                     <Text style={styles.text}>
-                    {phoneUserInfo.user?.phoneNumber || 'Add phone number'}
+                    {phoneUserInfo.user?.phoneNumber || asyncusernumber || 'Add phone number'}
                     </Text>
                 </View>
 
                 <View>
                     <Text >Contact Email</Text>
                     <Text style={styles.text}>
-                        { userInfo?.email || phoneUserInfo.user?.email || 'guest@construck.com'}
+                        { userInfo?.email || asyncuserEmail || phoneUserInfo.user?.email || 'guest@construck.com'}
                     </Text>
                 </View>
 
