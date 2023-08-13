@@ -1,5 +1,5 @@
-import { View, Text, FlatList, TextInput, TouchableOpacity, StyleSheet } from 'react-native'
-import React,{useState} from 'react'
+import { View, Text, FlatList, TextInput, TouchableOpacity, StyleSheet,ActivityIndicator } from 'react-native'
+import React,{useState, useEffect} from 'react'
 import axios from 'axios';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { COLORS } from '../../constants';
@@ -8,10 +8,10 @@ import { COLORS } from '../../constants';
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: COLORS.gray2,
+        backgroundColor: COLORS.white,
     },
     textInput: {
-        backgroundColor: COLORS.white,
+        backgroundColor: COLORS.gray2,
         borderRadius: 8,
         paddingVertical: 8,
         paddingHorizontal: 16,
@@ -34,14 +34,31 @@ const styles = StyleSheet.create({
         borderRadius:50, 
         justifyContent:'center',
         alignItems:'center',
-        marginTop:30,
+        marginTop:40,
         marginLeft:10,
     },
     navi:{
         flexDirection:'row',
         padding: 16,
-
-    }
+    },
+    itemContainer: {
+        backgroundColor: COLORS.lightWhite,
+        padding: 10,
+        marginVertical: 5,
+        marginHorizontal: 20,
+        borderRadius: 8,
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+      },
+      itemText: {
+        fontSize: 16,
+      },
 });
 
 const Chatbot = ({navigation}) => {
@@ -66,6 +83,45 @@ const Chatbot = ({navigation}) => {
         setData([...data,{type:'user','text': textInput}, {type:'bot', 'text':text}]);
         setTextInput('');
     }
+
+    const textData = [
+        { key: 'q1', question: 'Want to talk to an executive?' },
+        { key: 'q2', question: 'Have a question for us?' },
+        { key: 'q3', question: 'Want to go YOLO?' },
+      ];
+      
+      const ListItem = ({ item }) => {
+        return (
+          <View style={styles.itemContainer}>
+            <Text style={styles.itemText}>{item.question}</Text>
+          </View>
+        );
+      };
+
+      const LoadingScreen = () => {
+        return (
+          <View style={styles.loadingContainer}>
+            <ActivityIndicator size="large" color="#0000ff" />
+          </View>
+        );
+      };
+
+      const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
+
+
+
   return (
     <View style={styles.container}>
         <View style={styles.backArrow}>
@@ -79,7 +135,7 @@ const Chatbot = ({navigation}) => {
         </TouchableOpacity>
       </View>      
       <Text style={{alignSelf:'center'}}>Chatbot</Text>
-      <FlatList
+      {/* <FlatList
       data={data}
       keyExtractor={(item,index) => index.toString()}
       renderItem={({item}) => (
@@ -96,7 +152,12 @@ const Chatbot = ({navigation}) => {
             <Text>{item.text}</Text>
         </View>
       )}
-      />
+      /> */}
+      <FlatList
+      keyboardShouldPersistTaps="always"
+      data={textData}
+      renderItem={({ item }) => <ListItem item={item} />}
+    />
       <View style={styles.navi}>
     <TextInput
         style={styles.textInput}

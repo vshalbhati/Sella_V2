@@ -31,14 +31,18 @@ import Locations from '../components/location/Locations';
 
 const Stack = createStackNavigator();
 
+
  const StackNavigator=({navigation}) => {
-  const [userInfo, setUserInfo] = useState(null);
+  const [userInfo, setUserInfo] = useState([]);
 
   useEffect(() => {
     const fetchUserInfo = async () => {
       const storedUserInfo = await AsyncStorage.getItem('phoneUser');
+      console.log('Stored User Info:', storedUserInfo);
       if (storedUserInfo) {
         setUserInfo(JSON.parse(storedUserInfo));
+        console.log('Stored User Info Size:', userInfo.length);
+
       }
     };
     fetchUserInfo();
@@ -47,7 +51,7 @@ const Stack = createStackNavigator();
   return (
     <Stack.Navigator>
 
-        {!userInfo ?(
+        {userInfo ?(
           <>
           {/* Starting screen */}
         <Stack.Screen name="appinfo" component={Welcomeinfo} options={{  headerShown: false }}/>
