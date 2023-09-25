@@ -134,28 +134,28 @@ const Cart = ({navigation}) => {
     };
 
     const pay = async()=>{
-      // const response = await fetch('http://192.168.1.14:3000/payment',{
-      //   method: 'POST',
-      //   body: JSON.stringify({
-      //     amount : Math.floor(((basketTotal*discount) + (basketTotal? Math.floor(Math.max((distance)*12,5000)):0)) * 100),
-      //   }),
-      //   headers:{
-      //     "Content-Type":"application/json",
-      //   },
-      // });
-      // const data = await response.json();
-      // if(!response.ok) return Alert.alert(data.message);
-      // const clientSecret = data.paymentIntent;
-      // const initSheet = await stripe.initPaymentSheet({
-      //   paymentIntentClientSecret: clientSecret,
-      //   googlePay: true,
-      //   merchantDisplayName: 'Construck',
-      // });
-      // if(initSheet.error) return Alert.alert(initSheet.error.message);
-      // const presentSheet = await stripe.presentPaymentSheet({
-      //   clientSecret,
-      // })
-      // if(presentSheet.error) return Alert.alert(presentSheet.error.message);
+      const response = await fetch('https://us-central1-construck-backend.cloudfunctions.net/createStripePayment',{
+        method: 'POST',
+        body: JSON.stringify({
+          amount : Math.floor(((basketTotal*discount) + (basketTotal? Math.floor(Math.max((distance)*12,5000)):0)) * 100),
+        }),
+        headers:{
+          "Content-Type":"application/json",
+        },
+      });
+      const data = await response.json();
+      if(!response.ok) return Alert.alert(data.message);
+      const clientSecret = data.paymentIntent;
+      const initSheet = await stripe.initPaymentSheet({
+        paymentIntentClientSecret: clientSecret,
+        googlePay: true,
+        merchantDisplayName: 'Construck',
+      });
+      if(initSheet.error) return Alert.alert(initSheet.error.message);
+      const presentSheet = await stripe.presentPaymentSheet({
+        clientSecret,
+      })
+      if(presentSheet.error) return Alert.alert(presentSheet.error.message);
 
       await schedulePushNotification()
 
