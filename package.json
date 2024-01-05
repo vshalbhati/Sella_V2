@@ -19,7 +19,7 @@
     "@sanity/client": "^5.4.2",
     "@sanity/image-url": "^1.0.2",
     "@stripe/stripe-react-native": "0.23.3",
-    "axios": "^1.4.0",
+    "axios": "^1.6.4",
     "dotenv": "^16.0.3",
     "expo": "~48.0.15",
     "expo-auth-session": "~4.0.3",
