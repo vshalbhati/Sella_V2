@@ -8,7 +8,8 @@ import * as Google from 'expo-auth-session/providers/google';
 import * as WebBrowser from 'expo-web-browser';
 import { setUser } from '../../features/userSlice';
 import PhoneInput from 'react-native-phone-number-input';
-import { getAuth, PhoneAuthProvider, signInWithCredential, signInWithPhoneNumber, PhoneAuthState } from 'firebase/auth';import { initializeApp } from 'firebase/app';
+import { getAuth, PhoneAuthProvider, signInWithCredential, signInWithPhoneNumber, PhoneAuthState } from 'firebase/auth';
+import { initializeApp } from 'firebase/app';
 import { FirebaseRecaptchaVerifierModal } from 'expo-firebase-recaptcha';
 import firebase from '../../config/firebase';
 
