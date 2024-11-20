@@ -40,7 +40,7 @@
     "expo-splash-screen": "~0.18.2",
     "expo-status-bar": "~1.4.4",
     "expo-updates": "~0.16.4",
-    "firebase": "^9.22.2",
+    "firebase": "^10.2.0",
     "geolib": "^3.3.4",
     "jetifier": "^2.0.0",
     "react": "18.2.0",
